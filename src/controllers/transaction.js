@@ -1,0 +1,118 @@
+/*!
+ * Phylogeny Explorer
+ *
+ * @summary
+ * @author John Ropas
+ * @since 16/11/2016
+ *
+ * Copyright(c) 2016 Phylogeny Explorer
+ */
+
+import process from 'child_process';
+import Modules from '../modules';
+import Transaction from '../models/transaction';
+import AccessControl from '../middleware/AccessControl';
+
+class TransactionController extends Modules.Controller {
+
+  static invokeCladeTransactionProcessing(id, cb) {
+    const exec = process.exec;
+    const cmd = `npm --prefix /Projects/phylex/admin-api-daemon/ run execute -- --transactionId ${id}`;
+
+    exec(cmd, (error, stdout, stderr) => {
+      console.error(stdout);
+      if (stderr) {
+        console.error(stderr);
+      }
+      cb();
+    });
+  }
+
+  constructor() {
+    super(AccessControl);
+  }
+
+  getCladeTransactions(req, res, next) {
+    if (req.user.role.description === 'admin') {
+      Transaction.find({ type: 'CLADE' }, (err, trs) => this.handleResponse(res, next, err, trs))
+        .populate('user');
+    } else {
+      Transaction.find({ type: 'CLADE', user: req.user._id }, (err, trs) => this.handleResponse(res, next, err, trs))
+        .populate('user');
+    }
+  }
+
+  getCladeTransaction(req, res, next) {
+    const transactionId = req.params.transactionId;
+    Transaction.findOne({ _id: transactionId, type: 'CLADE' }, (err, role) => this.handleResponse(res, next, err, role))
+      .populate('user', 'username');
+  }
+
+  createCladeTransaction(req, res, next) {
+    const userId = req.user._id;
+    const transaction = new Transaction();
+    const hasChildren = req.body.hasChildren;
+
+    transaction.identifier = req.body.identifier;
+    transaction.data = {
+      before: req.body.data.before || {},
+      after: req.body.data.after || {},
+    };
+    transaction.assets = {
+      before: req.body.assets.before || [],
+      after: req.body.assets.after || [],
+    };
+    transaction.mode = req.body.mode.toUpperCase();
+    transaction.user = userId;
+    transaction.type = 'CLADE';
+    if (transaction.mode === 'DESTROY' && hasChildren) {
+      transaction.status = 'REVIEW';
+    } else {
+      transaction.status = 'PENDING';
+    }
+    transaction.created = Date.now();
+    transaction.modified = null;
+    transaction.save((err, tr) => {
+      if (transaction.data.after.name === null && transaction.mode === 'CREATE') {
+        TransactionController.invokeCladeTransactionProcessing(transaction._id, () => {
+          this.handleResponse(res, next, err, tr);
+        });
+      } else {
+        this.handleResponse(res, next, err, tr);
+      }
+    });
+  }
+
+  // updateCladeTransaction(req, res, next) {
+  //   const transactionId = req.params.transactionId;
+  //   const before = req.body.before || {};
+  //   const after = req.body.after || {};
+  //   const deletion = req.body.deletion;
+  //   // TODO change this according to session
+  //   const userId = '582001e2076a0f0be4f01e63';
+  //   Transaction.findOne({ _id: transactionId, type: 'CLADE', status: 'PENDING' }, (err, tr) => {
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     const updatedTr = tr;
+  //     updatedTr.before = before;
+  //     updatedTr.after = after;
+  //     updatedTr.deletion = deletion;
+  //     updatedTr.user = userId;
+  //     updatedTr.type = 'CLADE';
+  //     updatedTr.status = 'PENDING';
+  //     updatedTr.modified = Date.now();
+  //     updatedTr.save(err2 => this.handleResponse(res, next, err2, updatedTr));
+  //     return undefined;
+  //   });
+  // }
+
+  destroyCladeTransaction(req, res, next) {
+    const transactionId = req.params.transactionId;
+    Transaction.findOne({ _id: transactionId, type: 'CLADE', status: 'PENDING' }).remove((err, deleted) =>
+      this.handleResponse(res, next, err, { deleted, transactionId })
+    );
+  }
+}
+
+export default TransactionController;
