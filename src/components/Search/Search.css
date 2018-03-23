@@ -1,0 +1,25 @@
+
+.item{
+  padding: 2px 6px;
+  cursor: default;
+}
+
+.highlightedItem {
+  color: white;
+  background: hsl(200, 50%, 50%);
+  padding: 2px 6px;
+  cursor: default;
+}
+
+.menu {
+  border: solid 1px #ccc;
+  border-radis: 3px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  background: rgba(250, 250, 250, 0.91);
+  padding: 2px 0;
+  font-size: 90%;
+  position: fixed;
+  overflow: auto;
+  max-height: 50%;
+  z-index: 1000;
+}

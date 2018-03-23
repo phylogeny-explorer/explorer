@@ -1,0 +1,52 @@
+@import '../../components/variables.css';
+
+.root {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 0 40px;
+  max-width: var(--max-content-width);
+  min-height: 700px;
+}
+
+
+.edge {
+  fill: none;
+  stroke: #555;
+  stroke-opacity: 0.4;
+  stroke-width: 1.5px;
+}
+
+.node circle {
+  fill: #999;
+}
+
+.node text {
+  font-size: 13px;
+}
+
+.node_internal circle {
+  fill: #555;
+}
+
+.node_internal text {
+  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+  cursor: pointer;
+}
+
+.node_internal text:hover {
+  fill: red;
+  font-weight: bold;
+}
+
+.thumbnail {
+  padding:10px;
+}
+
+.thumbnail img {
+  width: 300px;
+}
+

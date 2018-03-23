@@ -1,0 +1,53 @@
+@import '../../components/variables.css';
+
+.root {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 0 40px;
+  max-width: var(--max-content-width);
+  min-height: 700px;
+}
+
+.thumbnailContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.thumbnail img {
+  width: 100px;
+  max-height: 70px;
+}
+
+.pill {
+  font-size: 80%;
+  letter-spacing: 1px;
+  display: inline-block;
+  margin: 3px;
+}
+
+.pill button{
+  margin: 3px 0px 2px 5px;
+}
+
+.dropzone {
+  margin-top: 20px;
+  width: 200px;
+  height: 200px;
+  border-width: 2px;
+  border-color: rgb(102, 102, 102);
+  border-style: dotted;
+  border-radius: 5px;
+  font-style: italic;
+}
