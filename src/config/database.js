@@ -12,14 +12,8 @@ import mongoose from 'mongoose';
 
 mongoose.Promise = global.Promise;
 
-const connectionString = 'mongodb://35.162.254.17:27017/phylex-admin';
-
-const options = {
-  user: 'phylexadminuser',
-  pass: 'ed86ec0502b244519ed3c86f8bf39cf4',
-};
-
-const db = mongoose.connect(connectionString, options);
+const authString = process.env.DB_USER ? process.env.DB_USER + ':' + process.env.DB_PASS + '@' : '';
+const connectionString = 'mongodb://'+authString+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB_NAME;
+const db = mongoose.connect(connectionString, { useMongoClient: true });
 
 export default db;
-
