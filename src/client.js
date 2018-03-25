@@ -21,7 +21,7 @@ import {
   windowScrollX,
   windowScrollY,
 } from './core/DOMUtils';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const context = {
   insertCss: (...styles) => {

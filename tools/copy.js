@@ -24,7 +24,6 @@ async function copy({ watch } = {}) {
     ncp('node_modules/bootstrap/dist/css', 'build/public/css'),
     ncp('node_modules/bootstrap/dist/fonts', 'build/public/fonts'),
     ncp('src/public', 'build/public'),
-    ncp('src/content', 'build/content'),
   ]);
 
   await fs.writeFile('./build/package.json', JSON.stringify({
