@@ -5,6 +5,7 @@
   "scripts": {
     "start": "nodemon build/server.js --exec babel-node",
     "build": "webpack --config ./tools/webpack.config.js --progress --colors --watch",
+    "bundle": "webpack --config ./tools/webpack.config.js --progress --colors",
     "serve": "node build/server.js",
     "test": "mocha --compilers js:babel-register"
   },
