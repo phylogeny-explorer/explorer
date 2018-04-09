@@ -42,7 +42,7 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -68,23 +68,25 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var argv = (0, _minimist2.default)(process.argv.slice(2)); /*!
-	                                                            * Phylogeny Explorer
-	                                                            *
-	                                                            * @summary Application bootstrap
-	                                                            * @author John Ropas
-	                                                            * @since 19/09/2016
-	                                                            *
-	                                                            * Copyright(c) 2016 Phylogeny Explorer
-	                                                            */
+	_mongoose2.default.Promise = __webpack_require__(13); /*!
+	                                                   * Phylogeny Explorer
+	                                                   *
+	                                                   * @summary Application bootstrap
+	                                                   * @author John Ropas
+	                                                   * @since 19/09/2016
+	                                                   *
+	                                                   * Copyright(c) 2016 Phylogeny Explorer
+	                                                   */
 
+
+	var argv = (0, _minimist2.default)(process.argv.slice(2));
 
 	var filter = {};
 
 	if (argv.transactionId) {
-	  filter = { _id: argv.transactionId, status: { $in: ['FAILED', 'PENDING'] } };
+	  filter = { _id: argv.transactionId, status: { $in: ['PENDING'] } };
 	} else {
-	  filter = { type: 'CLADE', status: { $in: ['FAILED', 'PENDING'] } };
+	  filter = { type: 'CLADE', status: { $in: ['PENDING'] } };
 	}
 
 	_transaction2.default.find(filter, function (transactionError, transactions) {
@@ -111,27 +113,29 @@
 	  });
 	});
 
-/***/ },
+	console.log('run');
+
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = require("minimist");
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = require("async");
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = require("mongoose");
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -201,9 +205,9 @@
 
 	exports.default = _adminConnection2.default.model('transactions', TransactionSchema);
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -217,28 +221,42 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var connectionString = 'mongodb://35.162.254.17:27017/phylex-admin'; /*!
-	                                                                      * Phylogeny Explorer
-	                                                                      *
-	                                                                      * @summary 
-	                                                                      * @author John Ropas
-	                                                                      * @since 30/11/2016
-	                                                                      * 
-	                                                                      * Copyright(c) 2016 Phylogeny Explorer
-	                                                                      */
+	_mongoose2.default.Promise = global.Promise; /*!
+	                                              * Phylogeny Explorer
+	                                              *
+	                                              * @summary Database Connection Configuration
+	                                              * @author John Ropas
+	                                              * @since 19/09/2016
+	                                              *
+	                                              * Copyright(c) 2016 Phylogeny Explorer
+	                                              */
 
-	var options = {
-	  user: 'phylexadminuser',
-	  pass: 'ed86ec0502b244519ed3c86f8bf39cf4'
-	};
+	var connectionUser = process.env.ADMIN_DB_USER ? process.env.ADMIN_DB_USER + ':' + process.env.ADMIN_DB_PASS + '@' : '';
+	var connectionString = process.env.DB_HOSTS;
+	connectionString += '/' + process.env.ADMIN_DB_NAME;
+	connectionString += '?ssl=' + process.env.DB_SSL;
+	connectionString += process.env.DB_REPLICA_SET.length ? '&replicaSet=' + process.env.DB_REPLICA_SET : '';
+	connectionString += process.env.DB_AUTH_SOURCE.length ? '&authSource=' + process.env.DB_AUTH_SOURCE : '';
 
-	var adminConn = _mongoose2.default.createConnection(connectionString, options);
+	var db = _mongoose2.default.connect("mongodb://" + connectionUser + connectionString, { useMongoClient: true });
 
-	exports.default = adminConn;
+	_mongoose2.default.connection.on('connected', function () {
+	  console.log('Connected to ' + connectionString);
+	});
 
-/***/ },
+	_mongoose2.default.connection.on('error', function (err) {
+	  console.log('Failed to connect to ' + connectionString);
+	});
+
+	_mongoose2.default.connection.on('disconnected', function () {
+	  console.log('Disconnected from ' + connectionString);
+	});
+
+	exports.default = db;
+
+/***/ }),
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -285,9 +303,9 @@
 
 	exports.default = _mongoose2.default.model('User', UserSchema);
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -371,9 +389,9 @@
 
 	exports.default = CentralProcessor;
 
-/***/ },
+/***/ }),
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -528,9 +546,9 @@
 
 	exports.default = CladeTransactionProcessor;
 
-/***/ },
+/***/ }),
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -580,9 +598,9 @@
 
 	exports.default = _publicConnection2.default.model('clades', CladeSchema);
 
-/***/ },
+/***/ }),
 /* 10 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -606,20 +624,32 @@
 	                                              * Copyright(c) 2016 Phylogeny Explorer
 	                                              */
 
-	var connectionString = 'mongodb://35.162.254.17:27017/phylex-public';
+	var connectionUser = process.env.PUBLIC_DB_USER ? process.env.PUBLIC_DB_USER + ':' + process.env.PUBLIC_DB_PASS + '@' : '';
+	var connectionString = process.env.DB_HOSTS;
+	connectionString += '/' + process.env.PUBLIC_DB_NAME;
+	connectionString += '?ssl=' + process.env.DB_SSL;
+	connectionString += process.env.DB_REPLICA_SET.length ? '&replicaSet=' + process.env.DB_REPLICA_SET : '';
+	connectionString += process.env.DB_AUTH_SOURCE.length ? '&authSource=' + process.env.DB_AUTH_SOURCE : '';
 
-	var options = {
-	  user: 'phylexpublicuser',
-	  pass: '53010c7ca48711e680f576304dec7eb7'
-	};
+	var db = _mongoose2.default.connect("mongodb://" + connectionUser + connectionString, { useMongoClient: true });
 
-	var publicConn = _mongoose2.default.createConnection(connectionString, options);
+	_mongoose2.default.connection.on('connected', function () {
+	  console.log('Connected to ' + connectionString);
+	});
 
-	exports.default = publicConn;
+	_mongoose2.default.connection.on('error', function (err) {
+	  console.log('Failed to connect to ' + connectionString);
+	});
 
-/***/ },
+	_mongoose2.default.connection.on('disconnected', function () {
+	  console.log('Disconnected from ' + connectionString);
+	});
+
+	exports.default = db;
+
+/***/ }),
 /* 11 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -721,11 +751,17 @@
 
 	exports.default = AwsS3FileManager;
 
-/***/ },
+/***/ }),
 /* 12 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = require("aws-sdk");
 
-/***/ }
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+	module.exports = require("bluebird");
+
+/***/ })
 /******/ ]);

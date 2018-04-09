@@ -12,13 +12,25 @@ import mongoose from 'mongoose';
 
 mongoose.Promise = global.Promise;
 
-const connectionString = 'mongodb://35.162.254.17:27017/phylex-public';
+let connectionUser= process.env.PUBLIC_DB_USER ? (process.env.PUBLIC_DB_USER+':'+process.env.PUBLIC_DB_PASS+'@') : '';
+let connectionString = process.env.DB_HOSTS;
+connectionString += '/' + process.env.PUBLIC_DB_NAME;
+connectionString += '?ssl=' + process.env.DB_SSL;
+connectionString += process.env.DB_REPLICA_SET.length ? '&replicaSet=' + process.env.DB_REPLICA_SET : '';
+connectionString += process.env.DB_AUTH_SOURCE.length ? '&authSource=' + process.env.DB_AUTH_SOURCE : '';
 
-const options = {
-  user: 'phylexpublicuser',
-  pass: '53010c7ca48711e680f576304dec7eb7',
-};
+const db = mongoose.connect("mongodb://" + connectionUser + connectionString, { useMongoClient: true });
 
-const publicConn = mongoose.createConnection(connectionString, options);
+mongoose.connection.on('connected', function() {
+  console.log('Connected to ' + connectionString);
+});
 
-export default publicConn;
+mongoose.connection.on('error', function(err) {
+  console.log('Failed to connect to ' + connectionString);
+});
+
+mongoose.connection.on('disconnected', function () {
+  console.log('Disconnected from ' + connectionString);
+});
+
+export default db;

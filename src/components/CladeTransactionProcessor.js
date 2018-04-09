@@ -103,7 +103,10 @@ class CladeTransactionProcessor {
   _updateCurrentTransaction(err, newStatus, identifier) {
     this._transaction.status = newStatus; // status required
     this._transaction.identifier = identifier || this._transaction.identifier;
-    this._transaction.save(err1 => this._callback(err || err1 || null));
+    this._transaction.save(err1 => {
+      console.log('transaction saved!');
+      this._callback(err || err1 || null)
+    });
   }
 }
 
