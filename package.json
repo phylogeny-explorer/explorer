@@ -1,12 +1,11 @@
 {
-  "name": "phylex-public-api",
-  "version": "0.0.0",
+  "name": "public-api",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon build/server.js --exec babel-node",
-    "build": "webpack --config ./tools/webpack.config.js --progress --colors --watch",
-    "bundle": "webpack --config ./tools/webpack.config.js --progress --colors",
-    "serve": "node build/server.js",
+    "build": "webpack --config ./tools/webpack.config.js --progress --colors",
+    "build:watch": "webpack --config ./tools/webpack.config.js --progress --colors --watch",
+    "build:release": "webpack --config ./tools/webpack.config.js --progress --colors --release",
     "test": "mocha --compilers js:babel-register"
   },
   "dependencies": {
@@ -39,6 +38,7 @@
     "eslint-plugin-import": "^1.15.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.2.2",
+    "generate-package-json-webpack-plugin": "^1.0.0",
     "mocha": "^3.0.2",
     "webpack": "^1.13.2"
   }
