@@ -35,9 +35,13 @@ class TransactionController extends Modules.Controller {
   getCladeTransactions(req, res, next) {
     if (req.user.role.description === 'admin') {
       Transaction.find({ type: 'CLADE' }, (err, trs) => this.handleResponse(res, next, err, trs))
+        .sort({ created: -1 })
+        .limit(100)
         .populate('user');
     } else {
       Transaction.find({ type: 'CLADE', user: req.user._id }, (err, trs) => this.handleResponse(res, next, err, trs))
+        .sort({ created: -1 })
+        .limit(100)
         .populate('user');
     }
   }
