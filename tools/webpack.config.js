@@ -38,6 +38,9 @@ module.exports = {
     filename: 'server.js',
   },
   externals: nodeModules,
+  plugins: RELEASE ? [
+    new GeneratePackageJsonPlugin(buildPackage, PACKAGE_DIR)
+  ] : [],
   module: {
     loaders: [
       {
