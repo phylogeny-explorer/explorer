@@ -40,14 +40,14 @@ class Processor {
   processTransactions(transactions) {
     if (transactions.length === 0) return;
 
-    // const cycle = new mongoose.Types.ObjectId();
-    // console.log(`Found ${transactions.length} transactions. Cycle: ${cycle}`);
+    const cycle = new mongoose.Types.ObjectId();
+    console.log(`Found ${transactions.length} transactions. Cycle: ${cycle}`);
 
     transactions.forEach((transaction, k) => {
-      // transaction.cycle = cycle;
+      transaction.cycle = cycle;
       console.log(`${k + 1} - Processing transaction Id: ${transaction._id}, Mode: ${transaction.mode}`);
-      // const cp = new CP(transaction, k, this.handleError);
-      // cp.process();
+      const cp = new CP(transaction, k, this.handleError);
+      cp.process();
     });
 
     return null;

@@ -10,8 +10,6 @@
 
 import mongoose from 'mongoose';
 
-mongoose.Promise = global.Promise;
-
 let connectionUser= process.env.ADMIN_DB_USER ? (process.env.ADMIN_DB_USER+':'+process.env.ADMIN_DB_PASS+'@') : '';
 let connectionString = process.env.DB_HOSTS;
 connectionString += '/' + process.env.ADMIN_DB_NAME;
@@ -19,17 +17,17 @@ connectionString += '?ssl=' + process.env.DB_SSL;
 connectionString += process.env.DB_REPLICA_SET.length ? '&replicaSet=' + process.env.DB_REPLICA_SET : '';
 connectionString += process.env.DB_AUTH_SOURCE.length ? '&authSource=' + process.env.DB_AUTH_SOURCE : '';
 
-const db = mongoose.connect("mongodb://" + connectionUser + connectionString, { useMongoClient: true });
+const db = mongoose.createConnection("mongodb://" + connectionUser + connectionString, { useMongoClient: true });
 
-mongoose.connection.on('connected', function() {
+db.on('connected', function() {
   console.log('Connected to ' + connectionString);
 });
 
-mongoose.connection.on('error', function(err) {
+db.on('error', function(err) {
   console.log('Failed to connect to ' + connectionString + ' -- ' + err);
 });
 
-mongoose.connection.on('disconnected', function () {
+db.on('disconnected', function () {
   console.log('Disconnected from ' + connectionString);
 });
 
