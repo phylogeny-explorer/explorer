@@ -1,23 +1,34 @@
 /*!
  * Phylogeny Explorer
  *
- * @summary 
+ * @summary Database Connection Configuration
  * @author John Ropas
- * @since 30/11/2016
- * 
+ * @since 19/09/2016
+ *
  * Copyright(c) 2016 Phylogeny Explorer
  */
 
-
 import mongoose from 'mongoose';
 
-const connectionString = 'mongodb://35.162.254.17:27017/phylex-admin';
+let connectionUser= process.env.ADMIN_DB_USER ? (process.env.ADMIN_DB_USER+':'+process.env.ADMIN_DB_PASS+'@') : '';
+let connectionString = process.env.DB_HOSTS;
+connectionString += '/' + process.env.ADMIN_DB_NAME;
+connectionString += '?ssl=' + process.env.DB_SSL;
+connectionString += process.env.DB_REPLICA_SET.length ? '&replicaSet=' + process.env.DB_REPLICA_SET : '';
+connectionString += process.env.DB_AUTH_SOURCE.length ? '&authSource=' + process.env.DB_AUTH_SOURCE : '';
 
-const options = {
-  user: 'phylexadminuser',
-  pass: 'ed86ec0502b244519ed3c86f8bf39cf4',
-};
+const db = mongoose.createConnection("mongodb://" + connectionUser + connectionString, { useMongoClient: true });
 
-const adminConn = mongoose.createConnection(connectionString, options);
+db.on('connected', function() {
+  console.log('Connected to ' + connectionString);
+});
 
-export default adminConn;
+db.on('error', function(err) {
+  console.log('Failed to connect to ' + connectionString + ' -- ' + err);
+});
+
+db.on('disconnected', function () {
+  console.log('Disconnected from ' + connectionString);
+});
+
+export default db;

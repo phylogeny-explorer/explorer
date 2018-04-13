@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "execute": "node build/daemon.js",
-    "build": "webpack --config ./tools/webpack.config.js --progress --colors --watch",
+    "build": "webpack --config ./tools/webpack.config.js --progress --colors",
+    "build:watch": "webpack --config ./tools/webpack.config.js --progress --colors --watch",
+    "build:release": "webpack --config ./tools/webpack.config.js --progress --colors --release",
     "test": "mocha --compilers js:babel-register"
   },
   "dependencies": {

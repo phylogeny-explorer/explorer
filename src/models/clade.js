@@ -10,16 +10,11 @@
 
 import mongoose from 'mongoose';
 import publicDb from '../databases/publicConnection';
+import asset from './asset';
 
 /**
  * Clade schema definition
  */
-
-const asset = new mongoose.Schema({
-  name: { type: String },
-  isDefault: { type: Boolean },
-}, { _id: false });
-
 const CladeSchema = new mongoose.Schema({
   parent: { type: mongoose.Schema.ObjectId, ref: 'Clade' },
   name: { type: String },
@@ -31,4 +26,4 @@ const CladeSchema = new mongoose.Schema({
   modified: { type: Date },
 });
 
-export default publicDb.model('clades', CladeSchema);
+export default publicDb.model('Clade', CladeSchema);
