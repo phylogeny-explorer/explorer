@@ -10,13 +10,8 @@
 
 import mongoose from 'mongoose';
 import adminDb from '../databases/adminConnection';
+import asset from './asset';
 import './user';
-
-const asset = new mongoose.Schema({
-  name: { type: String },
-  isDefault: { type: Boolean },
-  folder: { type: String },
-}, { _id: false });
 
 /**
  * Transaction schema definition

@@ -26,7 +26,7 @@ mongoose.connection.on('connected', function() {
 });
 
 mongoose.connection.on('error', function(err) {
-  console.log('Failed to connect to ' + connectionString);
+  console.log('Failed to connect to ' + connectionString + ' -- ' + err);
 });
 
 mongoose.connection.on('disconnected', function () {
