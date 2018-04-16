@@ -9,7 +9,7 @@ export default function(connection) {
     allow: {type: Boolean},
   }, {_id: false});
 
-  export const RoleSchema = new mongoose.Schema({
+  const RoleSchema = new mongoose.Schema({
     description: {type: String, unique: true},
     isDefault: {type: Boolean, default: false},
     isActive: {type: Boolean, default: false},

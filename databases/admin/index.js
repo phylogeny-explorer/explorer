@@ -28,5 +28,7 @@ if (process.env.ADMIN_DB_NAME) {
   };
 }
 
-export default adminDb;
-export const Models = models;
+export default {
+  connection: adminDb,
+  Models: models
+};
