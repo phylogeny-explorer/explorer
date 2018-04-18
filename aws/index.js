@@ -1,4 +1,4 @@
-import FileManager from 'AwsS3FileManager';
+import FileManager from './AwsS3FileManager';
 import { aws } from '../config';
 
 let fileManager = new FileManager(
