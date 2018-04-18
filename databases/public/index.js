@@ -1,24 +1,28 @@
+import {database as config} from "../../config";
 import dbFactory from '../factory';
-import Clade from './models/clade';
 
 let publicDb = null;
-let models = null;
+let models   = null;
 
-if (process.env.PUBLIC_DB_NAME) {
+if (config.hosts && config.public.name) {
   publicDb = dbFactory(
-    process.env.PUBLIC_DB_USER,
-    process.env.PUBLIC_DB_PASS,
-    process.env.DB_HOSTS,
-    process.env.PUBLIC_DB_NAME,
-    process.env.DB_SSL,
-    process.env.DB_REPLICA_SET,
-    process.env.DB_AUTH_SOURCE
+    config.public.user,
+    config.public.password,
+    config.hosts,
+    config.public.name,
+    config.ssl,
+    config.replica_set,
+    config.auth_source
   );
 
   models = {
-    Clade: Clade(publicDb)
+    Clade : require('./models/clade')(publicDb)
   };
+} else {
+  console.log('Public Database Host or DB Name not set.');
 }
 
-export default publicDb;
-export const Models = models;
+export default {
+  connection : publicDb,
+  Models     : models
+};

@@ -9,7 +9,7 @@
  */
 
 import mongoose from 'mongoose';
-import asset from '../../schema/asset';
+import asset from '../../shared_schema/asset';
 
 export default function(connection) {
   const CladeSchema = new mongoose.Schema({

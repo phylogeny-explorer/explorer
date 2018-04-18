@@ -1,34 +1,32 @@
+import { database as config} from '../../config';
 import dbFactory from '../factory';
-import Role from './models/role';
-import Rule from './models/rule';
-import Setting from './models/setting';
-import Transaction from './models/transaction';
-import User from './models/user';
 
 let adminDb  = null;
-let models = null;
+let models   = null;
 
-if (process.env.ADMIN_DB_NAME) {
+if (config.hosts && config.admin.name) {
   adminDb = dbFactory(
-    process.env.ADMIN_DB_USER,
-    process.env.ADMIN_DB_PASS,
-    process.env.DB_HOSTS,
-    process.env.ADMIN_DB_NAME,
-    process.env.DB_SSL,
-    process.env.DB_REPLICA_SET,
-    process.env.DB_AUTH_SOURCE
+    config.admin.user,
+    config.admin.password,
+    config.hosts,
+    config.admin.name,
+    config.ssl,
+    config.replica_set,
+    config.auth_source
   );
 
   models = {
-    Role: Role(adminDb),
-    Rule: Rule(adminDb),
-    Setting: Setting(adminDb),
-    Transaction: Transaction(adminDb),
-    User: User(adminDb)
+    Role        : require('./models/role')(adminDb),
+    Rule        : require('./models/rule')(adminDb),
+    Setting     : require('./models/setting')(adminDb),
+    Transaction : require('./models/transaction')(adminDb),
+    User        : require('./models/user')(adminDb)
   };
+} else {
+  console.log('Admin Database Host or DB Name not set.');
 }
 
 export default {
-  connection: adminDb,
-  Models: models
+  connection : adminDb,
+  Models     : models
 };

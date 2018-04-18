@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 function databaseFactory(user, pass, hosts, dbName, useSsl, replicaSet, authSource) {
-  let connectionUser= user ? (user+':'+pass+'@') : '';
+  let connectionUser= user ? ( user + (pass ? ':'+pass : '') + '@' ) : '';
   let connectionString = hosts;
   connectionString += '/' + dbName;
   connectionString += '?ssl=' + useSsl;
