@@ -1,7 +1,5 @@
-import databases from './databases';
-import aws from './aws';
-import * as config from './config';
+import Admin from './databases/admin';
+import Public from './databases/public';
 
-export const Database = databases;
-export const Config = config;
-export const AWS = aws;
+export const Database = { Admin, Public };
+export { S3 } from './aws';

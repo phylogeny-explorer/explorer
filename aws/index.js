@@ -1,12 +1,10 @@
-import FileManager from './AwsS3FileManager';
+import FileManager from './s3/FileManager';
 import { aws } from '../config';
 
-let fileManager = new FileManager(
+export const S3 = new FileManager(
   aws.bucket,
   aws.region,
   aws.identityPoolId,
   aws.accessKeyId,
   aws.secretAccessKey
 );
-
-export default fileManager;

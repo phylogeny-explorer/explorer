@@ -10,18 +10,17 @@
 
 import mongoose from 'mongoose';
 import asset from '../../shared_schema/asset';
+import connection from '../connection';
 
-export default function(connection) {
-  const CladeSchema = new mongoose.Schema({
-    parent: { type: mongoose.Schema.ObjectId, ref: 'Clade' },
-    name: { type: String },
-    description: { type: String },
-    otherNames: { type: String },
-    extant: { type: Boolean },
-    assets: [asset],
-    created: { type: Date, default: Date.now() },
-    modified: { type: Date },
-  });
+const CladeSchema = new mongoose.Schema({
+  parent: { type: mongoose.Schema.ObjectId, ref: 'Clade' },
+  name: { type: String },
+  description: { type: String },
+  otherNames: { type: String },
+  extant: { type: Boolean },
+  assets: [asset],
+  created: { type: Date, default: Date.now() },
+  modified: { type: Date },
+});
 
-  return connection.model('Clade', CladeSchema);
-}
+export default connection.model('Clade', CladeSchema);

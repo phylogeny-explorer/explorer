@@ -10,7 +10,7 @@
 
 import AWS from 'aws-sdk';
 
-class AwsS3FileManager {
+class FileManager {
 
   constructor(bucket, region, identityPoolId, accessKeyId, secretAccessKey) {
     this._keys = { clades: 'clades/', users: 'users/', temp: 'temp/' };
@@ -67,6 +67,10 @@ class AwsS3FileManager {
     });
   }
 
+  getTempUrl(key) {
+    return `https://${this._bucketName}.s3.amazonaws.com/temp/${key}`;
+  }
+
 }
 
-export default AwsS3FileManager;
+export default FileManager;
