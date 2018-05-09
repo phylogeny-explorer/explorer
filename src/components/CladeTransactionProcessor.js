@@ -9,8 +9,8 @@
  */
 
 import async from 'async';
-import Clade from '../models/clade';
-import AwsS3FileManager from '../middleware/AwsS3FileManager';
+import { Clade } from 'common/databases/public';
+import { S3 } from 'common/aws';
 
 class CladeTransactionProcessor {
   constructor(transaction, index, cb) {
@@ -72,9 +72,8 @@ class CladeTransactionProcessor {
 
   _deleteAssets(clade, cb) {
     const assets = this._transaction.assets.before;
-    const fileManager = new AwsS3FileManager();
     async.forEachOf(assets, (asset, index, callback) => {
-      fileManager.destroyCladeImage(clade._id, asset.name, callback);
+      S3.destroyCladeImage(clade._id, asset.name, callback);
     }, (err) => {
       cb(err);
     });
@@ -82,10 +81,9 @@ class CladeTransactionProcessor {
 
   _registerAssets(clade, cb) {
     const assets = this._transaction.assets.after;
-    const fileManager = new AwsS3FileManager();
     async.forEachOf(assets, (asset, index, callback) => {
       if (asset.folder === 'temp') {
-        fileManager.moveTempImageToCladeFolder(asset.name, clade._id, callback);
+        S3.moveTempImageToCladeFolder(asset.name, clade._id, callback);
       } else {
         callback();
       }

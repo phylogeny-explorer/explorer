@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Transaction from "../models/transaction";
+import { Transaction } from "common/databases/admin";
 import CP from "./CentralProcessor";
 
 class Processor {
