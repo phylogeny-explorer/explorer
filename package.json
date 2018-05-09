@@ -12,11 +12,7 @@
   },
   "dependencies": {
     "async": "^2.1.4",
-    "common": "file:src/common",
-    "method-override": "^2.3.6",
-    "minimist": "^1.2.0",
-    "morgan": "~1.7.0",
-    "password-hash": "^1.2.2"
+    "common": "file:src/common"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
