@@ -22,10 +22,6 @@ function databaseFactory(user, pass, hosts, dbName, ssl, replicaSet, authSource)
     console.log('Disconnected from ' + connectionString);
   });
 
-  db.catch(function(err) {
-    console.log('Failed to connect to ' + connectionString + ' -- ' + err)
-  });
-
   return db;
 }
 
