@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
+import querystring from 'querystring';
 
-function databaseFactory(user, pass, hosts, dbName, useSsl, replicaSet, authSource) {
-  let connectionUser= user ? ( user + (pass ? ':'+pass : '') + '@' ) : '';
-  let connectionString = hosts;
-  connectionString += '/' + dbName;
-  connectionString += '?ssl=' + useSsl;
-  connectionString += replicaSet.length ? '&replicaSet=' + replicaSet : '';
-  connectionString += authSource.length ? '&authSource=' + authSource : '';
+function databaseFactory(user, pass, hosts, dbName, ssl, replicaSet, authSource) {
+  let query = { ssl };
+  if (replicaSet) query['replicaSet'] = replicaSet;
+  if (authSource) query['authSource'] = authSource;
 
-  const db = mongoose.createConnection("mongodb://" + connectionUser + connectionString);
+  let connectionString = hosts + '/' + dbName + '?' + querystring.stringify(query);
+
+  const db = mongoose.createConnection("mongodb://" + connectionString, user ? { user, pass } : null);
 
   db.on('connected', function() {
     console.log('Connected to ' + connectionString);
@@ -20,6 +20,10 @@ function databaseFactory(user, pass, hosts, dbName, useSsl, replicaSet, authSour
 
   db.on('disconnected', function () {
     console.log('Disconnected from ' + connectionString);
+  });
+
+  db.catch(function(err) {
+    console.log('Failed to connect to ' + connectionString + ' -- ' + err)
   });
 
   return db;
