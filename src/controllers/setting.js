@@ -9,7 +9,7 @@
  */
 
 import Modules from '../modules';
-import Setting from '../models/setting';
+import Setting from 'common/databases/admin/models/setting';
 import AccessControl from '../middleware/AccessControl';
 
 class SettingController extends Modules.Controller {

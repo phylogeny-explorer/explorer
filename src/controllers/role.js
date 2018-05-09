@@ -9,7 +9,7 @@
  */
 
 import Modules from '../modules';
-import Role from '../models/role';
+import Role from 'common/databases/admin/models/role';
 import AccessControl from '../middleware/AccessControl';
 
 class RoleController extends Modules.Controller {

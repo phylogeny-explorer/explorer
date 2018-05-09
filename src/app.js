@@ -19,8 +19,6 @@ import routes from './routes/index';
 import Modules from './modules';
 import localSignupStrategy from './passport/signup';
 import localLoginStrategy from './passport/login';
-import './config/database';
-
 
 const app = express();
 

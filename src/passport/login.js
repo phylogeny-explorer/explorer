@@ -10,7 +10,7 @@
 
 import jwt from 'jsonwebtoken';
 import PassportLocalStrategy from 'passport-local';
-import User from '../models/user';
+import User from 'common/databases/admin/models/user';
 import authConfig from '../config/authentication';
 
 /**

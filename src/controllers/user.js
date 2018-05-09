@@ -9,7 +9,7 @@
  */
 
 import passwordHash from 'password-hash';
-import User from '../models/user';
+import User from 'common/databases/admin/models/user';
 import Modules from '../modules';
 import AccessControl from '../middleware/AccessControl';
 
