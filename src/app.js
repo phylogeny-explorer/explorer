@@ -15,8 +15,7 @@ import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import routes from './routes/index';
-import Modules from './modules';
-import './config/database';
+import { Server } from './modules';
 
 const app = express();
 
@@ -95,7 +94,7 @@ app.set('json spaces', 2);
 
 
 // Produce and spin up the server
-const factory = new Modules.Server(app, 5500, 'phylex-public-api:server');
+const factory = new Server(app, 5500, 'phylex-public-api:server');
 
 factory.createAndStartServer();
 

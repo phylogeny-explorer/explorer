@@ -10,12 +10,11 @@
 
 import mongoose from 'mongoose';
 
-import Modules from '../modules';
-import Clade from '../models/clade';
+import { Tree, Controller } from '../modules';
+import { Clade } from 'common/databases/public';
 import AccessControl from '../middleware/AccessControl';
 
-
-class CladeController extends Modules.Controller {
+class CladeController extends Controller {
 
   constructor() {
     super(AccessControl);
@@ -26,7 +25,7 @@ class CladeController extends Modules.Controller {
     const depth = Number.parseInt(req.params.depth, 10) || 3;
     Clade.findById(nodeId, '-__v', (err, clade) => {
       if (clade) {
-        const tree = new Modules.Tree(Clade, clade.toObject(), depth, result =>
+        const tree = new Tree(Clade, clade.toObject(), depth, result =>
           this.handleResponse(res, next, err, result)
         );
         tree.begin();

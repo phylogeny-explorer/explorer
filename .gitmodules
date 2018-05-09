@@ -1,0 +1,4 @@
+[submodule "src/common"]
+	path = src/common
+	url = git@bitbucket.org:pepactionteam/common.git
+	branch = master

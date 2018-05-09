@@ -12,14 +12,14 @@
  * Module dependencies.
  */
 
-import Modules from '../modules';
+import { Router } from '../modules';
 import CladeController from '../controllers/clade';
 
 /**
  * Router to server routes for user
  */
 const controller = new CladeController();
-const router = new Modules.Router(controller);
+const router = new Router(controller);
 
 router
   .get('/clades/generate', controller.generate)
