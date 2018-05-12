@@ -1,6 +1,6 @@
 {
   "name": "common",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Common code for phylex",
   "main": "index.js",
   "scripts": {

@@ -1,62 +1,65 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 17/11/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import AWS from 'aws-sdk';
+import { aws as config } from '../../config';
+
+AWS.config.update({
+  region: config.region,
+  credentials: new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: config.identityPoolId,
+  }),
+});
 
 class FileManager {
+  _s3 = null;
 
-  constructor(bucket, region, identityPoolId, accessKeyId, secretAccessKey) {
-    this._keys = { clades: 'clades/', users: 'users/', temp: 'temp/' };
-    this._bucketName = bucket;
-    this._bucketRegion = region;
-    this._IdentityPoolId = identityPoolId;
+  _keys = {
+    clades: 'clades/',
+    temp: 'temp/'
+  };
 
-    AWS.config.update({
-      region: this._bucketRegion,
-      credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: this._IdentityPoolId,
-      }),
-    });
+  getS3() {
+    if (this._s3) return this._s3;
 
-    this.s3 = new AWS.S3({
+    this._s3 = new AWS.S3({
       apiVersion: '2006-03-01',
-      params: { Bucket: this._bucketName },
-      accessKeyId: accessKeyId,
-      secretAccessKey: secretAccessKey,
+      params: { Bucket: config.bucket },
+      accessKeyId: config.accessKeyId,
+      secretAccessKey: config.secretAccessKey,
     });
+
+    return this._s3;
+  }
+
+  getBucketName() {
+    return config.bucket;
+  }
+
+  getBucketUrl() {
+    return `https://${this.getBucketName()}.s3.amazonaws.com`;
   }
 
   uploadTempImage(key, blob, cb) {
     const finalKey = this._keys.temp + key;
     const params = { Key: finalKey, Body: blob };
-    this.s3.putObject(params, (err, data) => cb(err, data));
+    this.getS3().putObject(params, (err, data) => cb(err, data));
   }
 
   destroyTempImage(key, cb) {
     const finalKey = this._keys.temp + key;
     const params = { Key: finalKey };
-    this.s3.deleteObject(params, (err, data) => cb(err, data));
+    this.getS3().deleteObject(params, (err, data) => cb(err, data));
   }
 
   destroyCladeImage(id, key, cb) {
     const finalKey = `${this._keys.clades}${id}/${key}`;
     const params = { Key: finalKey };
-    this.s3.deleteObject(params, (err, data) => cb(err, data));
+    this.getS3().deleteObject(params, (err, data) => cb(err, data));
   }
 
   moveTempImageToCladeFolder(key, cladeId, cb) {
-    const sourceKey = `${this._bucketName}/${this._keys.temp}${key}`;
+    const sourceKey = `${this.getBucketName()}/${this._keys.temp}${key}`;
     const destinationKey = `${this._keys.clades}${cladeId}/${key}`;
-    console.error(sourceKey, destinationKey);
     const params = { Key: destinationKey, CopySource: sourceKey };
-    this.s3.copyObject(params, (err, data) => {
+    this.getS3().copyObject(params, (err, data) => {
       if (err) {
         cb(err);
       } else {
@@ -68,7 +71,11 @@ class FileManager {
   }
 
   getTempUrl(key) {
-    return `https://${this._bucketName}.s3.amazonaws.com/temp/${key}`;
+    return `${this.getBucketUrl()}/${this._keys.temp}/${key}`;
+  }
+
+  getCladeUrl(cladeId, assetName) {
+    return `${this.getBucketUrl()}/${this._keys.clades}/${cladeId}/${assetName}`;
   }
 
 }
