@@ -8,13 +8,11 @@ AWS.config.update({
   }),
 });
 
+const KEY_CLADES = 'clades';
+const KEY_TEMP = 'temp';
+
 class FileManager {
   _s3 = null;
-
-  _keys = {
-    clades: 'clades/',
-    temp: 'temp/'
-  };
 
   getS3() {
     if (this._s3) return this._s3;
@@ -34,50 +32,54 @@ class FileManager {
   }
 
   getBucketUrl() {
-    return `https://${this.getBucketName()}.s3.amazonaws.com`;
+    return `//${this.getBucketName()}.s3.amazonaws.com`;
   }
 
-  uploadTempImage(key, blob, cb) {
-    const finalKey = this._keys.temp + key;
-    const params = { Key: finalKey, Body: blob };
-    this.getS3().putObject(params, (err, data) => cb(err, data));
+  getCladeKey(cladeId, assetId) {
+    return `${KEY_CLADES}/${cladeId}/${assetId}`;
   }
 
-  destroyTempImage(key, cb) {
-    const finalKey = this._keys.temp + key;
-    const params = { Key: finalKey };
-    this.getS3().deleteObject(params, (err, data) => cb(err, data));
+  getTempKey(assetId) {
+    return `${KEY_TEMP}/${assetId}`;
   }
 
-  destroyCladeImage(id, key, cb) {
-    const finalKey = `${this._keys.clades}${id}/${key}`;
-    const params = { Key: finalKey };
-    this.getS3().deleteObject(params, (err, data) => cb(err, data));
+  getTempUrl(assetId) {
+    return `${this.getBucketUrl()}/${KEY_TEMP}/${assetId}`;
   }
 
-  moveTempImageToCladeFolder(key, cladeId, cb) {
-    const sourceKey = `${this.getBucketName()}/${this._keys.temp}${key}`;
-    const destinationKey = `${this._keys.clades}${cladeId}/${key}`;
-    const params = { Key: destinationKey, CopySource: sourceKey };
-    this.getS3().copyObject(params, (err, data) => {
-      if (err) {
-        cb(err);
-      } else {
-        this.destroyTempImage(key, (err1, data1) => {
-          cb(err1);
-        });
-      }
-    });
+  getCladeUrl(cladeId, assetId) {
+    return `${this.getBucketUrl()}/${KEY_CLADES}/${cladeId}/${assetId}`;
   }
 
-  getTempUrl(key) {
-    return `${this.getBucketUrl()}/${this._keys.temp}/${key}`;
+  uploadTempImage(assetId, blob, cb) {
+    const params = { Key: this.getTempKey(assetId), Body: blob };
+    return this.getS3().putObject(params, cb);
   }
 
-  getCladeUrl(cladeId, assetName) {
-    return `${this.getBucketUrl()}/${this._keys.clades}/${cladeId}/${assetName}`;
+  destroyTempImage(assetId, cb) {
+    const params = { Key: this.getTempKey(assetId) };
+    return this.getS3().deleteObject(params, cb);
   }
 
+  destroyCladeImage(cladeId, assetId, cb) {
+    const params = { Key: this.getCladeKey(cladeId, assetId) };
+    return this.getS3().deleteObject(params, cb);
+  }
+
+  moveTempImageToCladeFolder(assetId, cladeId, cb) {
+    let self = this;
+
+    const params = {
+      Key: this.getCladeKey(cladeId, assetId),
+      CopySource: this.getTempKey(assetId)
+    };
+
+    return this.getS3().copyObject(params)
+      .on('error', cb)
+      .on('success', function() {
+        self.destroyCladeImage(assetId, cb);
+      });
+  }
 }
 
 export default FileManager;
