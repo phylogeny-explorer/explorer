@@ -1,14 +1,4 @@
-/*!
- * Controller
- *
- * @summary Controller class that support class-based middleware
- * @author John Ropas
- * @since 29/09/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
-class Controller {
+export default class Controller {
   /**
    * Constructor
    * @param middlewareFn [ ] an array of methods to be called
@@ -64,8 +54,7 @@ class Controller {
   }
 
   static renameFunction(name, fn) {
-    const Fn = Function;
-    return new Fn('action', `return function ${name}(...args){ action(...args) };`)(fn);
+    return new Function('action', `return function ${name}(...args){ action(...args) };`)(fn);
   }
 
   get middleware() {
@@ -83,6 +72,4 @@ class Controller {
   set name(name) {
     this._name = name;
   }
-}
-
-export default Controller;
+};

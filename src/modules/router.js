@@ -10,7 +10,7 @@
 
 import express from 'express';
 
-class Router extends express.Router {
+export default class Router extends express.Router {
   constructor(controller) {
     super();
     this._controller = controller.name;
@@ -24,5 +24,3 @@ class Router extends express.Router {
     this._controller = controller;
   }
 }
-
-export default Router;

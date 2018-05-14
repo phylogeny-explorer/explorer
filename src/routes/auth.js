@@ -12,14 +12,14 @@
  * Module dependencies.
  */
 
-import Modules from '../modules';
+import { Router } from '../modules';
 import AuthenticationController from '../controllers/authentication';
 
 /**
  * Router to serve routes for security
  */
 const controller = AuthenticationController;
-const router = new Modules.Router(controller);
+const router = new Router(controller);
 router
   .post('/auth/login', controller.login)
   .post('/auth/signup', controller.signup)

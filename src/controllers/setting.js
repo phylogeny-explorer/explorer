@@ -8,11 +8,11 @@
  * Copyright(c) 2016 Phylogeny Explorer
  */
 
-import Modules from '../modules';
+import { Controller } from '../modules';
 import Setting from 'common/databases/admin/models/setting';
 import AccessControl from '../middleware/AccessControl';
 
-class SettingController extends Modules.Controller {
+class SettingController extends Controller {
   constructor() {
     super(AccessControl);
   }

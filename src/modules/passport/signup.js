@@ -9,7 +9,7 @@
  */
 
 import PassportLocalStrategy from 'passport-local';
-import { User, Role } from 'common/databases/admin';
+import { User, Role } from '../../common/databases/admin/index';
 
 /**
  * Return the Passport Local Strategy object.

@@ -10,8 +10,8 @@
 
 import jwt from 'jsonwebtoken';
 import PassportLocalStrategy from 'passport-local';
-import User from 'common/databases/admin/models/user';
-import authConfig from '../config/authentication';
+import User from '../../common/databases/admin/models/user';
+import auth from '../../common/config';
 
 /**
  * Return the Passport Local Strategy object.
@@ -58,7 +58,7 @@ const LoginStrategy = new PassportLocalStrategy({
       };
 
       // create a token string
-      const token = jwt.sign(payload, authConfig.jwtSecret);
+      const token = jwt.sign(payload, auth.jwt.secret);
       const data = {
         username: user.username,
         role: user.role.description,

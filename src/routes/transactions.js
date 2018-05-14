@@ -12,7 +12,7 @@
  * Module dependencies.
  */
 
-import Modules from '../modules';
+import { Router } from '../modules';
 import TransactionsController from '../controllers/transaction';
 
 /**
@@ -20,7 +20,7 @@ import TransactionsController from '../controllers/transaction';
  */
 
 const controller = new TransactionsController();
-const router = new Modules.Router(controller);
+const router = new Router(controller);
 
 router
   .get('/transactions', controller.getCladeTransactions)

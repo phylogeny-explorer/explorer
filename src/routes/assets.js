@@ -13,7 +13,7 @@
  */
 
 import multer from 'multer';
-import Modules from '../modules';
+import { Router } from '../modules';
 import AssetController from '../controllers/asset';
 
 const upload = multer({ dest: './build/temp' });
@@ -22,7 +22,7 @@ const upload = multer({ dest: './build/temp' });
  * Router to server routes for user
  */
 const controller = new AssetController();
-const router = new Modules.Router(controller);
+const router = new Router(controller);
 
 router
   .post('/assets/temp', upload.single('cladeImg'), controller.uploadTempImage)

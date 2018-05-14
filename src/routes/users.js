@@ -12,7 +12,7 @@
  * Module dependencies.
  */
 
-import Modules from '../modules';
+import { Router } from '../modules';
 import UserController from '../controllers/user';
 
 /**
@@ -20,7 +20,7 @@ import UserController from '../controllers/user';
  */
 
 const controller = new UserController();
-const router = new Modules.Router(controller);
+const router = new Router(controller);
 
 router
   .get('/users', controller.getUsers)

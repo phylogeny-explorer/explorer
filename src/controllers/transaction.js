@@ -9,11 +9,11 @@
  */
 
 import process from 'child_process';
-import Modules from '../modules';
+import { Controller } from '../modules';
 import Transaction from 'common/databases/admin/models/transaction';
 import AccessControl from '../middleware/AccessControl';
 
-class TransactionController extends Modules.Controller {
+class TransactionController extends Controller {
 
   static invokeCladeTransactionProcessing(id, cb) {
     const exec = process.exec;

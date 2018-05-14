@@ -12,14 +12,14 @@
  * Module dependencies.
  */
 
-import Modules from '../modules';
+import { Router } from '../modules';
 import RoleController from '../controllers/role';
 
 /**
  * Router to server routes for user
  */
 const controller = new RoleController();
-const router = new Modules.Router(controller);
+const router = new Router(controller);
 
 router
   .get('/roles', controller.getRoles)

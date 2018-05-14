@@ -12,14 +12,14 @@
  * Module dependencies.
  */
 
-import Modules from '../modules';
+import { Router } from '../modules';
 import SettingsController from '../controllers/setting';
 
 /**
  * Router to serve routes for security
  */
 const controller = new SettingsController();
-const router = new Modules.Router(controller);
+const router = new Router(controller);
 
 router
   .get('/settings', controller.getSettings)

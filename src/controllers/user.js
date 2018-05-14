@@ -8,12 +8,11 @@
  * Copyright(c) 2016 Phylogeny Explorer
  */
 
-import passwordHash from 'password-hash';
 import User from 'common/databases/admin/models/user';
-import Modules from '../modules';
+import { Controller } from '../modules';
 import AccessControl from '../middleware/AccessControl';
 
-class UserController extends Modules.Controller {
+class UserController extends Controller {
   constructor() {
     super(AccessControl);
   }

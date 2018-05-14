@@ -1,13 +1,3 @@
-/*!
- * clade
- *
- * @summary
- * @author John Ropas
- * @since 27/09/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import http from 'http';
 import debug from 'debug';
 

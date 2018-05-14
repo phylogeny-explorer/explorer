@@ -8,11 +8,11 @@
  * Copyright(c) 2016 Phylogeny Explorer
  */
 
-import Modules from '../modules';
+import { Controller } from '../modules';
 import Role from 'common/databases/admin/models/role';
 import AccessControl from '../middleware/AccessControl';
 
-class RoleController extends Modules.Controller {
+class RoleController extends Controller {
 
   constructor() {
     super(AccessControl);

@@ -12,14 +12,14 @@
  * Module dependencies.
  */
 
-import Modules from '../modules';
+import { Router } from '../modules';
 import RuleController from '../controllers/rule';
 
 /**
  * Router to server routes for user
  */
 const controller = new RuleController();
-const router = new Modules.Router(controller);
+const router = new Router(controller);
 
 router
   .get('/rules', controller.getRules)

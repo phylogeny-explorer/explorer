@@ -9,22 +9,15 @@
  */
 
 import express from 'express';
-import passport from 'passport';
 import path from 'path';
 // import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import routes from './routes/index';
-import Modules from './modules';
-import localSignupStrategy from './passport/signup';
-import localLoginStrategy from './passport/login';
+import routes from './routes';
+import { Server, Passport } from './modules';
 
 const app = express();
-
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -33,7 +26,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(passport.initialize());
 
 // Add headers
 app.use((req, res, next) => {
@@ -56,9 +48,8 @@ app.use((req, res, next) => {
   next();
 });
 
-passport.use('local-signup', localSignupStrategy);
-passport.use('local-login', localLoginStrategy);
-
+// Initialize login/register functions
+Passport(app);
 
 // load all routes
 routes(app);
@@ -72,36 +63,19 @@ app.use((req, res, next) => {
 });
 
 // error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json({
-      message: err.message,
-      error: err,
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: {},
+    error: (app.get('env') === 'development') ? err : {},
   });
 });
 
 // pretty printing responses
 app.set('json spaces', 2);
 
-
 // Produce and spin up the server
-const factory = new Modules.Server(app, 5000, 'phylex:server');
+const factory = new Server(app, 5000, 'phylex:server');
 
 factory.createAndStartServer();
 
