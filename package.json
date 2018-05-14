@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.224.1",
+    "aws-sdk": "^2.238.1",
     "bcrypt": "^2.0.1",
     "bluebird": "^3.5.1",
     "mongoose": "^5.0.14"

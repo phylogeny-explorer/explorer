@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
 import { aws as config } from '../../config';
+import { Promise } from 'bluebird';
 
 AWS.config.update({
   region: config.region,
@@ -12,7 +13,9 @@ const KEY_CLADES = 'clades';
 const KEY_TEMP = 'temp';
 
 class FileManager {
-  _s3 = null;
+  constructor() {
+    this._s3 = null;
+  }
 
   getS3() {
     if (this._s3) return this._s3;
@@ -51,34 +54,26 @@ class FileManager {
     return `${this.getBucketUrl()}/${KEY_CLADES}/${cladeId}/${assetId}`;
   }
 
-  uploadTempImage(assetId, blob, cb) {
-    const params = { Key: this.getTempKey(assetId), Body: blob };
-    return this.getS3().putObject(params, cb);
+  uploadTempImage(assetId, blob) {
+    return this.getS3().putObject({ Key: this.getTempKey(assetId), Body: blob }).promise();
   }
 
-  destroyTempImage(assetId, cb) {
-    const params = { Key: this.getTempKey(assetId) };
-    return this.getS3().deleteObject(params, cb);
+  destroyTempImage(assetId) {
+    return this.getS3().deleteObject({ Key: this.getTempKey(assetId) }).promise();
   }
 
-  destroyCladeImage(cladeId, assetId, cb) {
-    const params = { Key: this.getCladeKey(cladeId, assetId) };
-    return this.getS3().deleteObject(params, cb);
+  destroyCladeImage(cladeId, assetId) {
+    return this.getS3().deleteObject({ Key: this.getCladeKey(cladeId, assetId) }).promise();
   }
 
-  moveTempImageToCladeFolder(assetId, cladeId, cb) {
-    let self = this;
-
+  moveTempImageToCladeFolder(assetId, cladeId) {
     const params = {
       Key: this.getCladeKey(cladeId, assetId),
       CopySource: this.getTempKey(assetId)
     };
 
-    return this.getS3().copyObject(params)
-      .on('error', cb)
-      .on('success', function() {
-        self.destroyCladeImage(assetId, cb);
-      });
+    return this.getS3().copyObject(params).promise()
+      .then(() => this.destroyTempImage(assetId));
   }
 }
 
