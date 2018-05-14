@@ -1,6 +1,9 @@
+// This function allows us to get environment variables on the frontend without
+// having to check if process exists before getting process.env.VAR
+// process.env is replaced with an object containing the environment during build-time
 function getEnv(env) {
-  if (!process || !process.env) return null;
-  return process.env[env];
+  let environment = process.env;
+  return environment[env];
 }
 
 export const config = {
