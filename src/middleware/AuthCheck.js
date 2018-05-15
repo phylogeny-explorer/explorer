@@ -9,7 +9,7 @@
  */
 
 import jwt from 'jsonwebtoken';
-import User from 'common/databases/admin/models/user';
+import { User } from 'common/databases/admin';
 import { auth } from 'common/config';
 
 /**

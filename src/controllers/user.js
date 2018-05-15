@@ -8,7 +8,7 @@
  * Copyright(c) 2016 Phylogeny Explorer
  */
 
-import User from 'common/databases/admin/models/user';
+import { User } from 'common/databases/admin';
 import { Controller } from '../modules';
 import AccessControl from '../middleware/AccessControl';
 

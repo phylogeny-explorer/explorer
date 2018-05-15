@@ -9,7 +9,7 @@
  */
 
 import { Controller } from '../modules';
-import Setting from 'common/databases/admin/models/setting';
+import { Setting } from 'common/databases/admin';
 import AccessControl from '../middleware/AccessControl';
 
 class SettingController extends Controller {

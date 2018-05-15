@@ -10,7 +10,7 @@
 
 import { Controller } from '../modules';
 import AccessControl from '../middleware/AccessControl';
-import Rule from 'common/databases/admin/models/rule';
+import { Rule } from 'common/databases/admin';
 
 class RuleController extends Controller {
 

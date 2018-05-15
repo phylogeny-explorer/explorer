@@ -9,7 +9,7 @@
  */
 
 import { Controller } from '../modules';
-import Role from 'common/databases/admin/models/role';
+import { Role } from 'common/databases/admin';
 import AccessControl from '../middleware/AccessControl';
 
 class RoleController extends Controller {

@@ -10,7 +10,7 @@
 
 import process from 'child_process';
 import { Controller } from '../modules';
-import Transaction from 'common/databases/admin/models/transaction';
+import { Transaction } from 'common/databases/admin';
 import AccessControl from '../middleware/AccessControl';
 
 class TransactionController extends Controller {
