@@ -20,6 +20,7 @@ import {
 } from 'react-bootstrap';
 import s from './Clade.css';
 import history from '../../core/history';
+import S3 from 'common/aws/s3/Frontend';
 
 let title = '';
 
@@ -69,7 +70,7 @@ class CladeView extends React.Component {
                 {this.props.clade.assets.map((asset, j) =>
                   <div key={j} className={s.thumbnail}>
                     <Image
-                      src={`https://phylex-public.s3.amazonaws.com/clades/${this.props.clade._id}/${asset.name}`}
+                      src={S3.getCladeUrl(this.props.clade._id, asset.name)}
                       thumbnail
                     />
                   </div>

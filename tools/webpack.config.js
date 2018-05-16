@@ -1,19 +1,21 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 02/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import path from 'path';
 import webpack from 'webpack';
 import extend from 'extend';
 import AssetsPlugin from 'assets-webpack-plugin';
+const GeneratePackageJsonPlugin = require('generate-package-json-webpack-plugin');
 
-const DEBUG = !process.argv.includes('--release');
+
+const IS_LOCAL = !process.argv.includes('--release');
+const BUILD_DIR = IS_LOCAL ? 'build' : 'release';
+
+console.log('Building to ../'+BUILD_DIR);
+
+const ENVIRONMENT = process.argv.includes('--release')
+  ? 'production'
+  : process.argv.includes('--staging')
+    ? 'staging'
+    : 'local';
+
 const VERBOSE = process.argv.includes('--verbose');
 const AUTOPREFIXER_BROWSERS = [
   'Android 2.3',
@@ -25,13 +27,54 @@ const AUTOPREFIXER_BROWSERS = [
   'Opera >= 12',
   'Safari >= 7.1',
 ];
+
+// Front-end globals - injected into front-end code during build time
 const GLOBALS = {
-  'process.env.NODE_ENV': DEBUG ? '"development"' : '"production"',
-  'process.env.PORT': process.env.PORT,
-  'process.env.PUBLIC_API_HOSTNAME': process.env.PUBLIC_API_HOSTNAME,
-  'process.env.ADMIN_API_HOSTNAME': process.env.ADMIN_API_HOSTNAME,
-  'process.env.WEBSITE_HOSTNAME': process.env.WEBSITE_HOSTNAME,
-  __DEV__: DEBUG,
+  local: {
+    'AWS_BUCKET'          : '"phylex-assets"',
+    'AWS_REGION'          : '"us-east-1"',
+    'PUBLIC_API_HOSTNAME' : '"local-public-api.phylogenyexplorerproject.com"',
+    'ADMIN_API_HOSTNAME'  : '"local-admin-api.phylogenyexplorerproject.com"',
+    'WEBSITE_HOSTNAME'    : '"local-explorer.phylogenyexplorerproject.com"',
+    'PORT'                : 3000,
+    __DEV__: IS_LOCAL,
+  },
+
+  staging: {
+    'AWS_BUCKET'          : '"phylex-assets"',
+    'AWS_REGION'          : '"us-east-1"',
+    'PUBLIC_API_HOSTNAME' : '"staging-public-api.phylogenyexplorerproject.com"',
+    'ADMIN_API_HOSTNAME'  : '"staging-admin-api.phylogenyexplorerproject.com"',
+    'WEBSITE_HOSTNAME'    : '"staging-explorer.phylogenyexplorerproject.com"',
+    'PORT'                : 3000,
+    __DEV__: IS_LOCAL,
+  },
+
+  production: {
+    'AWS_BUCKET'          : '"phylex-assets"',
+    'AWS_REGION'          : '"us-east-1"',
+    'PUBLIC_API_HOSTNAME' : '"public-api.phylogenyexplorerproject.com"',
+    'ADMIN_API_HOSTNAME'  : '"admin-api.phylogenyexplorerproject.com"',
+    'WEBSITE_HOSTNAME'    : '"explorer.phylogenyexplorerproject.com"',
+    'PORT'                : 3000,
+    __DEV__: IS_LOCAL,
+  }
+};
+
+
+const PACKAGE_DIR = __dirname + "/../package.json";
+const PACKAGE = require(PACKAGE_DIR);
+const COMMON_PACKAGE = require(__dirname + "/../src/common/package.json");
+
+const buildPackage = {
+  "name": PACKAGE.name,
+  "version": PACKAGE.version,
+  "private": PACKAGE.private,
+  "dependencies": COMMON_PACKAGE.dependencies,
+  "bundledDependencies": [
+    ...Object.keys(PACKAGE.dependencies).filter(x => ['.bin', 'common'].indexOf(x) === -1),
+    ...Object.keys(COMMON_PACKAGE.dependencies)
+  ]
 };
 
 //
@@ -43,7 +86,7 @@ const config = {
   context: path.resolve(__dirname, '../src'),
 
   output: {
-    path: path.resolve(__dirname, '../build/public/assets'),
+    path: path.resolve(__dirname, '../'+BUILD_DIR+'/public/assets'),
     publicPath: '/assets/',
     sourcePrefix: '  ',
   },
@@ -58,7 +101,7 @@ const config = {
         ],
         query: {
           // https://github.com/babel/babel-loader#options
-          cacheDirectory: DEBUG,
+          cacheDirectory: IS_LOCAL,
 
           // https://babeljs.io/docs/usage/options/
           babelrc: false,
@@ -69,7 +112,12 @@ const config = {
           ],
           plugins: [
             'transform-runtime',
-            ...DEBUG ? [] : [
+            ["module-resolver", {
+              "alias": {
+                "common": "./src/common"
+              }
+            }],
+            ...IS_LOCAL ? [] : [
               'transform-react-remove-prop-types',
               'transform-react-constant-elements',
               'transform-react-inline-elements',
@@ -82,12 +130,12 @@ const config = {
         loaders: [
           'isomorphic-style-loader',
           `css-loader?${JSON.stringify({
-            sourceMap: DEBUG,
+            sourceMap: IS_LOCAL,
             // CSS Modules https://github.com/css-modules/css-modules
             modules: true,
-            localIdentName: DEBUG ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
+            localIdentName: IS_LOCAL ? '[name]_[local]_[hash:base64:3]' : '[hash:base64:4]',
             // CSS Nano http://cssnano.co/options/
-            minimize: !DEBUG,
+            minimize: !IS_LOCAL,
           })}`,
           'postcss-loader?pack=default',
         ],
@@ -96,7 +144,7 @@ const config = {
         test: /\.scss$/,
         loaders: [
           'isomorphic-style-loader',
-          `sass-loader?${JSON.stringify({ sourceMap: DEBUG, minimize: !DEBUG })}`,
+          `sass-loader?${JSON.stringify({ sourceMap: IS_LOCAL, minimize: !IS_LOCAL })}`,
           'postcss-loader?pack=sass',
           'sass-loader',
         ],
@@ -113,7 +161,7 @@ const config = {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/,
         loader: 'url-loader',
         query: {
-          name: DEBUG ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
+          name: IS_LOCAL ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
           limit: 10000,
         },
       },
@@ -121,7 +169,7 @@ const config = {
         test: /\.(eot|ttf|wav|mp3)$/,
         loader: 'file-loader',
         query: {
-          name: DEBUG ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
+          name: IS_LOCAL ? '[path][name].[ext]?[hash]' : '[hash].[ext]',
         },
       },
     ],
@@ -133,12 +181,12 @@ const config = {
     extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx', '.json'],
   },
 
-  cache: DEBUG,
-  debug: DEBUG,
+  cache: IS_LOCAL,
+  debug: IS_LOCAL,
 
   stats: {
     colors: true,
-    reasons: DEBUG,
+    reasons: IS_LOCAL,
     hash: VERBOSE,
     version: VERBOSE,
     timings: true,
@@ -209,8 +257,8 @@ const clientConfig = extend(true, {}, config, {
   entry: './client.js',
 
   output: {
-    filename: DEBUG ? '[name].js?[chunkhash]' : '[name].[chunkhash].js',
-    chunkFilename: DEBUG ? '[name].[id].js?[chunkhash]' : '[name].[id].[chunkhash].js',
+    filename: IS_LOCAL ? '[name].js?[chunkhash]' : '[name].[chunkhash].js',
+    chunkFilename: IS_LOCAL ? '[name].[id].js?[chunkhash]' : '[name].[id].[chunkhash].js',
   },
   browser: { fs: false, child_process: false },
 
@@ -225,12 +273,18 @@ const clientConfig = extend(true, {}, config, {
 
     // Define free variables
     // https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-    new webpack.DefinePlugin({ ...GLOBALS, 'process.env.BROWSER': true }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: `"${ENVIRONMENT}"`,
+        ...GLOBALS[ENVIRONMENT],
+        BROWSER: true
+      }
+    }),
 
     // Emit a file with assets paths
     // https://github.com/sporto/assets-webpack-plugin#options
     new AssetsPlugin({
-      path: path.resolve(__dirname, '../build'),
+      path: path.resolve(__dirname, '../'+BUILD_DIR),
       filename: 'assets.js',
       processOutput: x => `module.exports = ${JSON.stringify(x)};`,
     }),
@@ -240,7 +294,7 @@ const clientConfig = extend(true, {}, config, {
     // https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
     new webpack.optimize.OccurrenceOrderPlugin(true),
 
-    ...DEBUG ? [] : [
+    ...IS_LOCAL ? [] : [
 
       // Search for equal or similar files and deduplicate them in the output
       // https://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
@@ -263,7 +317,7 @@ const clientConfig = extend(true, {}, config, {
 
   // Choose a developer tool to enhance debugging
   // http://webpack.github.io/docs/configuration.html#devtool
-  devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
+  devtool: IS_LOCAL ? 'cheap-module-eval-source-map' : false,
 });
 
 //
@@ -274,7 +328,7 @@ const serverConfig = extend(true, {}, config, {
   entry: './server.js',
 
   output: {
-    path: path.resolve(__dirname, '../build'),
+    path: path.resolve(__dirname, '../'+BUILD_DIR),
     filename: 'server.js',
     chunkFilename: 'server.[name].js',
     libraryTarget: 'commonjs2',
@@ -291,12 +345,19 @@ const serverConfig = extend(true, {}, config, {
 
     // Define free variables
     // https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-    new webpack.DefinePlugin({ 'process.env.BROWSER': false }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: `"${ENVIRONMENT}"`,
+        BROWSER: false
+      }
+    }),
 
     // Adds a banner to the top of each generated chunk
     // https://webpack.github.io/docs/list-of-plugins.html#bannerplugin
     new webpack.BannerPlugin('require("source-map-support").install();',
       { raw: true, entryOnly: false }),
+
+    new GeneratePackageJsonPlugin(buildPackage, PACKAGE_DIR),
   ],
 
   node: {

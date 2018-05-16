@@ -13,6 +13,10 @@ import gaze from 'gaze';
 import Promise from 'bluebird';
 import fs from './lib/fs';
 import pkg from '../package.json';
+
+const IS_LOCAL = !process.argv.includes('--release');
+const BUILD_DIR = IS_LOCAL ? 'build' : 'release';
+
 /**
  * Copies static files such as robots.txt, favicon.ico to the
  * output (build) folder.
@@ -21,12 +25,12 @@ async function copy({ watch } = {}) {
   const ncp = Promise.promisify(require('ncp'));
 
   await Promise.all([
-    ncp('node_modules/bootstrap/dist/css', 'build/public/css'),
-    ncp('node_modules/bootstrap/dist/fonts', 'build/public/fonts'),
-    ncp('src/public', 'build/public'),
+    ncp('node_modules/bootstrap/dist/css', BUILD_DIR+'/public/css'),
+    ncp('node_modules/bootstrap/dist/fonts', BUILD_DIR+'/public/fonts'),
+    ncp('src/public', BUILD_DIR+'/public'),
   ]);
 
-  await fs.writeFile('./build/package.json', JSON.stringify({
+  await fs.writeFile('./'+BUILD_DIR+'/package.json', JSON.stringify({
     private: true,
     engines: pkg.engines,
     dependencies: pkg.dependencies,
@@ -42,7 +46,7 @@ async function copy({ watch } = {}) {
 
     const cp = async (file) => {
       const relPath = file.substr(path.join(__dirname, '../src/content/').length);
-      await ncp(`src/content/${relPath}`, `build/content/${relPath}`);
+      await ncp(`src/content/${relPath}`, `${BUILD_DIR}/content/${relPath}`);
     };
 
     watcher.on('changed', cp);

@@ -1,4 +1,6 @@
 {
+  "name": "front-end",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "node": ">=5.0 <7",
@@ -11,6 +13,7 @@
     "body-parser": "1.15.2",
     "bootstrap": "^3.3.7",
     "classnames": "2.2.5",
+    "common": "file:src/common",
     "compression": "^1.6.2",
     "cookie-parser": "1.4.3",
     "core-js": "2.4.1",
@@ -59,6 +62,7 @@
     "babel-core": "^6.14.0",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.5",
+    "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-react-transform": "^2.0.2",
     "babel-plugin-rewire": "^1.0.0-rc-7",
     "babel-plugin-transform-react-constant-elements": "^6.9.1",
@@ -86,6 +90,7 @@
     "extend": "^3.0.0",
     "file-loader": "^0.9.0",
     "gaze": "^1.1.1",
+    "generate-package-json-webpack-plugin": "^1.0.0",
     "git-repository": "^0.1.4",
     "glob": "^7.0.6",
     "json-loader": "^0.5.4",
@@ -194,8 +199,10 @@
     "copy": "babel-node tools/run copy",
     "bundle": "babel-node tools/run bundle",
     "build": "babel-node tools/run build",
+    "build:release": "babel-node tools/run build --release",
     "deploy": "babel-node tools/run deploy",
     "render": "babel-node tools/run render",
-    "start": "babel-node tools/run start"
+    "start": "babel-node tools/run start",
+    "postinstall": "npm install ./src/common"
   }
 }

@@ -31,6 +31,7 @@ import Request from '../../../core/Request';
 import history from '../../../core/history';
 import Search from '../../../components/Search';
 import PhylexEditor from '../../../components/Editor';
+import S3 from 'common/aws/s3/Frontend';
 
 let title = '';
 
@@ -260,7 +261,7 @@ class CladeForm extends React.Component {
         name: this.props.clade.assets[i].name,
         isDefault: this.props.clade.assets[i].isDefault,
         folder: 'clades',
-        link: `https://phylex-public.s3.amazonaws.com/clades/${this.props.clade._id}/${this.props.clade.assets[i].name}`,
+        link: S3.getCladeUrl(this.props.clade._id, this.props.clade.assets[i].name),
       });
     }
     return existingAssets;
