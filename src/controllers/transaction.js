@@ -8,25 +8,11 @@
  * Copyright(c) 2016 Phylogeny Explorer
  */
 
-import process from 'child_process';
 import { Controller } from '../modules';
 import { Transaction } from 'common/databases/admin';
 import AccessControl from '../middleware/AccessControl';
 
 class TransactionController extends Controller {
-
-  static invokeCladeTransactionProcessing(id, cb) {
-    const exec = process.exec;
-    const cmd = `npm --prefix /Projects/phylex/admin-api-daemon/ run execute -- --transactionId ${id}`;
-
-    exec(cmd, (error, stdout, stderr) => {
-      console.error(stdout);
-      if (stderr) {
-        console.error(stderr);
-      }
-      cb();
-    });
-  }
 
   constructor() {
     super(AccessControl);
@@ -76,15 +62,7 @@ class TransactionController extends Controller {
     }
     transaction.created = Date.now();
     transaction.modified = null;
-    transaction.save((err, tr) => {
-      if (transaction.data.after.name === null && transaction.mode === 'CREATE') {
-        TransactionController.invokeCladeTransactionProcessing(transaction._id, () => {
-          this.handleResponse(res, next, err, tr);
-        });
-      } else {
-        this.handleResponse(res, next, err, tr);
-      }
-    });
+    transaction.save((err, tr) => this.handleResponse(res, next, err, tr));
   }
 
   // updateCladeTransaction(req, res, next) {
