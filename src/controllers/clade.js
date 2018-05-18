@@ -1,15 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 30/09/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
-import mongoose from 'mongoose';
-
 import { Tree, Controller } from '../modules';
 import { Clade } from 'common/databases/public';
 import AccessControl from '../middleware/AccessControl';

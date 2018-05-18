@@ -22,7 +22,6 @@ const controller = new CladeController();
 const router = new Router(controller);
 
 router
-  .get('/clades/generate', controller.generate)
   .get('/clades/tree', controller.getClades)
   .get('/clades/tree/:id/', controller.getClades)
   .get('/clades/tree/depth/:depth', controller.getClades)
