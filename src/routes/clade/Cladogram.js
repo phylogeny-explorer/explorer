@@ -67,7 +67,8 @@ class Cladogram extends React.Component {
 
   async pollData() {
     if (this.isCladogramMounted) {
-      const response = await new Request(`/clades/tree/${this.state.root._id}`, 'GET', {}, Request.endPoints.public).fetch();
+      const response = await new Request(`/clades/tree/${this.state.root._id}/depth/${this.state.depth}`,
+        'GET', {}, Request.endPoints.public).fetch();
       this.setState({root: response.root});
     }
 
