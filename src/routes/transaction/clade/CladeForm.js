@@ -78,6 +78,7 @@ class CladeForm extends React.Component {
         assets: [],
       };
     }
+    this.state.submitting = false;
     this.onDescriptionChange = this.onDescriptionChange.bind(this);
   }
 
@@ -126,12 +127,16 @@ class CladeForm extends React.Component {
       }
     }
 
+    this.setState({ submitting: true });
+
     const resp = await new Request('/transactions', 'POST', payload).fetch();
 
     const key = resp._id;
 
     if (key !== '') {
       history.goBack();
+    } else {
+      this.setState({ submitting: false });
     }
   }
 
@@ -547,10 +552,10 @@ class CladeForm extends React.Component {
               </Radio>
             </FormGroup>
             <ButtonToolbar>
-              <Button type="submit" bsStyle={this.getButtonStyle()}>
+              <Button type="submit" bsStyle={this.getButtonStyle()} disabled={this.state.submitting}>
                 {this.props.mode}
               </Button>
-              <Button type="button" bsStyle="warning" onClick={(e) => this.onCancel(e)}>
+              <Button type="button" bsStyle="warning" onClick={(e) => this.onCancel(e)} disabled={this.state.submitting}>
                 Cancel
               </Button>
             </ButtonToolbar>

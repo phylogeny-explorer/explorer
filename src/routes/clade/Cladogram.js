@@ -39,21 +39,14 @@ class Cladogram extends React.Component {
       context.setTitle(title);
     }
     this.prepareState(props);
-    this.isCladogramMounted = false;
   }
 
   componentDidMount() {
-    this.isCladogramMounted = true;
     const dims = document.getElementsByClassName(s.container)[0];
     this.setState({
       width: dims.clientWidth,
       height: dims.clientHeight + 100,
     });
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this._timeout);
-    this.isCladogramMounted = false;
   }
 
   componentWillReceiveProps(newProps) {
@@ -63,16 +56,6 @@ class Cladogram extends React.Component {
       height: this.state.height,
     });
     this.prepareState(newProps);
-  }
-
-  async pollData() {
-    if (this.isCladogramMounted) {
-      const response = await new Request(`/clades/tree/${this.state.root._id}/depth/${this.state.depth}`,
-        'GET', {}, Request.endPoints.public).fetch();
-      this.setState({root: response.root});
-    }
-
-    this._timeout = setTimeout(this.pollData.bind(this), 5000);
   }
 
   onChangeDepth(e) {
@@ -112,7 +95,6 @@ class Cladogram extends React.Component {
       width: 0,
       height: 0,
     };
-    this._timeout = setTimeout(this.pollData.bind(this), 5000);
   }
 
   render() {
@@ -148,6 +130,9 @@ class Cladogram extends React.Component {
                 <option value="4">4</option>
                 <option value="5">5</option>
                 <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
               </FormControl>
             </FormGroup>
             &nbsp;&nbsp;&nbsp;&nbsp;
