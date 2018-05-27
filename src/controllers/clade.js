@@ -10,7 +10,7 @@ class CladeController extends Controller {
 
   getClades(req, res, next) {
     const nodeId = req.params.id || '55ae8ce9343108fa191058d2'; // Root node
-    const depth = Math.min(Number.parseInt(req.params.depth, 10) || 3, 6);
+    const depth = Math.min(Number.parseInt(req.params.depth, 10) || 3, 9);
     Clade.findById(nodeId, '-__v', (err, clade) => {
       if (clade) {
         const tree = new Tree(Clade, clade.toObject(), depth, result =>
