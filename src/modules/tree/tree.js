@@ -50,7 +50,7 @@ class Tree {
     if (nodeIds.length > 1000) {
       console.warn('Warning: your are exceeding the safe id count');
     }
-    this._schema.find({ parent: { $in: nodeIds } }, (err2, children) => {
+    this._schema.find({ parent: { $in: nodeIds } }, null, { sort: 'name' }, (err2, children) => {
       for (let i = 0; i < children.length; i += 1) {
         const child = children[i].toObject();
         child.children = [];
