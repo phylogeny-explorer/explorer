@@ -12,6 +12,8 @@ import { Controller } from '../modules';
 import { Transaction } from 'common/databases/admin';
 import AccessControl from '../middleware/AccessControl';
 
+import Promise from 'bluebird';
+
 class TransactionController extends Controller {
 
   constructor() {
@@ -55,14 +57,27 @@ class TransactionController extends Controller {
     transaction.mode = req.body.mode.toUpperCase();
     transaction.user = userId;
     transaction.type = 'CLADE';
-    if (transaction.mode === 'DESTROY' && hasChildren) {
-      transaction.status = 'REVIEW';
-    } else {
-      transaction.status = 'PENDING';
-    }
+    transaction.status = (transaction.mode === 'DESTROY' && hasChildren) ? 'REVIEW' : 'PENDING';
     transaction.created = Date.now();
     transaction.modified = null;
-    transaction.save((err, tr) => this.handleResponse(res, next, err, tr));
+
+    // When the transaction is saved, start watching it for completion. When done, return a response.
+    // This is a really hacky way to make sure new and updated clades appear on the cladogram when
+    // the form redirects to it after submission.
+    transaction.save()
+      .then((trans) => (new Promise((resolve, reject) => this.checkTransaction(trans, resolve, reject))))
+      .then((trans) => this.handleResponse(res, next, null, trans))
+      .catch((err) => this.handleResponse(res, next, err))
+    ;
+  }
+
+  checkTransaction(transaction, resolve, reject) {
+    Transaction.findOne({ _id: transaction._id })
+      .then((trans) => {
+        if (trans.status === 'DONE') resolve(trans);
+        else setTimeout(() => this.checkTransaction(transaction, resolve, reject), 1000);
+      })
+      .catch(reject);
   }
 
   // updateCladeTransaction(req, res, next) {
