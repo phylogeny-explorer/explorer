@@ -11,9 +11,10 @@
 @import '../variables.css';
 
 .root {
-  background: #333;
-  color: #fff;
-  min-height: 50px;
+  min-height: 20px;
+  position: absolute;
+  bottom: 5px;
+  left: 0;
 }
 
 .container {
@@ -24,31 +25,7 @@
 }
 
 .text {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.textMuted {
-  composes: text;
-  color: rgba(255, 255, 255, 0.3);
-}
-
-.spacer {
-  color: rgba(255, 255, 255, 0.3);
-}
-
-.text,
-.link {
-  padding: 2px 5px;
-  font-size: 1em;
-}
-
-.link,
-.link:active,
-.link:visited {
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-}
-
-.link:hover {
-  color: rgba(255, 255, 255, 1);
+  color: #333;
+  font-size: 0.7em;
+  padding-left: 5px;
 }

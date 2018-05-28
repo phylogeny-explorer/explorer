@@ -118,14 +118,13 @@ class Search extends React.Component {
         onChange={(event, value) => this.onChange(event, value)}
         renderItem={(item, isHighlighted) => this.onRenderItem(item, isHighlighted)}
         menuStyle={{
-          borderRadius: '3px',
-          boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
           background: 'rgba(255, 255, 255, 0.9)',
           padding: '2px 0',
           fontSize: '90%',
           position: 'absolute',
           overflow: 'auto',
           maxHeight: '50%',
+          minHeight: '200px',
           zIndex: '1000',
         }}
         wrapperStyle={{ display: this.props.inline ? 'inline-block' : 'block', }}

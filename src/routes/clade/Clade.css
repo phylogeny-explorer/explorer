@@ -1,17 +1,21 @@
 @import '../../components/variables.css';
 
-.root {
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
 .container {
   margin: 0 auto;
-  padding: 0 0 40px;
-  max-width: var(--max-content-width);
-  min-height: 700px;
+  padding: 0;
+  width: 100%;
+  position: absolute;
+  top: 52px;
+  left: 0;
 }
 
+.container svg {
+  cursor: grab;
+}
+
+.container svg.moving {
+  cursor: grabbing;
+}
 
 .edge {
   fill: none;
@@ -50,3 +54,29 @@
   width: 300px;
 }
 
+.trigger_button {
+  padding: 0 5px;
+  height: 22px;
+}
+
+.trigger_button span {
+  padding-top: 3px;
+}
+
+.search_form {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  padding-right: 5px;
+}
+
+.search_form input,
+.search_form select {
+  border: 0;
+  box-shadow: none;
+  outline: 0;
+  border-radius: 0;
+}

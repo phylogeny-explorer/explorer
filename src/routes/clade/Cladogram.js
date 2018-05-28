@@ -45,7 +45,7 @@ class Cladogram extends React.Component {
     const dims = document.getElementsByClassName(s.container)[0];
     this.setState({
       width: dims.clientWidth,
-      height: dims.clientHeight + 100,
+      height: window.innerHeight - 52,
     });
   }
 
@@ -94,62 +94,57 @@ class Cladogram extends React.Component {
       id: props.root._id,
       width: 0,
       height: 0,
+      scale: 1,
     };
   }
 
   render() {
     return (
-      <div className={s.root}>
-        <div className={s.container}>
-          <h1>{title}</h1>
-          <Form inline>
-            <FormGroup controlId="search">
-              <ControlLabel>Search</ControlLabel>
-              &nbsp;&nbsp;
-              <Search
-                id="search"
-                name="search"
-                placeholder="Start typing the clade's name"
-                onSelect={(id, value) => this.onSelectClade(id, value)}
-                onSearch={(name, cb) => this.onSearchClade(name, cb)}
-                inline
-              />
-            </FormGroup>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <FormGroup controlId="depth">
-              <ControlLabel>Depth</ControlLabel>
-              &nbsp;&nbsp;
-              <FormControl
-                componentClass="select"
-                value={this.state.depth}
-                onChange={(e) => this.onChangeDepth(e)}
-                required
-              >
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-              </FormControl>
-            </FormGroup>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <FormGroup>
-              <FormControl.Static>
-                <HelpBlock><i>Actual Depth:  {this.state.actualDepth}</i></HelpBlock>
-              </FormControl.Static>
-            </FormGroup>
-          </Form>
-          <Tree
-            root={this.state.root}
-            width={this.state.width}
-            height={this.state.height}
-            onSelectNode={(e) => this.onSelectNode(e)}
-            popoverComponent={CladePopover}
-          />
-        </div>
+      <div className={s.container}>
+        <Form inline className={s.search_form}>
+          <FormGroup controlId="search">
+            <Search
+              id="search"
+              name="search"
+              placeholder="Search for Clade"
+              onSelect={(id, value) => this.onSelectClade(id, value)}
+              onSearch={(name, cb) => this.onSearchClade(name, cb)}
+              inline
+            />
+          </FormGroup>
+          &nbsp;&nbsp;|&nbsp;&nbsp;
+          <FormGroup controlId="depth">
+            <FormControl
+              componentClass="select"
+              value={this.state.depth}
+              onChange={(e) => this.onChangeDepth(e)}
+              required
+            >
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+            </FormControl>
+          </FormGroup>
+          {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
+          {/*<FormGroup className={s.actual_depth}>*/}
+            {/*<FormControl.Static>*/}
+              {/*<HelpBlock><i>Actual Depth:  {this.state.actualDepth}</i></HelpBlock>*/}
+            {/*</FormControl.Static>*/}
+          {/*</FormGroup>*/}
+        </Form>
+        <Tree
+          root={this.state.root}
+          width={this.state.width}
+          height={this.state.height}
+          onSelectNode={(e) => this.onSelectNode(e)}
+          popoverComponent={CladePopover}
+          depth={this.state.actualDepth}
+        />
       </div>
     );
   }

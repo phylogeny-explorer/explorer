@@ -12,6 +12,7 @@ import React, { PropTypes } from 'react';
 import { OverlayTrigger, Button, Popover, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 import Link from '../../components/Link';
 import history from '../../core/history';
+import s from './Clade.css';
 
 class CladePopover extends React.Component {
 
@@ -36,12 +37,10 @@ class CladePopover extends React.Component {
 
 
   render() {
-    const coords = { x: '-11', y: '2' };
-
-    if (!this.props.hasChildren) {
-      coords.x = 3;
-      coords.y = -13;
-    }
+    const coords = {
+      x: 5,
+      y: -12
+    };
 
     let description = this.props.description || (<i>No description available</i>);
 
@@ -70,7 +69,7 @@ class CladePopover extends React.Component {
     return (
       <foreignObject width="24px" height="22px" x={coords.x} y={coords.y}>
         <OverlayTrigger trigger="click" rootClose placement="top" overlay={actualWindow}>
-          <Button type="button" bsSize="xsmall">
+          <Button type="button" bsSize="xsmall" className={s.trigger_button}>
             <span
               className="glyphicon glyphicon-option-horizontal"
               style={{ position: 'static' }}

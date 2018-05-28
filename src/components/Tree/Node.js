@@ -29,10 +29,12 @@ class Node extends React.Component {
     super(props);
     this.state = {
       show: false,
+      dragging: props.dragging
     };
   }
 
   onClick() {
+    if (this.state.dragging) return;
     this.props.onSelect({
       id: this.props.id,
       name: this.props.name,
@@ -46,11 +48,11 @@ class Node extends React.Component {
         className={`${s.node} ${this.props.hasChildren ? s.node_internal : s.node_internal}`}
         transform={`translate(${this.props.y}, ${this.props.x})`}
       >
-        <circle r={this.props.hasChildren ? 3 : 1} />
+        <circle r="3" />
         <text
           id={this.props.id}
           onClick={(e) => this.onClick(e)}
-          dx={this.props.hasChildren ? -2 : 28}
+          dx={this.props.hasChildren ? -2 : 32}
           dy={this.props.hasChildren ? -5 : 4}
           textAnchor={this.props.hasChildren ? 'end' : 'start'}
         >
