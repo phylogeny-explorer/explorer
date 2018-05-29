@@ -16,6 +16,7 @@ function Footer() {
   const date = new Date();
   return (
     <div className={`${s.root}`}>
+      <img id="logo" src="/logo.png" className={s.logo} />
       <span className={s.text}>©{date.getFullYear()} Phylogeny Explorer Project</span>
     </div>
   );

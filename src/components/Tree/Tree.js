@@ -13,7 +13,7 @@ import * as d3 from 'd3';
 import Node from './Node';
 import Edge from './Edge';
 
-const NODE_WIDTH = 300;
+const NODE_WIDTH = 400;
 const NODE_HEIGHT = 24;
 
 class Tree extends React.Component {
@@ -100,22 +100,31 @@ class Tree extends React.Component {
   }
 
   drawNodes() {
-    return this.state.tree.descendants().map((node, index) =>
-      (
-        <Node
-          key={index}
-          k={index}
-          hasChildren={!!node.children}
-          name={node.data.name}
-          id={node.data._id}
-          description={node.data.description}
-          x={node.x}
-          y={node.y}
-          onSelect={(e) => this.props.onSelectNode(e)}
-          nodePopoverComponent={this.props.popoverComponent}
-          dragging={this.state.dragging}
-        />
-      )
+    let previousNode = null;
+    return this.state.tree.descendants().map((node, index) => {
+        let nodeEl = (
+          <Node
+            key={index}
+            k={index}
+            hasChildren={!!node.children}
+            name={node.data.name}
+            extinct={!node.data.extant}
+            id={node.data._id}
+            description={node.data.description}
+            x={node.x}
+            y={node.y}
+            onSelect={(e) => this.props.onSelectNode(e)}
+            nodePopoverComponent={this.props.popoverComponent}
+            dragging={this.state.dragging}
+            parentX={node.parent ? node.parent.x : 0}
+            siblingX={previousNode && previousNode.depth === node.depth ? previousNode.x : null}
+          />
+        );
+
+        previousNode = node;
+
+        return nodeEl;
+      }
     );
   }
 

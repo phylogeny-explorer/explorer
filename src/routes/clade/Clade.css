@@ -20,8 +20,8 @@
 .edge {
   fill: none;
   stroke: #555;
-  stroke-opacity: 0.4;
-  stroke-width: 1.5px;
+  stroke-opacity: 1;
+  stroke-width: 2px;
 }
 
 .node circle {

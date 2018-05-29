@@ -23,6 +23,7 @@ class Node extends React.Component {
     hasChildren: PropTypes.bool.isRequired,
     onSelect: PropTypes.any,
     nodePopoverComponent: PropTypes.any,
+    parentX: PropTypes.number,
   };
 
   constructor(props) {
@@ -41,6 +42,17 @@ class Node extends React.Component {
     });
   }
 
+  getLabeYPos() {
+    let pos = 4;
+
+    if (this.props.hasChildren) {
+      // If parent is higher than node, place label underneath node
+      pos = (this.props.parentX < this.props.x) ? 12 : -5;
+    }
+
+    return pos;
+  }
+
   render() {
     const PopOver = this.props.nodePopoverComponent;
     return (
@@ -53,12 +65,13 @@ class Node extends React.Component {
           id={this.props.id}
           onClick={(e) => this.onClick(e)}
           dx={this.props.hasChildren ? -2 : 32}
-          dy={this.props.hasChildren ? -5 : 4}
+          dy={this.getLabeYPos()}
           textAnchor={this.props.hasChildren ? 'end' : 'start'}
         >
+          {this.props.extinct && "†"}
           {this.props.name || '[UNNAMED]'}
         </text>
-        { this.props.name === 'Root' ? '' :
+        { this.props.name === 'Biota' ? '' :
           <PopOver
             id={this.props.id}
             name={this.props.name}

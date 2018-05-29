@@ -29,9 +29,17 @@ class Edge extends React.Component {
       + " " + node.y + "," + node.x;
   }
 
+  getDasharray() {
+    return this.props.datum.certainty > 0 ? '5, 5' : '0';
+  }
+
   render() {
     return (
-      <path className={s.edge} d={this.drawPath(this.props.datum)} />
+      <path
+        className={s.edge}
+        d={this.drawPath(this.props.datum)}
+        strokeDasharray={this.getDasharray()}
+      />
     );
   }
 

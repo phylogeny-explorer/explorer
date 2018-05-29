@@ -12,7 +12,7 @@
 
 .root {
   min-height: 20px;
-  position: absolute;
+  position: fixed;
   bottom: 5px;
   left: 0;
 }
@@ -28,4 +28,11 @@
   color: #333;
   font-size: 0.7em;
   padding-left: 5px;
+}
+
+.logo {
+  width: 80px;
+  position: fixed;
+  bottom: 30px;
+  left: 10px;
 }
