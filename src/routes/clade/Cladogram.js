@@ -14,6 +14,7 @@ import {
   FormControl,
   Form,
   HelpBlock,
+  Button,
 } from 'react-bootstrap';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Clade.css';
@@ -39,6 +40,7 @@ class Cladogram extends React.Component {
       context.setTitle(title);
     }
     this.prepareState(props);
+    this.resetView = this.resetView.bind(this);
   }
 
   componentDidMount() {
@@ -95,7 +97,13 @@ class Cladogram extends React.Component {
       width: 0,
       height: 0,
       scale: 1,
+      matrix: [1, 0, 0, 1, 0, 0]
     };
+  }
+
+  resetView(e) {
+    e.preventDefault();
+    this.setState({matrix: [1,0,0,1,0,0]});
   }
 
   render() {
@@ -130,12 +138,6 @@ class Cladogram extends React.Component {
               <option value="9">9</option>
             </FormControl>
           </FormGroup>
-          {/*&nbsp;&nbsp;&nbsp;&nbsp;*/}
-          {/*<FormGroup className={s.actual_depth}>*/}
-            {/*<FormControl.Static>*/}
-              {/*<HelpBlock><i>Actual Depth:  {this.state.actualDepth}</i></HelpBlock>*/}
-            {/*</FormControl.Static>*/}
-          {/*</FormGroup>*/}
         </Form>
         <Tree
           root={this.state.root}
@@ -144,7 +146,13 @@ class Cladogram extends React.Component {
           onSelectNode={(e) => this.onSelectNode(e)}
           popoverComponent={CladePopover}
           depth={this.state.actualDepth}
+          matrix={this.state.matrix}
         />
+        <Button
+          bsStyle="default"
+          className={s.reset_button}
+          onClick={e => this.resetView(e)}
+        ><span className="glyphicon glyphicon-screenshot"></span></Button>
       </div>
     );
   }

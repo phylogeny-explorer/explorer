@@ -80,3 +80,9 @@
   outline: 0;
   border-radius: 0;
 }
+
+.reset_button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}

@@ -12,6 +12,7 @@ import React from 'react';
 import AutoComplete from 'react-autocomplete';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Search.css';
+import debounce from 'throttle-debounce/debounce';
 
 class Search extends React.Component {
   static propTypes = {
@@ -33,6 +34,7 @@ class Search extends React.Component {
       items: this.props.items || [],
       loading: false,
     };
+    this.search = debounce(300, this.search.bind(this));
   }
 
   onSelect(value, item) {
@@ -49,24 +51,19 @@ class Search extends React.Component {
   onChange(e, value) {
     e.preventDefault();
     this.setState({ value, loading: true });
+    if (!value.length) {
+      this.setState({items:[], loading: false});
+      return;
+    }
+    this.search(value);
+  }
+
+  search(value) {
     this.props.onSearch(value, (items) => {
+      if (this.state.value.length === 0) items = [];
       this.setState({ items, loading: false });
     });
   }
-
-  // onRenderMenu(items, value, style) {
-  //   return (
-  //     <div className={s.menu} style={{ ...style }}>
-  //       {value === '' ? (
-  //         <div style={{ padding: 6 }}>Please type a name of a {this.props.name}</div>
-  //       ) : this.state.loading ? (
-  //         <div style={{ padding: 6 }}>Loading...</div>
-  //       ) : items.length === 0 ? (
-  //         <div style={{ padding: 6 }}>No matches for {value}</div>
-  //       ) : this.onRenderItems(items)}
-  //     </div>
-  //   );
-  // }
 
   onRenderItem(item, isHighlighted) {
     return (
@@ -76,23 +73,6 @@ class Search extends React.Component {
         id={item._id}
       >{item.name}</div>);
   }
-
-  // onRenderItems(items) {
-  //   return items.map((item, index) => {
-  //     const text = item.props.children;
-  //     if (index === 0 || items[index - 1].props.children.charAt(0) !== text.charAt(0)) {
-  //       const style = {
-  //         background: '#eee',
-  //         color: '#454545',
-  //         padding: '2px 6px',
-  //         fontWeight: 'bold',
-  //       };
-  //       return [<div style={style}>{text.charAt(0)}</div>, item];
-  //     } else {
-  //       return item;
-  //     }
-  //   });
-  // }
 
   resetComponent() {
     this.setState({
@@ -123,9 +103,11 @@ class Search extends React.Component {
           fontSize: '90%',
           position: 'absolute',
           overflow: 'auto',
-          maxHeight: '50%',
-          minHeight: '200px',
+          maxHeight: '400px',
           zIndex: '1000',
+          top: '36px',
+          left: 0,
+          boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
         }}
         wrapperStyle={{ display: this.props.inline ? 'inline-block' : 'block', }}
       />

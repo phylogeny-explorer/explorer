@@ -34,11 +34,15 @@ class Tree extends React.Component {
     this.onDragStart = this.onDragStart.bind(this);
     this.onDragMove = this.onDragMove.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
-    this.zoom = this.zoom.bind(this);
   }
 
   componentWillReceiveProps(props) {
+    this.needsInitPan = true;
     this.draw(props);
+  }
+
+  componentDidUpdate() {
+    if (this.needsInitPan) this.doInitialPan();
   }
 
   draw(props) {
@@ -49,12 +53,39 @@ class Tree extends React.Component {
       tree: compiledTree,
       width: props.width,
       height: props.height,
-      matrix: [1, 0, 0, 1, 0, 0],
+      depth: props.depth,
+      matrix: props.matrix,
       dragging: false,
     };
+  }
 
-    const left = (NODE_WIDTH*props.depth > props.width) ? 150 : ((props.width/2) - (NODE_WIDTH*props.depth/2));
-    this.pan(left, props.height/2);
+  // Center the cladogram or align root node for best initial view.
+  doInitialPan() {
+    this.needsInitPan = false;
+    this.setState({ matrix: [1, 0, 0, 1, 0, 0]});
+
+    const cladogram = document.getElementById('cladogram');
+    const height = cladogram.getBBox().height;
+    const width = cladogram.getBBox().width;
+
+    const clientHeight = window.innerHeight - 52;
+
+    // Get the x coord of the top of the tree
+    let treeTopX = 0;
+    this.state.tree.descendants().forEach(node => { treeTopX = Math.min(treeTopX, node.x) });
+
+    // Center the tree horizontally if possible, otherwise position root node 150px from left side
+    const left = (width > window.innerWidth) ? 150 : ((window.innerWidth/2) - (width/2));
+
+    // Center the root node vertically
+    let top = clientHeight/2;
+
+    // If cladogram fits in screen, center the whole tree vertically
+    if (height < clientHeight) {
+      top = Math.abs(treeTopX) + (clientHeight/2) - (height/2);
+    }
+
+    this.pan(left, top);
   }
 
   drawEdges() {
@@ -74,7 +105,7 @@ class Tree extends React.Component {
         <Node
           key={index}
           k={index}
-          hasChildren={node.children ? true : false}
+          hasChildren={!!node.children}
           name={node.data.name}
           id={node.data._id}
           description={node.data.description}
@@ -95,23 +126,23 @@ class Tree extends React.Component {
     this.setState({ matrix });
   }
 
-  zoom(scale) {
+  onWheel(e) {
+    let scale = (e.deltaY < 0) ? 1.2 : 0.8;
+
+    const x = typeof e.clientX === 'undefined' ? e.changedTouches[0].clientX : e.clientX;
+    const y = typeof e.clientY === 'undefined' ? e.changedTouches[0].clientY : e.clientY;
+
     const matrix = this.state.matrix;
     const len = matrix.length;
+
     for (let i = 0; i < len; i++) {
       matrix[i] *= scale;
     }
-    matrix[4] += (1 - scale) * this.props.width / 2;
-    matrix[5] += (1 - scale) * this.props.height / 2;
-    this.setState({ matrix });
-  }
 
-  onWheel(e) {
-    if (e.deltaY < 0) {
-      this.zoom(1.05);
-    } else {
-      this.zoom(0.95);
-    }
+    matrix[4] += (1 - scale) * x;
+    matrix[5] += (1 - scale) * y;
+
+    this.setState({ matrix });
   }
 
   onDragStart(e) {
@@ -132,14 +163,10 @@ class Tree extends React.Component {
   onDragMove(e) {
     if(e.stopPropagation) e.stopPropagation();
     if(e.preventDefault) e.preventDefault();
-    e.cancelBubble=true;
-    e.returnValue=false;
 
     // First check if the state is dragging, if not we can just return
     // so we do not move unless the user wants to move
-    if (!this.state.dragging) {
-      return;
-    }
+    if (!this.state.dragging) return;
 
     // Get the new x and y coordinates
     const x = typeof e.clientX === 'undefined' ? e.changedTouches[0].clientX : e.clientX;
@@ -175,8 +202,9 @@ class Tree extends React.Component {
            onTouchEnd={(event) => this.onDragEnd(event)}
            onWheel={(event) => this.onWheel(event)}
            className={this.state.dragging ? 'moving': ''}
+           id="cladogram_svg"
       >
-        <g transform={`matrix(${this.state.matrix.join(' ')})`}>
+        <g transform={`matrix(${this.state.matrix.join(' ')})`} id="cladogram">
           {this.drawEdges()}
           {this.drawNodes()}
         </g>
