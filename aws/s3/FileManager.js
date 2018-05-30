@@ -69,7 +69,7 @@ class FileManager {
   moveTempImageToCladeFolder(assetId, cladeId) {
     const params = {
       Key: this.getCladeKey(cladeId, assetId),
-      CopySource: this.getTempKey(assetId)
+      CopySource: `${this.getBucketName()}/${this.getTempKey(assetId)}`
     };
 
     return this.getS3().copyObject(params).promise()
