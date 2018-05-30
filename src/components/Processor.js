@@ -1,17 +1,17 @@
 import mongoose from "mongoose";
 import { Transaction } from "common/databases/admin";
-import CP from "./CentralProcessor";
+import CTP from './CladeTransactionProcessor';
+
+const TIMEOUT = 1000;
 
 class Processor {
-  constructor(timeout) {
-    this._timeout = timeout || 1000;
-
-    // Do some icky bindings so we don't have to every time we use a function. Yuck.
+  constructor() {
     this.start = this.start.bind(this);
     this.doQuery = this.doQuery.bind(this);
     this.loop = this.loop.bind(this);
     this.handleError = this.handleError.bind(this);
     this.processTransactions = this.processTransactions.bind(this);
+    this.process = this.process.bind(this);
   }
 
   start() {
@@ -29,12 +29,11 @@ class Processor {
   }
 
   loop() {
-    setTimeout(this.doQuery, this._timeout); // running on a timeout prevents overloading the system
+    setTimeout(this.doQuery, TIMEOUT); // running on a timeout prevents overloading the system
   }
 
   handleError(err) {
-    if (err) console.error(err);
-    return null;
+    console.error(err);
   }
 
   processTransactions(transactions) {
@@ -42,15 +41,28 @@ class Processor {
 
     const cycle = new mongoose.Types.ObjectId();
     console.log(`Found ${transactions.length} transactions. Cycle: ${cycle}`);
+    return Promise.all(transactions.map((transaction, i) => this.process(transaction, i, cycle)));
+  }
 
-    transactions.forEach((transaction, k) => {
-      transaction.cycle = cycle;
-      console.log(`${k + 1} - Processing transaction Id: ${transaction._id}, Mode: ${transaction.mode}`);
-      const cp = new CP(transaction, k, this.handleError);
-      cp.process();
-    });
+  process(transaction, i, cycle) {
+    transaction.cycle = cycle;
+    console.log(`${i + 1} - Processing transaction Id: ${transaction._id}, Mode: ${transaction.mode}`);
 
-    return null;
+    const ctp = new CTP(transaction);
+
+    switch (transaction.mode) {
+      case 'UPDATE':
+        return ctp.updateClade();
+
+      case 'CREATE':
+        return ctp.createClade();
+
+      case 'DESTROY':
+        return ctp.destroyClade();
+
+      default:
+        throw new Error('Unknown transaction mode: ' + transaction.mode);
+    }
   }
 }
 

@@ -1,110 +1,77 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 01/12/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
-import async from 'async';
 import { Clade } from 'common/databases/public';
 import { S3 } from 'common/aws';
 
-class CladeTransactionProcessor {
-  constructor(transaction, index, cb) {
+export default class CladeTransactionProcessor {
+  constructor(transaction) {
     this._transaction = transaction;
-    this._index = index;
-    this._callback = cb;
+    this._completeTransaction = this._completeTransaction.bind(this);
+    this._failTransaction = this._failTransaction.bind(this);
+    this._registerAssets = this._registerAssets.bind(this);
+    this._deleteAssets = this._deleteAssets.bind(this);
+    this._saveDataToClade = this._saveDataToClade.bind(this);
   }
 
   createClade() {
-    const nc = new Clade();
-    nc.parent = this._transaction.data.after.parent;
-    nc.name = this._transaction.data.after.name;
-    nc.description = this._transaction.data.after.description;
-    nc.otherNames = this._transaction.data.after.otherNames;
-    nc.extant = this._transaction.data.after.extant;
-    nc.save((error, clade) => {
-      this._registerAssets(clade, (err) => {
-        const status = err ? 'FAILED' : 'DONE';
-        this._updateCurrentTransaction(err, status, clade._id);
-      });
-    });
+    return this._saveDataToClade(new Clade())
+      .then(this._registerAssets)
+      .then(this._completeTransaction)
+      .catch(this._failTransaction)
+    ;
   }
 
   updateClade() {
-    Clade.findById(this._transaction.identifier, (err, oldClade) => {
-      const nc = oldClade;
-      nc.parent = this._transaction.data.after.parent;
-      nc.name = this._transaction.data.after.name;
-      nc.description = this._transaction.data.after.description;
-      nc.otherNames = this._transaction.data.after.otherNames;
-      nc.extant = this._transaction.data.after.extant;
-      nc.modified = Date.now();
-      nc.save((err1, clade) => {
-        this._registerAssets(clade, (err2) => {
-          const finalError = err || err1 || err2 || null;
-          const status = finalError ? 'FAILED' : 'DONE';
-          this._updateCurrentTransaction(finalError, status);
-        });
-      });
-    });
+    return Clade.findById(this._transaction.identifier)
+      .then(this._saveDataToClade)
+      .then(this._registerAssets)
+      .then(this._completeTransaction)
+      .catch(this._failTransaction)
+    ;
   }
 
   destroyClade() {
-    Clade.findOne(this._transaction.identifier, (err, clade) => {
-      this._deleteAssets(clade, (err1) => {
-        console.log(this._transaction._id, this._transaction.identifier, err1);
-        if (clade) {
-          clade.remove((err2, deleted) => {
-            const finalError = err || err1 || err2 || null;
-            const status = finalError ? 'FAILED' : 'DONE';
-            this._updateCurrentTransaction(finalError, status);
-          });
-        } else {
-          this._updateCurrentTransaction(err1, 'FAILED');
-        }
-      });
-    });
+    return Clade.findByIdAndRemove(this._transaction.identifier)
+      .then(this._deleteAssets)
+      .then(this._completeTransaction)
+      .catch(this._failTransaction)
+    ;
   }
 
-  _deleteAssets(clade, cb) {
-    const assets = this._transaction.assets.before;
-    async.forEachOf(assets, (asset, index, callback) => {
-      S3.destroyCladeImage(clade._id, asset.name, callback);
-    }, (err) => {
-      cb(err);
-    });
+  _saveDataToClade(clade) {
+    if (!clade) throw new Error('Clade with id ' + this._transaction.identifier + ' not found.');
+    clade.parent = this._transaction.data.after.parent;
+    clade.name = this._transaction.data.after.name;
+    clade.description = this._transaction.data.after.description;
+    clade.otherNames = this._transaction.data.after.otherNames;
+    clade.extant = !!this._transaction.data.after.extant;
+    clade.assets = this._transaction.assets.after;
+    clade.modified = Date.now();
+    return clade.save();
   }
 
-  _registerAssets(clade, cb) {
-    const assets = this._transaction.assets.after;
-    async.forEachOf(assets, (asset, index, callback) => {
-      if (asset.folder === 'temp') {
-        S3.moveTempImageToCladeFolder(asset.name, clade._id, callback);
-      } else {
-        callback();
-      }
-    }, (err) => {
-      if (err) {
-        cb(err);
-      } else {
-        const cl = clade;
-        cl.assets = assets;
-        cl.save(err1 => cb(err1)); // save & return to update the status
-      }
-    });
+  _deleteAssets(clade) {
+    return Promise.all(this._transaction.assets.before.map(asset => {
+      return S3.destroyCladeImage(clade._id, asset.name);
+    }));
   }
 
-  _updateCurrentTransaction(err, newStatus, identifier) {
-    this._transaction.status = newStatus; // status required
-    this._transaction.identifier = identifier || this._transaction.identifier;
-    this._transaction.save(err1 => {
-      this._callback(err || err1 || null)
+  _registerAssets(clade) {
+    return Promise.all(this._transaction.assets.after.map(asset => {
+      if (asset.folder === 'temp') return S3.moveTempImageToCladeFolder(asset.name, clade._id);
+      return null;
+    }));
+  }
+
+  _completeTransaction(clade) {
+    this._transaction.status = 'DONE';
+    this._transaction.identifier = clade ? clade._id : this._transaction.identifier;
+    return this._transaction.save();
+  }
+
+  _failTransaction(err) {
+    this._transaction.status = 'FAILED';
+    this._transaction.error = err;
+    return this._transaction.save().then(() => {
+      throw new Error(err);
     });
   }
 }
-
-export default CladeTransactionProcessor;
