@@ -38,7 +38,7 @@ const TransactionSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['PENDING', 'DONE', 'FAILED'],
+    enum: ['PENDING', 'DONE', 'FAILED', 'REVIEW'],
     default: 'DONE',
   },
 
