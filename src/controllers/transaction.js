@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 16/11/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import { Controller } from '../modules';
 import { Transaction } from 'common/databases/admin';
 import AccessControl from '../middleware/AccessControl';
@@ -74,7 +64,7 @@ class TransactionController extends Controller {
   checkTransaction(transaction, resolve, reject) {
     Transaction.findOne({ _id: transaction._id })
       .then((trans) => {
-        if (trans.status === 'DONE') resolve(trans);
+        if (trans.status !== 'PENDING') resolve(trans);
         else setTimeout(() => this.checkTransaction(transaction, resolve, reject), 1000);
       })
       .catch(reject);
@@ -106,7 +96,7 @@ class TransactionController extends Controller {
 
   destroyCladeTransaction(req, res, next) {
     const transactionId = req.params.transactionId;
-    Transaction.findOne({ _id: transactionId, type: 'CLADE', status: 'PENDING' }).remove((err, deleted) =>
+    Transaction.findOne({ _id: transactionId, type: 'CLADE', status: { $in: ['PENDING', 'REVIEW'] } }).remove((err, deleted) =>
       this.handleResponse(res, next, err, { deleted, transactionId })
     );
   }
