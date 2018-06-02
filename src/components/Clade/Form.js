@@ -376,7 +376,7 @@ class Form extends React.Component {
               </ButtonToolbar>
 
               {
-                this.props.clade.parent &&
+                this.props.clade && this.props.clade.parent &&
                 <p className={s.clade_parent}>
                   <Link
                     to={`/clades/info/${this.props.clade.parent._id}`}>{this.props.clade.parent.name || '[UNNAMED]'}
