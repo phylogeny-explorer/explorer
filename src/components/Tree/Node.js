@@ -10,7 +10,7 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from '../../routes/clade/Clade.css';
+import s from '../../components/Cladogram/Cladogram.css';
 
 class Node extends React.Component {
 

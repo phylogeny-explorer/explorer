@@ -1,41 +1,30 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 22/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import {
   FormGroup,
   ControlLabel,
   FormControl,
-  Radio,
   Button,
   ButtonToolbar,
   Image,
   Grid,
   Row,
   Col,
-  Label,
   Glyphicon,
   Alert,
+  ToggleButton,
+  ToggleButtonGroup,
 } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
-import s from '../Transaction.css';
-import Request from '../../../core/Request';
-import history from '../../../core/history';
-import Search from '../../../components/Search';
-import PhylexEditor from '../../../components/Editor';
+import s from './Form.css';
+import Request from '../../core/Request';
+import history from '../../core/history';
+import Search from '../Search';
+import PhylexEditor from '../Editor';
 import S3 from 'common/aws/s3/Frontend';
+import Link from '../../components/Link';
 
-let title = '';
-
-class CladeForm extends React.Component {
+class Form extends React.Component {
 
   static propTypes = {
     clade: React.PropTypes.any,
@@ -47,21 +36,15 @@ class CladeForm extends React.Component {
     super(props);
 
     if (context.setTitle) {
-      title = (
-        <h1>
-          {this.props.mode} Clade
-          <i> {this.props.clade ? this.props.clade.name || '[UNNAMED]' : ''}</i>
-        </h1>
-      );
-      context.setTitle(`${this.props.mode} 
-      Clade ${this.props.clade ? this.props.clade.name || '[UNNAMED]' : ''}`);
+      context.setTitle(`${this.props.mode} Clade ${this.props.clade ? this.props.clade.name || '[UNNAMED]' : ''}`);
     }
+
     if (this.props.mode !== 'Create') {
       this.state = {
         parent: this.props.clade.parent._id,
         name: this.props.clade.name || '',
         description: this.props.clade.description || '',
-        extant: this.props.clade.extant || '',
+        extant: this.props.clade.extant || false,
         otherNames: this.props.clade.otherNames || '',
         assets: this.prepareExistingAssets(),
         newParent: '',
@@ -73,11 +56,12 @@ class CladeForm extends React.Component {
         parent: this.props.parent._id,
         name: '',
         description: '',
-        extant: '',
+        extant: false,
         otherNames: '',
         assets: [],
       };
     }
+
     this.state.submitting = false;
     this.onDescriptionChange = this.onDescriptionChange.bind(this);
   }
@@ -224,19 +208,6 @@ class CladeForm extends React.Component {
     this.setState({ newParent: id });
   }
 
-  onSelectChild(id, value) {
-    const newChildren = this.state.newChildren;
-    newChildren.push({ id, name: value });
-    this.setState({ newChildren });
-  }
-
-  onRemoveChild(e, index) {
-    e.preventDefault();
-    const newChildren = this.state.newChildren;
-    newChildren.splice(index, 1);
-    this.setState({ newChildren });
-  }
-
   onSearch(cladeName, cb) {
     (async () => {
       const items = await
@@ -277,7 +248,7 @@ class CladeForm extends React.Component {
       parent: this.state.newParent || this.state.parent,
       name: this.state.name || null,
       description: this.state.description || null,
-      extant: this.state.extant || null,
+      extant: this.state.extant,
       otherNames: this.state.otherNames || null,
     };
 
@@ -335,10 +306,6 @@ class CladeForm extends React.Component {
       })
     );
 
-    if (this.state.newChildren.length > 0) {
-      this.onSubmitAttachments();
-    }
-
     return {
       identifier: this.props.clade._id,
       data: {
@@ -364,10 +331,6 @@ class CladeForm extends React.Component {
 
     const assetsBefore = this.prepareExistingAssets();
 
-    if (this.state.newChildren.length > 0) {
-      this.onSubmitAttachments();
-    }
-
     return {
       identifier: this.props.clade._id,
       data: {
@@ -387,185 +350,183 @@ class CladeForm extends React.Component {
     ev.dataTransfer.setData('phylex-image', ev.target.src);
   }
 
+  onExtantChange(extant) {
+    this.setState({ extant });
+  }
+
+  onView(e) {
+    e.preventDefault();
+    history.push(`/clades/info/${this.props.clade._id}`);
+  }
+
   render() {
-    let parentChildren = '';
-    if (this.props.mode === 'Update') {
-      parentChildren = (
-        <Alert bsStyle="warning">
-          <FormGroup controlId="parent">
-            <ControlLabel>Set Parent</ControlLabel>
-            <Search
-              id="newParent"
-              name="newParent"
-              placeholder="Start typing the parent's name"
-              onSelect={(id, value) => this.onSelectParent(id, value)}
-              onSearch={(name, cb) => this.onSearch(name, cb)}
-            />
-          </FormGroup>
-          <FormGroup controlId="children">
-            <ControlLabel>Attach Children</ControlLabel>
-            <Search
-              id="newChildren"
-              name="newChildren"
-              placeholder="Start typing the child's name"
-              onSelect={(id, value) => this.onSelectChild(id, value)}
-              onSearch={(name, cb) => this.onSearch(name, cb)}
-              resetAfterSelection
-            />
-          </FormGroup>
-          <FormGroup>
-            {this.state.newChildren.map((newChild, j) =>
-              <Label key={j} className={s.pill}>
-                {newChild.name}
-                <Button
-                  type="button"
-                  bsStyle="default"
-                  bsSize="xsmall"
-                  onClick={(e) => this.onRemoveChild(e, j)}
-                >
-                  <Glyphicon glyph="remove" />
-                </Button>
-              </Label>
-            )}
-          </FormGroup>
-        </Alert>
-      );
-    }
     return (
       <div className={s.root}>
         <div className={s.container}>
-          {title}
-          <hr />
-          <form onSubmit={(e) => this.onSubmit(e)}>
-            <FormGroup>
-              <ControlLabel>Parent Clade</ControlLabel>
-              <FormControl.Static>
-                {this.props.clade ? this.props.clade.parent.name
-                  || '[Unnamed]' : this.props.parent.name}
-              </FormControl.Static>
-            </FormGroup>
-            {parentChildren}
-            <FormGroup controlId="name">
-              <ControlLabel>Name</ControlLabel>
-              <FormControl
-                placeholder="Name"
-                type="text"
-                value={this.state.name}
-                onChange={(e) => this.onChange(e)}
-                disabled={this.props.mode === 'Destroy'}
-              />
-            </FormGroup>
-            <FormGroup controlId="description">
-              <ControlLabel>Description</ControlLabel>
-              <PhylexEditor
-                initialValue={this.state.description}
-                onChange={this.onDescriptionChange}
-                disabled={this.props.mode === 'Destroy'}
-              />
-            </FormGroup>
-            <FormGroup>
-              <ControlLabel>Clade Images</ControlLabel>
-              <Grid>
-                <Row className="show-grid">
-                  <Col xs={12} md={3}>
-                    <Dropzone
-                      style={{ display: this.props.mode === 'Destroy' ? 'none' : 'block' }}
-                      onDrop={(e) => this.onAddImages(e)} className={s.dropzone}
-                    >
-                      <div style={{ padding: '5px' }}>
-                        This control accepts only .png, .jpg, .tiff images.<br /><br />
-                        Try dropping some images here, or click to select images to upload.
-                      </div>
-                    </Dropzone>
-                  </Col>
-                  <Col xs={12} md={8}>
-                    <Row>
-                      <Col xs={12} md={12}>
-                        {this.state.assets.length > 0 ? <div>
-                          <h3>Uploaded Images: {this.state.assets.length}</h3>
-                          {this.state.assets.map((asset, j) =>
-                            <div key={j} className={s.thumbnail}>
-                              <Image
-                                src={asset.link}
-                                thumbnail
-                                draggable="true"
-                                onDragStart={this._onDragStart}
-                              />
-                              <Button
-                                style={{
-                                  display: this.props.mode === 'Destroy' ? 'none' : 'inline-block',
-                                }}
-                                bsSize="xsmall"
-                                onClick={(e) => this.onRemoveImage(e, asset)}
-                              >
-                                <Glyphicon glyph="remove" />
-                              </Button>
-                              <Button
-                                style={{
-                                  display: this.props.mode === 'Destroy' ? 'none' : 'inline-block',
-                                }}
-                                bsSize="xsmall"
-                                onClick={(e) => this.onSetDefaultImage(e, asset)}
-                              >
-                                <Glyphicon glyph={asset.isDefault ? 'check' : 'unchecked'} />
-                              </Button>
-                            </div>
-                          )}
-                        </div> : null}
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-              </Grid>
-            </FormGroup>
-            <FormGroup controlId="otherNames">
-              <ControlLabel>Alternative names</ControlLabel>
-              <FormControl
-                placeholder="Alternative names"
-                type="text"
-                value={this.state.otherNames}
-                onChange={(e) => this.onChange(e)}
-                disabled={this.props.mode === 'Destroy'}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Radio
-                inline
-                id="extant"
-                disabled={this.props.mode === 'Destroy'}
-                value={this.state.extant}
-                onChange={(e) => this.onChange(e)}
-                checked={this.state.extant}
-              >
-                Extant
-              </Radio>
-              &nbsp; &nbsp;
-              <Radio
-                inline
-                id="extinct"
-                disabled={this.props.mode === 'Destroy'}
-                onChange={(e) => this.onChange(e)}
-                value={this.state.extant === '' ? false : !this.state.extant}
-                checked={this.state.extant === '' ? false : !this.state.extant}
-              >
-                Extinct
-              </Radio>
-            </FormGroup>
-            <ButtonToolbar>
-              <Button type="submit" bsStyle={this.getButtonStyle()} disabled={this.state.submitting}>
-                {this.props.mode}
-              </Button>
-              <Button type="button" bsStyle="warning" onClick={(e) => this.onCancel(e)} disabled={this.state.submitting}>
-                Cancel
-              </Button>
-            </ButtonToolbar>
-          </form>
+          <div className={s.content_container}>
+            <form onSubmit={(e) => this.onSubmit(e)}>
+
+              <ButtonToolbar className={s.controls}>
+                <Button type="submit" bsStyle={this.getButtonStyle()} disabled={this.state.submitting}>
+                  {this.props.mode}
+                </Button>
+                <Button type="button" bsStyle="warning" onClick={(e) => this.onCancel(e)} disabled={this.state.submitting}>
+                  Cancel
+                </Button>
+              </ButtonToolbar>
+
+              {
+                this.props.clade.parent &&
+                <p className={s.clade_parent}>
+                  <Link
+                    to={`/clades/info/${this.props.clade.parent._id}`}>{this.props.clade.parent.name || '[UNNAMED]'}
+                  </Link>
+                  <span className="glyphicon glyphicon-menu-right" />
+                </p>
+              }
+
+              <h1>{this.props.mode} Clade <i>{this.props.clade ? this.props.clade.name || '[UNNAMED]' : ''}</i></h1>
+
+              <hr />
+
+              {
+                this.props.mode === 'Update' &&
+                <Alert bsStyle="warning">
+                  <FormGroup controlId="parent">
+                    <ControlLabel>Set New Parent</ControlLabel>
+                    <Search
+                      id="newParent"
+                      name="newParent"
+                      placeholder="Start typing the parent's name"
+                      onSelect={(id, value) => this.onSelectParent(id, value)}
+                      onSearch={(name, cb) => this.onSearch(name, cb)}
+                    />
+                  </FormGroup>
+                </Alert>
+              }
+
+              <FormGroup controlId="name">
+                <ControlLabel>Name</ControlLabel>
+                <FormControl
+                  placeholder="Name"
+                  type="text"
+                  value={this.state.name}
+                  onChange={(e) => this.onChange(e)}
+                  disabled={this.props.mode === 'Destroy'}
+                />
+              </FormGroup>
+
+              <FormGroup controlId="otherNames">
+                <ControlLabel>Alternative names</ControlLabel>
+                <FormControl
+                  placeholder="Alternative names"
+                  type="text"
+                  value={this.state.otherNames}
+                  onChange={(e) => this.onChange(e)}
+                  disabled={this.props.mode === 'Destroy'}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <ControlLabel>Status</ControlLabel>
+                <div>
+                  <ToggleButtonGroup
+                    type="radio"
+                    name="extant"
+                    value={this.state.extant}
+                    onChange={e => this.onExtantChange(e)}
+                  >
+                    <ToggleButton value={true}>Extant</ToggleButton>
+                    <ToggleButton value={false}>Extinct</ToggleButton>
+                  </ToggleButtonGroup>
+                </div>
+              </FormGroup>
+
+              <FormGroup controlId="description">
+                <ControlLabel>Description</ControlLabel>
+                <PhylexEditor
+                  initialValue={this.state.description}
+                  onChange={this.onDescriptionChange}
+                  disabled={this.props.mode === 'Destroy'}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <ControlLabel>Clade Images</ControlLabel>
+                <Grid>
+                  <Row className="show-grid">
+                    <Col xs={12} md={3}>
+                      <Dropzone
+                        style={{ display: this.props.mode === 'Destroy' ? 'none' : 'table' }}
+                        onDrop={(e) => this.onAddImages(e)}
+                        className={s.dropzone}
+                      >
+                        <div className={s.helpText}>
+                          Drop Images Here<br/>
+                          <b>.png, .jpg, .tiff</b>
+                        </div>
+                      </Dropzone>
+                    </Col>
+                    <Col xs={12} md={8}>
+                      <Row>
+                        <Col xs={12} md={12}>
+                          {this.state.assets.length > 0 ? <div>
+                            <h3>Uploaded Images: {this.state.assets.length}</h3>
+                            {this.state.assets.map((asset, j) =>
+                              <div key={j} className={s.thumbnail}>
+                                <Image
+                                  src={asset.link}
+                                  thumbnail
+                                  draggable="true"
+                                  onDragStart={this._onDragStart}
+                                />
+                                <Button
+                                  style={{
+                                    display: this.props.mode === 'Destroy' ? 'none' : 'inline-block',
+                                  }}
+                                  bsSize="xsmall"
+                                  onClick={(e) => this.onRemoveImage(e, asset)}
+                                >
+                                  <Glyphicon glyph="remove" />
+                                </Button>
+                                <Button
+                                  style={{
+                                    display: this.props.mode === 'Destroy' ? 'none' : 'inline-block',
+                                  }}
+                                  bsSize="xsmall"
+                                  onClick={(e) => this.onSetDefaultImage(e, asset)}
+                                >
+                                  <Glyphicon glyph={asset.isDefault ? 'check' : 'unchecked'} />
+                                </Button>
+                              </div>
+                            )}
+                          </div> : null}
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Grid>
+              </FormGroup>
+
+              <hr />
+
+              <ButtonToolbar className={s.controls}>
+                <Button type="submit" bsStyle={this.getButtonStyle()} disabled={this.state.submitting}>
+                  {this.props.mode}
+                </Button>
+                <Button type="button" bsStyle="warning" onClick={(e) => this.onCancel(e)} disabled={this.state.submitting}>
+                  Cancel
+                </Button>
+              </ButtonToolbar>
+
+            </form>
+          </div>
         </div>
       </div>
     );
   }
 }
 
-CladeForm.contextTypes = { setTitle: PropTypes.func.isRequired };
+Form.contextTypes = { setTitle: PropTypes.func.isRequired };
 
-export default withStyles(s)(CladeForm);
+export default withStyles(s)(Form);

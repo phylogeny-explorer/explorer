@@ -58,3 +58,7 @@
   font-size: 1.25em;
   margin: 0;
 }
+
+.header {
+  border-radius: 0;
+}

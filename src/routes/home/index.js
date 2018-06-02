@@ -10,6 +10,7 @@
 
 import React from 'react';
 import Home from './Home';
+import Auth from '../../components/Auth'
 // import fetch from '../../core/fetch';
 
 export default {

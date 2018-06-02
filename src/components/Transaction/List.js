@@ -10,7 +10,7 @@
 
 
 import React, { PropTypes } from 'react';
-import { Button, ButtonToolbar, Checkbox, Glyphicon } from 'react-bootstrap';
+import { Button, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import history from '../../core/history';
 import { Table, Column, Cell } from '../../components/DataTable';
@@ -18,7 +18,7 @@ import s from './Transaction.css';
 
 const title = 'Transactions';
 
-class TransactionList extends React.Component {
+class List extends React.Component {
   static propTypes = {
     transactions: PropTypes.any.isRequired,
   };
@@ -132,6 +132,6 @@ class TransactionList extends React.Component {
   }
 }
 
-TransactionList.contextTypes = { setTitle: PropTypes.func.isRequired };
+List.contextTypes = { setTitle: PropTypes.func.isRequired };
 
-export default withStyles(s)(TransactionList);
+export default withStyles(s)(List);

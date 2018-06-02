@@ -44,7 +44,8 @@ class Header extends React.Component {
     });
   }
 
-  handleSelect() {
+  handleSelect(key, e) {
+    e.preventDefault();
     if (this.href !== '#') {
       history.push(this.href);
     }
@@ -82,17 +83,17 @@ class Header extends React.Component {
       <Navbar.Collapse>
         <Nav pullRight bsStyle="pills" activeKey={1} onSelect={this.handleSelect}>
           <NavItem eventKey={9} href="/auth/login">Login</NavItem>
-          <NavItem eventKey={10} href="/auth/signup">SignUp</NavItem>
+          <NavItem eventKey={10} href="/auth/signup">Register</NavItem>
         </Nav>
       </Navbar.Collapse>
     );
 
-    const display = this.state.isAuthenticated ? auth : unauth;
+    const display = this.state.isAuthenticated ? auth : '';
 
     const finalResult = this.state.isAuthenticated === 'not-yet' ? '' : display;
 
     return (
-      <Navbar>
+      <Navbar className={s.header}>
         <Navbar.Header>
           <Navbar.Brand>
             <Link className={s.brand} to="/">Phylogeny Explorer</Link>

@@ -14,20 +14,19 @@ import {
   FormGroup,
   ControlLabel,
   FormControl,
-  Checkbox,
   Button,
   ButtonToolbar,
   Grid,
   Col,
   Row,
 } from 'react-bootstrap';
-import s from '../Transaction.css';
-import Request from '../../../core/Request';
-import history from '../../../core/history';
+import s from './Transaction.css';
+import Request from '../../core/Request';
+import history from '../../core/history';
 
 let title = '';
 
-class CladeTransactionForm extends React.Component {
+class Form extends React.Component {
 
   static propTypes = {
     transaction: React.PropTypes.any.isRequired,
@@ -203,6 +202,6 @@ class CladeTransactionForm extends React.Component {
   }
 }
 
-CladeTransactionForm.contextTypes = { setTitle: PropTypes.func.isRequired };
+Form.contextTypes = { setTitle: PropTypes.func.isRequired };
 
-export default withStyles(s)(CladeTransactionForm);
+export default withStyles(s)(Form);

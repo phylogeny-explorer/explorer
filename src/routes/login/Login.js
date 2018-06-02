@@ -14,6 +14,7 @@ import s from './Login.css';
 import Request from '../../core/Request';
 import Auth from '../../components/Auth';
 import history from '../../core/history';
+import LoginForm from './Form';
 
 const title = 'Log In';
 
@@ -65,40 +66,7 @@ class Login extends React.Component {
           <h1>{title}</h1>
           {this.state.message}
           <hr />
-          <form onSubmit={(e) => this.onSubmit(e)}>
-            <div className={s.formGroup}>
-              <label className={s.label} htmlFor="username">
-                Username:
-              </label>
-              <input
-                className={s.input}
-                id="username"
-                type="text"
-                name="username"
-                value={this.state.username}
-                onChange={(e) => this.onChange(e)}
-                autoFocus
-              />
-            </div>
-            <div className={s.formGroup}>
-              <label className={s.label} htmlFor="password">
-                Password:
-              </label>
-              <input
-                className={s.input}
-                id="password"
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={(e) => this.onChange(e)}
-              />
-            </div>
-            <div className={s.formGroup} >
-              <button className={s.button} type="submit">
-                Log in
-              </button>
-            </div>
-          </form>
+          <LoginForm />
         </div>
       </div>
     );

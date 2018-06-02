@@ -12,9 +12,9 @@ import React, { PropTypes } from 'react';
 import { OverlayTrigger, Button, Popover, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 import Link from '../../components/Link';
 import history from '../../core/history';
-import s from './Clade.css';
+import s from './Cladogram.css';
 
-class CladePopover extends React.Component {
+export default class Pane extends React.Component {
 
   static propTypes = {
     id: PropTypes.any.isRequired,
@@ -24,15 +24,15 @@ class CladePopover extends React.Component {
   };
 
   onCreate() {
-    history.push(`/transactions/clades/evolve/${this.props.id}`);
+    history.push(`/clades/evolve/${this.props.id}`);
   }
 
   onUpdate() {
-    history.push(`/transactions/clades/update/${this.props.id}`);
+    history.push(`/clades/update/${this.props.id}`);
   }
 
   onDestroy() {
-    history.push(`/transactions/clades/destroy/${this.props.id}`);
+    history.push(`/clades/destroy/${this.props.id}`);
   }
 
 
@@ -80,5 +80,3 @@ class CladePopover extends React.Component {
     );
   }
 }
-
-export default CladePopover;

@@ -45,7 +45,7 @@
     "pretty-error": "2.0.0",
     "react": "15.3.1",
     "react-autocomplete": "^1.4.0",
-    "react-bootstrap": "^0.30.0",
+    "react-bootstrap": "^0.32.1",
     "react-bootstrap-date-picker": "^4.0.0",
     "react-dom": "15.3.1",
     "react-dropzone": "^3.7.3",

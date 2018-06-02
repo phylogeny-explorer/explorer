@@ -9,9 +9,8 @@
  */
 
 import React from 'react';
-import CladeForm from './clade/CladeForm';
-import CladeTransactionForm from './clade/CladeTransactionForm';
-import TransactionList from './TransactionList';
+import CladeTransactionForm from '../../components/Transaction/Form';
+import TransactionList from '../../components/Transaction/List';
 import Request from '../../core/Request';
 
 export default {
@@ -25,45 +24,6 @@ export default {
   },
 
   children: [
-    {
-      path: '/clades',
-      action: async({ next }) => {
-        const component = await next();
-        if (component !== undefined) {
-          return component;
-        }
-        return undefined;
-      },
-      children: [
-        {
-          path: '/evolve/:parentId',
-          action: async(context) => {
-            const parent = await
-              new Request(`/clades/${context.params.parentId}`,
-                'GET', {}, Request.endPoints.public).fetch();
-            return <CladeForm mode="Create" parent={parent} />;
-          },
-        },
-        {
-          path: '/update/:cladeId',
-          action: async(context) => {
-            const clade = await
-              new Request(`/clades/${context.params.cladeId}`,
-                'GET', {}, Request.endPoints.public).fetch();
-            return <CladeForm mode="Update" clade={clade} />;
-          },
-        },
-        {
-          path: '/destroy/:cladeId',
-          action: async(context) => {
-            const clade = await
-              new Request(`/clades/${context.params.cladeId}`,
-                'GET', {}, Request.endPoints.public).fetch();
-            return <CladeForm mode="Destroy" clade={clade} />;
-          },
-        },
-      ],
-    },
     {
       path: '/',
       action: async({ next }) => {
@@ -102,8 +62,3 @@ export default {
     },
   ],
 };
-
-// .get('/clades/', controller.getClades)
-//   .get('/clades/:id/', controller.getClades)
-//   .get('/clades/depth/:depth', controller.getClades)
-//   .get('/clades/:id/depth/:depth', controller.getClades);

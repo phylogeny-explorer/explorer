@@ -10,21 +10,17 @@
 import React, { PropTypes } from 'react';
 import {
   FormGroup,
-  ControlLabel,
   FormControl,
   Form,
-  HelpBlock,
   Button,
 } from 'react-bootstrap';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Clade.css';
+import s from './Cladogram.css';
 import Tree from '../../components/Tree';
 import history from '../../core/history';
-import CladePopover from './CladePopover';
+import Pane from './Pane';
 import Search from '../../components/Search';
 import Request from '../../core/Request';
-
-const title = 'Cladogram';
 
 class Cladogram extends React.Component {
   static propTypes = {
@@ -37,7 +33,7 @@ class Cladogram extends React.Component {
   constructor(props, context) {
     super(props);
     if (context.setTitle) {
-      context.setTitle(title);
+      context.setTitle('Cladogram');
     }
     this.prepareState(props);
     this.resetView = this.resetView.bind(this);
@@ -144,7 +140,7 @@ class Cladogram extends React.Component {
           width={this.state.width}
           height={this.state.height}
           onSelectNode={(e) => this.onSelectNode(e)}
-          popoverComponent={CladePopover}
+          popoverComponent={Pane}
           depth={this.state.actualDepth}
           matrix={this.state.matrix}
         />

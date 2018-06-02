@@ -9,8 +9,9 @@
  */
 
 import React from 'react';
-import Cladogram from './Cladogram';
-import CladeView from './CladeView';
+import Cladogram from '../../components/Cladogram';
+import CladeView from '../../components/Clade/View';
+import CladeForm from '../../components/Clade/Form';
 import Request from '../../core/Request';
 import Auth from '../../components/Auth';
 import history from '../../core/history';
@@ -107,6 +108,33 @@ export default {
           new Request(`/clades/${context.params.id}`,
             'GET', {}, Request.endPoints.public).fetch();
         return <CladeView clade={clade} />;
+      },
+    },
+    {
+      path: '/evolve/:parentId',
+      action: async(context) => {
+        const parent = await
+          new Request(`/clades/${context.params.parentId}`,
+            'GET', {}, Request.endPoints.public).fetch();
+        return <CladeForm mode="Create" parent={parent} />;
+      },
+    },
+    {
+      path: '/update/:cladeId',
+      action: async(context) => {
+        const clade = await
+          new Request(`/clades/${context.params.cladeId}`,
+            'GET', {}, Request.endPoints.public).fetch();
+        return <CladeForm mode="Update" clade={clade} />;
+      },
+    },
+    {
+      path: '/destroy/:cladeId',
+      action: async(context) => {
+        const clade = await
+          new Request(`/clades/${context.params.cladeId}`,
+            'GET', {}, Request.endPoints.public).fetch();
+        return <CladeForm mode="Destroy" clade={clade} />;
       },
     },
   ],
