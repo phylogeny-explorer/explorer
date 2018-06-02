@@ -18,6 +18,13 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
 
 class Home extends React.Component {
+  constructor(props, context) {
+    super(props);
+    if (context.setTitle) {
+      context.setTitle('Phylogeny Explorer Project');
+    }
+  }
+
   componentDidMount() {
     this.onAuthenticationStatusChange(Auth.isUserAuthenticated());
     Auth.addListener(this.onAuthenticationStatusChange.bind(this));
@@ -66,5 +73,6 @@ class Home extends React.Component {
   }
 }
 
+Home.contextTypes = { setTitle: React.PropTypes.func.isRequired };
 
 export default withStyles(s)(Home);

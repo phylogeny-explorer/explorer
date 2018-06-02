@@ -57,14 +57,12 @@ class Header extends React.Component {
         <NavItem eventKey={2} href="/roles">Roles</NavItem>
         <NavItem eventKey={3} href="/users">Users</NavItem>
         <NavItem eventKey={5} href="/rules">Rules</NavItem>
-        <NavItem eventKey={6} href="/clades">Clades</NavItem>
         <NavItem eventKey={7} href="/transactions">Transactions</NavItem>
       </Nav>
     );
 
     const user = (
       <Nav bsStyle="pills" activeKey={1} onSelect={this.handleSelect}>
-        <NavItem eventKey={6} href="/clades">Clades</NavItem>
         <NavItem eventKey={7} href="/transactions">Transactions</NavItem>
       </Nav>
     );

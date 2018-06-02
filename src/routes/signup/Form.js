@@ -15,17 +15,12 @@ import {
   FormControl,
   Checkbox,
   Button,
-  ButtonToolbar,
   Panel,
 } from 'react-bootstrap';
 import DatePicker from 'react-bootstrap-date-picker';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Signup.css';
 import Request from '../../core/Request';
-import history from '../../core/history';
-
-
-const title = 'Signup Form';
 
 class Signup extends React.Component {
   constructor(props, context) {
@@ -50,7 +45,10 @@ class Signup extends React.Component {
       success: false,
       message: '',
       repeat_password: '',
+      showSection2: false,
     };
+
+    this.continueRegistration = this.continueRegistration.bind(this);
   }
 
   onChange(e) {
@@ -98,41 +96,26 @@ class Signup extends React.Component {
     })();
   }
 
+  continueRegistration() {
+    this.setState({showSection2: true});
+  }
+
   render() {
     return (
       <div>
+        <div className={s.formTop}>
+          <h1>Register</h1>
+          {
+            !this.state.success &&
+            <div>
+              <p>You must register to use the Phylogeny Explorer.</p>
+              <p>Please contact an admin after registration to have your account approved.</p>
+            </div>
+          }
+        </div>
+        <div className={s.formBody}>
         { this.state.success ? <div>{this.state.message}</div> : (
           <form onSubmit={(e) => this.onSubmit(e)}>
-            <FormGroup controlId="title">
-              <ControlLabel>Title</ControlLabel>
-              <FormControl
-                placeholder="ex. 'Mr, Miss, Mrs'"
-                type="text"
-                value={this.state.title}
-                onChange={(e) => this.onChange(e)}
-              />
-            </FormGroup>
-
-            <FormGroup controlId="firstName">
-              <ControlLabel>First Name</ControlLabel>
-              <FormControl
-                placeholder="ex. 'John'"
-                type="text"
-                value={this.state.firstName}
-                onChange={(e) => this.onChange(e)}
-              />
-            </FormGroup>
-
-            <FormGroup controlId="lastName">
-              <ControlLabel>Last Name</ControlLabel>
-              <FormControl
-                placeholder="ex. 'Dough'"
-                type="text"
-                value={this.state.lastName}
-                onChange={(e) => this.onChange(e)}
-              />
-            </FormGroup>
-
             <FormGroup controlId="username">
               <ControlLabel>Username</ControlLabel>
               <FormControl
@@ -140,6 +123,19 @@ class Signup extends React.Component {
                 type="text"
                 value={this.state.username}
                 onChange={(e) => this.onChange(e)}
+                className={s.input}
+                required
+              />
+            </FormGroup>
+
+            <FormGroup controlId="email">
+              <ControlLabel>Email</ControlLabel>
+              <FormControl
+                placeholder="ex. 'john@dough.com'"
+                type="email"
+                value={this.state.email}
+                onChange={(e) => this.onChange(e)}
+                className={s.input}
                 required
               />
             </FormGroup>
@@ -151,6 +147,7 @@ class Signup extends React.Component {
                 type="password"
                 value={this.state.password}
                 onChange={(e) => this.onChange(e)}
+                className={s.input}
                 minLength="8"
                 required
               />
@@ -163,121 +160,158 @@ class Signup extends React.Component {
                 type="password"
                 value={this.state.repeat_password}
                 onChange={(e) => this.onChange(e)}
+                className={s.input}
                 minLength="8"
                 required
               />
             </FormGroup>
+            {
+              !this.state.showSection2 &&
+              <Button className={s.loginButton} onClick={this.continueRegistration} bsSize="large" block>Continue &gt;</Button>
+            }
 
-            <FormGroup controlId="address">
-              <ControlLabel>Address</ControlLabel>
-              <FormControl
-                placeholder="Complete address please, we will verify!"
-                type="text"
-                value={this.state.address}
-                onChange={(e) => this.onChange(e)}
-                required
-              />
-            </FormGroup>
+            {
+              this.state.showSection2 &&
+              <div>
+                <FormGroup controlId="title">
+                  <ControlLabel>Title</ControlLabel>
+                  <FormControl
+                    placeholder="ex. 'Mr, Miss, Mrs'"
+                    type="text"
+                    value={this.state.title}
+                    onChange={(e) => this.onChange(e)}
+                    className={s.input}
+                  />
+                </FormGroup>
 
-            <FormGroup controlId="postcode">
-              <ControlLabel>Postcode</ControlLabel>
-              <FormControl
-                placeholder="ex. '10067'"
-                type="text"
-                value={this.state.postcode}
-                onChange={(e) => this.onChange(e)}
-                required
-              />
-            </FormGroup>
+                <FormGroup controlId="firstName">
+                  <ControlLabel>First Name</ControlLabel>
+                  <FormControl
+                    placeholder="ex. 'John'"
+                    type="text"
+                    value={this.state.firstName}
+                    onChange={(e) => this.onChange(e)}
+                    className={s.input}
+                  />
+                </FormGroup>
 
-            <FormGroup controlId="phone">
-              <ControlLabel>Phone</ControlLabel>
-              <FormControl
-                placeholder="Phone"
-                type="text"
-                value={this.state.phone}
-                onChange={(e) => this.onChange(e)}
-              />
-            </FormGroup>
+                <FormGroup controlId="lastName">
+                  <ControlLabel>Last Name</ControlLabel>
+                  <FormControl
+                    placeholder="ex. 'Dough'"
+                    type="text"
+                    value={this.state.lastName}
+                    onChange={(e) => this.onChange(e)}
+                    className={s.input}
+                  />
+                </FormGroup>
 
-            <FormGroup controlId="email">
-              <ControlLabel>Email</ControlLabel>
-              <FormControl
-                placeholder="ex. 'john@dough.com'"
-                type="email"
-                value={this.state.email}
-                onChange={(e) => this.onChange(e)}
-                required
-              />
-            </FormGroup>
+                <FormGroup controlId="address">
+                  <ControlLabel>Address</ControlLabel>
+                  <FormControl
+                    placeholder="Complete address please, we will verify!"
+                    type="text"
+                    value={this.state.address}
+                    onChange={(e) => this.onChange(e)}
+                    className={s.input}
+                    required
+                  />
+                </FormGroup>
 
-            <FormGroup controlId="dateOfBirth">
-              <ControlLabel>Date of Birth</ControlLabel>
-              <DatePicker
-                value={this.state.dateOfBirth}
-                onChange={(v, f) => this.onHandleDateOfBirthChange(v, f)}
-              />
-            </FormGroup>
+                <FormGroup controlId="postcode">
+                  <ControlLabel>Postcode</ControlLabel>
+                  <FormControl
+                    placeholder="ex. '10067'"
+                    type="text"
+                    value={this.state.postcode}
+                    onChange={(e) => this.onChange(e)}
+                    className={s.input}
+                    required
+                  />
+                </FormGroup>
 
-            <FormGroup controlId="gender">
-              <ControlLabel>Gender</ControlLabel>
-              <FormControl
-                componentClass="select"
-                value={this.state.gender}
-                onChange={(e) => this.onChange(e)}
-                required
-              >
-                <option value="">Please select a gender...</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </FormControl>
-            </FormGroup>
+                <FormGroup controlId="phone">
+                  <ControlLabel>Phone</ControlLabel>
+                  <FormControl
+                    placeholder="Phone"
+                    type="text"
+                    value={this.state.phone}
+                    onChange={(e) => this.onChange(e)}
+                    className={s.input}
+                  />
+                </FormGroup>
 
-            <FormGroup controlId="subscribed">
-              <ControlLabel>Subscribe to Newsletter</ControlLabel>
-              <Checkbox
-                id="subscribed"
-                onChange={(e) => this.onChange(e)}
-                value={this.state.subscribed}
-                checked={this.state.subscribed}
-              >
-                Yes
-              </Checkbox>
-            </FormGroup>
+                <FormGroup controlId="dateOfBirth">
+                  <ControlLabel>Date of Birth</ControlLabel>
+                  <DatePicker
+                    value={this.state.dateOfBirth}
+                    onChange={(v, f) => this.onHandleDateOfBirthChange(v, f)}
+                    className={s.input}
+                  />
+                </FormGroup>
 
-            <FormGroup controlId="coverLetter">
-              <ControlLabel>Cover Letter</ControlLabel>
-              <FormControl
-                placeholder="Short story of who you are and why you want to join our community."
-                componentClass="textarea"
-                rows="8"
-                value={this.state.coverLetter}
-                onChange={(e) => this.onChange(e)}
-              />
-            </FormGroup>
+                <FormGroup controlId="gender">
+                  <ControlLabel>Gender</ControlLabel>
+                  <FormControl
+                    componentClass="select"
+                    value={this.state.gender}
+                    onChange={(e) => this.onChange(e)}
+                    className={s.input}
+                    required
+                  >
+                    <option value="">Please select a gender...</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </FormControl>
+                </FormGroup>
 
-            {(this.state.errors !== '') ? (
-              <Panel header="Form Errors" bsStyle="danger">
-                {this.state.message}
-                <ul>
-                  {Object.keys(this.state.errors).map((error, j) =>
-                    <li key={j}>
-                      {error} - {this.state.errors[error]}
-                    </li>
-                  )}
-                </ul>
-              </Panel>
-            ) : ''}
+                <FormGroup controlId="coverLetter">
+                  <ControlLabel>Cover Letter</ControlLabel>
+                  <FormControl
+                    placeholder="Short story of who you are and why you want to join our community."
+                    componentClass="textarea"
+                    rows="8"
+                    value={this.state.coverLetter}
+                    onChange={(e) => this.onChange(e)}
+                    className={s.input}
+                  />
+                </FormGroup>
 
-            <Button type="submit" bsStyle="success">Sign Up</Button>
+                <FormGroup controlId="subscribed">
+                  <ControlLabel>Subscribe to Newsletter</ControlLabel>
+                  <Checkbox
+                    id="subscribed"
+                    onChange={(e) => this.onChange(e)}
+                    value={this.state.subscribed}
+                    checked={this.state.subscribed}
+                  >
+                    Yes
+                  </Checkbox>
+                </FormGroup>
+
+                {(this.state.errors !== '') ? (
+                  <Panel header="Form Errors" bsStyle="danger">
+                    {this.state.message}
+                    <ul>
+                      {Object.keys(this.state.errors).map((error, j) =>
+                        <li key={j}>
+                          {error} - {this.state.errors[error]}
+                        </li>
+                      )}
+                    </ul>
+                  </Panel>
+                ) : ''}
+
+                <Button className={s.loginButton} type="submit" bsSize="large" block>Register</Button>
+              </div>
+            }
           </form>
         )}
+        </div>
       </div>
     );
   }
 }
-
-Signup.contextTypes = { setTitle: React.PropTypes.func.isRequired };
 
 export default withStyles(s)(Signup);

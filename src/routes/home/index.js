@@ -11,14 +11,18 @@
 import React from 'react';
 import Home from './Home';
 import Auth from '../../components/Auth'
-// import fetch from '../../core/fetch';
+import history from "../../core/history";
 
 export default {
 
   path: '/',
 
-  async action() {
-    return <Home />;
+  action: async() => {
+    if (!Auth.isUserAuthenticated()) {
+      return <Home />;
+    }
+
+    history.push('/clades');
   },
 
 };
