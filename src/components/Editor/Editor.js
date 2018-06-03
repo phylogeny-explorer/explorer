@@ -1,14 +1,3 @@
-/* eslint-disable no-console */
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 04/12/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import React from 'react';
 import 'react-dom';
 import { stateToHTML } from 'draft-js-export-html';
@@ -94,22 +83,20 @@ class PhylexEditor extends React.Component {
       },
     ]);
 
-    if (props.initialValue) {
-      const blocksFromHTML = convertFromHTML(props.initialValue);
-      const contentState = ContentState.createFromBlockArray(
+    const blocksFromHTML = props.initialValue ? convertFromHTML(props.initialValue) : null;
+    const contentState = (!blocksFromHTML || !blocksFromHTML.contentBlocks)
+      ? null
+      : ContentState.createFromBlockArray(
         blocksFromHTML.contentBlocks,
         blocksFromHTML.entityMap,
       );
-      this.state = {
-        editorState: EditorState.createWithContent(contentState, decorator),
-        linkAddress: '',
-      };
-    } else {
-      this.state = {
-        editorState: EditorState.createEmpty(),
-        linkAddress: '',
-      };
-    }
+
+    this.state = {
+      editorState: contentState ? EditorState.createWithContent(contentState, decorator) : EditorState.createEmpty(),
+      linkAddress: '',
+    };
+
+
     this._onChange = this._onChange.bind(this);
     this._handleKeyCommand = this._handleKeyCommand.bind(this);
     this._onDrop = this._onDrop.bind(this);

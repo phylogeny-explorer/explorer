@@ -125,7 +125,7 @@ export default {
         const clade = await
           new Request(`/clades/${context.params.cladeId}`,
             'GET', {}, Request.endPoints.public).fetch();
-        return <CladeForm mode="Update" clade={clade} />;
+        return <CladeForm mode="Update" clade={clade} parent={clade.parent} />;
       },
     },
     {
@@ -134,7 +134,7 @@ export default {
         const clade = await
           new Request(`/clades/${context.params.cladeId}`,
             'GET', {}, Request.endPoints.public).fetch();
-        return <CladeForm mode="Destroy" clade={clade} />;
+        return <CladeForm mode="Destroy" clade={clade} parent={clade.parent} />;
       },
     },
   ],

@@ -1,5 +1,6 @@
 import React from 'react';
-import Request from '../core/Request';
+import Profile from '../components/User/Profile';
+import Settings from '../components/User/Settings';
 
 export default {
   path: '/profile',
@@ -15,13 +16,13 @@ export default {
     {
       path: '/',
       action: async() => {
-        return <p>Coming Soon</p>;
+        return <Profile />;
       },
     },
     {
       path: '/settings',
       action: async() => {
-        return <p>Coming Soon</p>;
+        return <Settings />;
       }
     }
   ],

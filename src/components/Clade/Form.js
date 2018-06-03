@@ -44,7 +44,7 @@ class Form extends React.Component {
         parent: this.props.clade.parent._id,
         name: this.props.clade.name || '',
         description: this.props.clade.description || '',
-        extant: this.props.clade.extant || false,
+        extant: this.isParentExtinct() ? false : this.props.clade.extant,
         otherNames: this.props.clade.otherNames || '',
         assets: this.prepareExistingAssets(),
         newParent: '',
@@ -56,14 +56,16 @@ class Form extends React.Component {
         parent: this.props.parent._id,
         name: '',
         description: '',
-        extant: false,
+        extant: !this.isParentExtinct(),
         otherNames: '',
         assets: [],
       };
     }
 
     this.state.submitting = false;
+    this.state.errors = [];
     this.onDescriptionChange = this.onDescriptionChange.bind(this);
+    this.isParentExtinct = this.isParentExtinct.bind(this);
   }
 
   onDescriptionChange(html) {
@@ -89,8 +91,21 @@ class Form extends React.Component {
     history.goBack();
   }
 
+  validate() {
+    let errors = [];
+    if (this.state.extant === null) {
+      errors.push('Please select a status (Extant/Extinct)');
+    }
+
+    this.setState({errors});
+    return errors.length === 0;
+  }
+
   async onSubmit(e) {
     e.preventDefault();
+    if (!this.validate()) {
+      return;
+    }
 
     let payload = {};
     switch (this.props.mode) {
@@ -246,10 +261,10 @@ class Form extends React.Component {
   prepareCreatePayload() {
     const dataAfter = {
       parent: this.state.newParent || this.state.parent,
-      name: this.state.name || null,
+      name: this.state.name.trim() || null,
       description: this.state.description || null,
       extant: this.state.extant,
-      otherNames: this.state.otherNames || null,
+      otherNames: this.state.otherNames.trim() || null,
     };
 
     const assetsAfter = this.state.assets.map((asset) =>
@@ -292,10 +307,10 @@ class Form extends React.Component {
 
     const dataAfter = {
       parent: this.state.newParent || this.state.parent,
-      name: this.state.name || null,
+      name: this.state.name.trim() || null,
       description: this.state.description || null,
       extant: this.state.extant || null,
-      otherNames: this.state.otherNames || null,
+      otherNames: this.state.otherNames.trim() || null,
     };
 
     const assetsAfter = this.state.assets.map((asset) =>
@@ -359,11 +374,21 @@ class Form extends React.Component {
     history.push(`/clades/info/${this.props.clade._id}`);
   }
 
+  isParentExtinct() {
+    return this.props.parent.extant === false;
+  }
+
   render() {
     return (
       <div className={s.root}>
         <div className={s.container}>
           <div className={s.content_container}>
+            {
+              this.state.errors &&
+                <div id="errors">
+                  { this.state.errors.map(err => <Alert bsStyle="danger">{err}</Alert>) }
+                </div>
+            }
             <form onSubmit={(e) => this.onSubmit(e)}>
 
               <ButtonToolbar className={s.controls}>
@@ -433,11 +458,12 @@ class Form extends React.Component {
                   <ToggleButtonGroup
                     type="radio"
                     name="extant"
-                    value={this.state.extant}
+                    value={this.isParentExtinct() ? false : this.state.extant}
                     onChange={e => this.onExtantChange(e)}
                   >
-                    <ToggleButton value={true}>Extant</ToggleButton>
+                    <ToggleButton value={true} disabled={this.isParentExtinct()}>Extant</ToggleButton>
                     <ToggleButton value={false}>Extinct</ToggleButton>
+                    <FormControl.Feedback />
                   </ToggleButtonGroup>
                 </div>
               </FormGroup>
