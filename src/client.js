@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 02/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import 'babel-polyfill';
 import ReactDOM from 'react-dom';
 import FastClick from 'fastclick';

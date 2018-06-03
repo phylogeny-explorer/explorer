@@ -42,31 +42,18 @@ class Home extends React.Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          {Auth.isUserAuthenticated()
-            ?
-            <Grid>
-              <Row>
-                <Col sm={12}>
-                  <h1>Welcome!</h1>
-                </Col>
-              </Row>
-            </Grid>
-            :
-            <Grid>
-              <Row>
-                <Col sm={5}>
-                  <LoginForm/>
-                </Col>
-
-                <Col sm={1} className={s.middleCol}/>
-                <Col sm={1}/>
-
-                <Col sm={5}>
-                  <RegisterForm/>
-                </Col>
-              </Row>
-            </Grid>
-          }
+          <Grid>
+            <Row>
+              <Col sm={5}>
+                <LoginForm/>
+              </Col>
+              <Col sm={1} className={s.middleCol}/>
+              <Col sm={1}/>
+              <Col sm={5}>
+                <RegisterForm/>
+              </Col>
+            </Row>
+          </Grid>
         </div>
       </div>
     );

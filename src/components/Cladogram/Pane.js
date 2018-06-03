@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 13/11/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import React, { PropTypes } from 'react';
 import { OverlayTrigger, Button, Popover, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 import Link from '../../components/Link';

@@ -1,32 +1,136 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 02/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 @import '../variables.css';
 
 :root {
-  --brand-color: #61dafb;
+  --brand-color: #2a2a2a;
+  --nav-text-color: #eee;
+  --nav-text-highlight-color: #ccc;
+  --nav-highlight-border: 3px solid orangered;
 }
+
+/* TODO: Find a better way to override bootstrap styles, rather than all this global garbage... */
+:global(.navbar-default .container) {
+  width: 100%;
+}
+
+/* Title */
+:global(.navbar-default .navbar-nav li a) {
+    color: var(--nav-text-color);
+}
+
+:global(.navbar-default .navbar-nav li a:focus) {
+    color: var(--nav-text-color);
+}
+
+:global(.navbar-default .navbar-nav li a:hover) {
+  color: var(--nav-text-color);
+  border-bottom: 3px solid orangered;
+  padding-bottom: 12px;
+  border-radius: 0;
+}
+
+
+/* Links */
+:global(.navbar-default .navbar-header a) {
+  color: var(--nav-text-color);
+}
+
+:global(.navbar-default .navbar-header a:hover) {
+  color: var(--nav-text-highlight-color);
+}
+
+:global(.navbar-default .navbar-header a:focus) {
+  color: var(--nav-text-color);
+}
+
+
+/* Links - Active */
+:global(.navbar-default .navbar-nav .active a) {
+  background: transparent;
+  color: var(--nav-text-color);
+  border-bottom: var(--nav-highlight-border);
+  padding-bottom: 12px;
+  border-radius: 0;
+}
+
+:global(.navbar-default .navbar-nav .active a:focus) {
+  background: transparent;
+  color: var(--nav-text-color);
+  border-bottom: var(--nav-highlight-border);
+  padding-bottom: 12px;
+  border-radius: 0;
+}
+
+:global(.navbar-default .navbar-nav .active a:hover) {
+  background: transparent;
+  color: var(--nav-text-color);
+  border-bottom: var(--nav-highlight-border);
+  padding-bottom: 12px;
+  border-radius: 0;
+}
+
+
+/* Dropdown Menu Main Button */
+:global(.navbar-default .navbar-nav .open a) {
+  background: transparent;
+  color: var(--nav-text-color);
+  border-bottom: var(--nav-highlight-border);
+  padding-bottom: 12px;
+  border-radius: 0;
+}
+
+:global(.navbar-default .navbar-nav .open a:focus) {
+  background: transparent;
+  color: var(--nav-text-color);
+  border-bottom: var(--nav-highlight-border);
+  padding-bottom: 12px;
+  border-radius: 0;
+}
+
+:global(.navbar-default .navbar-nav .open a:hover) {
+  background: transparent;
+  color: var(--nav-text-color);
+  border-bottom: var(--nav-highlight-border);
+  padding-bottom: 12px;
+  border-radius: 0;
+}
+
+
+/* Dropdown Menu Sub Buttons */
+:global(.navbar-default .navbar-nav .dropdown .dropdown-menu a) {
+  background: transparent;
+  color: #333;
+  border-bottom: 0;
+  border-radius: 0;
+  padding: 8px 20px;
+}
+
+:global(.navbar-default .navbar-nav .dropdown .dropdown-menu a:focus) {
+  background: transparent;
+  color: #333;
+  border-bottom: 0;
+  border-radius: 0;
+  outline: none;
+}
+
+:global(.navbar-default .navbar-nav .dropdown .dropdown-menu a:hover) {
+  background: #efefef;
+  color: #333;
+  border-bottom: 0;
+  border-radius: 0;
+}
+
+:global(.navbar-default .navbar-nav .dropdown .dropdown-menu a span) {
+  margin-right: 5px;
+}
+
 
 .root {
   background: #373277;
   color: #fff;
 }
 
-.container {
-  margin: 0 auto;
-  padding: 20px 0;
-  max-width: var(--max-content-width);
-}
-
 .brand {
-  color: color(var(--brand-color) lightness(+10%));
+  color: #fff;
   text-decoration: none;
   font-size: 1.75em; /* ~28px */
 }
@@ -61,4 +165,7 @@
 
 .header {
   border-radius: 0;
+  background: #2a2a2a;
+  border: 0;
+  color: #fff;
 }

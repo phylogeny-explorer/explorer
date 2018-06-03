@@ -18,11 +18,12 @@ export default {
   path: '/',
 
   action: async() => {
-    if (!Auth.isUserAuthenticated()) {
-      return <Home />;
+    if (Auth.isUserAuthenticated()) {
+      history.push('/clades');
+      return '';
     }
 
-    history.push('/clades');
+    return <Home />;
   },
 
 };

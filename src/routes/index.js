@@ -13,6 +13,7 @@ import App from '../components/App';
 
 // Child routes
 import home from './home';
+import profile from './profile';
 import rule from './rule';
 import role from './role';
 import user from './user';
@@ -40,6 +41,7 @@ export default {
     user,
     transaction,
     home,
+    profile,
     // place new routes before...
     content,
     error,

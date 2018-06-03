@@ -12,14 +12,16 @@ import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Footer.css';
 
-function Footer() {
-  const date = new Date();
-  return (
-    <div className={`${s.root}`}>
-      <img id="logo" src="/logo.png" className={s.logo} />
-      <span className={s.text}>©{date.getFullYear()} Phylogeny Explorer Project</span>
-    </div>
-  );
+class Footer extends React.Component {
+  render() {
+    const date = new Date();
+    return (
+      <div className={s.root}>
+        <img id="logo" src="/logo.png" className={s.logo} />
+        <span className={s.text}>©{date.getFullYear()} Phylogeny Explorer Project</span>
+      </div>
+    );
+  }
 }
 
 export default withStyles(s)(Footer);

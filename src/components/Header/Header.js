@@ -14,6 +14,8 @@ import {
   Navbar,
   Nav,
   NavItem,
+  NavDropdown,
+  MenuItem,
 } from 'react-bootstrap';
 import Auth from '../Auth';
 
@@ -28,7 +30,9 @@ class Header extends React.Component {
       isAuthenticated: 'not-yet',
       role: 'not-yet',
       username: 'not-yet',
+      currentKey: 6,
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -45,33 +49,44 @@ class Header extends React.Component {
   }
 
   handleSelect(key, e) {
+    let target = this ? this : e.target;
     e.preventDefault();
-    if (this.href !== '#') {
-      history.push(this.href);
+    if (target.href !== '#') {
+      history.push(target.href);
     }
+  }
+
+  handleClick(key) {
+    this.setState({currentKey: key});
   }
 
   render() {
     const admin = (
-      <Nav bsStyle="pills" activeKey={1} onSelect={this.handleSelect}>
-        <NavItem eventKey={2} href="/roles">Roles</NavItem>
-        <NavItem eventKey={3} href="/users">Users</NavItem>
-        <NavItem eventKey={5} href="/rules">Rules</NavItem>
-        <NavItem eventKey={7} href="/transactions">Transactions</NavItem>
+      <Nav bsStyle="pills" activeKey={this.state.currentKey} onSelect={this.handleSelect}>
+        <NavItem eventKey={6} onSelect={this.handleClick} href="/clades">Cladogram</NavItem>
+        <NavItem eventKey={2} onSelect={this.handleClick} href="/roles">Roles</NavItem>
+        <NavItem eventKey={3} onSelect={this.handleClick} href="/users">Users</NavItem>
+        <NavItem eventKey={5} onSelect={this.handleClick} href="/rules">Rules</NavItem>
+        <NavItem eventKey={7} onSelect={this.handleClick} href="/transactions">Transactions</NavItem>
       </Nav>
     );
 
     const user = (
       <Nav bsStyle="pills" activeKey={1} onSelect={this.handleSelect}>
-        <NavItem eventKey={7} href="/transactions">Transactions</NavItem>
+        <NavItem eventKey={6} onSelect={this.handleClick} href="/clades">Cladogram</NavItem>
+        <NavItem eventKey={7} onSelect={this.handleClick} href="/transactions">Transactions</NavItem>
       </Nav>
     );
 
     const auth = (
       <Navbar.Collapse>
         <Nav pullRight bsStyle="pills" activeKey={2} onSelect={this.handleSelect}>
-          <NavItem eventKey={8} href="/auth/logout">Logout</NavItem>
-          <NavItem eventKey={9} href="/">{this.state.username}</NavItem>
+          <NavDropdown eventKey={9} title={this.state.username} id="User Menu">
+            <MenuItem eventKey={9.2} onSelect={this.handleClick} href="/profile"><span className="glyphicon glyphicon-user" /> Profile</MenuItem>
+            <MenuItem eventKey={9.1} onSelect={this.handleClick} href="/profile/settings"><span className="glyphicon glyphicon-cog" /> Settings</MenuItem>
+            <MenuItem divider />
+            <MenuItem eventKey={9.3} onSelect={this.handleClick} href="/auth/logout"><span className="glyphicon glyphicon-off" /> Log Out</MenuItem>
+          </NavDropdown>
         </Nav>
         {this.state.role === 'admin' ? admin : user}
       </Navbar.Collapse>
