@@ -26,6 +26,7 @@ class Request {
     this._config = {};
 
     this._url = this.localUrl(url);
+    console.log(this._url);
 
     this._method = method;
 
@@ -64,15 +65,11 @@ class Request {
   }
 
   localUrl(url) {
-    if (url.startsWith('//')) {
-      return `https:${url}`;
-    }
-
     if (url.startsWith('http')) {
       return url;
     }
 
-    return `http://${this._endPoint}${url}`;
+    return `//${this._endPoint}${url}`;
   }
 
 

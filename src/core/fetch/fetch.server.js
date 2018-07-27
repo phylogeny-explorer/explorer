@@ -16,15 +16,11 @@ fetch.Promise = Promise;
 Response.Promise = Promise;
 
 function localUrl(url) {
-  if (url.startsWith('//')) {
-    return `https:${url}`;
-  }
-
   if (url.startsWith('http')) {
     return url;
   }
 
-  return `http://${adminApiHost}${url}`;
+  return `//${adminApiHost}${url}`;
 }
 
 function localFetch(url, options) {
