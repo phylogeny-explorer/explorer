@@ -33,9 +33,9 @@ const GLOBALS = {
   local: {
     'AWS_BUCKET'          : '"phylex-assets"',
     'AWS_REGION'          : '"us-east-1"',
-    'PUBLIC_API_HOSTNAME' : '"local-public-api.phylogenyexplorerproject.com"',
-    'ADMIN_API_HOSTNAME'  : '"local-admin-api.phylogenyexplorerproject.com"',
-    'WEBSITE_HOSTNAME'    : '"local-explorer.phylogenyexplorerproject.com"',
+    'PUBLIC_API_HOSTNAME' : process.env.PHYLEX_PUBLIC_API_HOSTNAME ? `"${process.env.PHYLEX_PUBLIC_API_HOSTNAME}"` : '"localhost:5500"',
+    'ADMIN_API_HOSTNAME'  : process.env.PHYLEX_ADMIN_API_HOSTNAME  ? `"${process.env.PHYLEX_ADMIN_API_HOSTNAME}"`  : '"localhost:5000"',
+    'WEBSITE_HOSTNAME'    : process.env.PHYLEX_WEBSITE_HOSTNAME    ? `"${process.env.PHYLEX_WEBSITE_HOSTNAME}"`    : '"localhost:3000"',
     'PORT'                : 3000,
     __DEV__: IS_LOCAL,
   },

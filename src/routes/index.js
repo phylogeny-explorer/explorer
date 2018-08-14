@@ -19,6 +19,7 @@ import role from './role';
 import user from './user';
 import clade from './clade';
 import login from './login';
+import forgot from './forgot';
 import logout from './logout';
 import signup from './signup';
 import content from './content';
@@ -34,6 +35,7 @@ export default {
   children: [
     clade,
     login,
+    forgot,
     signup,
     logout,
     rule,

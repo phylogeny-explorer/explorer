@@ -11,12 +11,11 @@
 import React from 'react';
 import Link from '../../components/Link';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Login.css';
+import s from './Forgot.css';
 import Request from '../../core/Request';
 import Auth from '../../components/Auth';
 import history from '../../core/history';
 import { FormGroup, FormControl, Alert, Button } from 'react-bootstrap';
-
 
 class Form extends React.Component {
   constructor(props) {
@@ -32,7 +31,7 @@ class Form extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     (async() => {
-      const resp = await new Request('/auth/login', 'POST', this.state).fetch();
+      const resp = await new Request('/auth/forgot', 'POST', this.state).fetch();
       if (!resp.success) {
         this.setState({
           errors: resp.errors,
@@ -41,16 +40,11 @@ class Form extends React.Component {
         });
       } else {
         Auth.authenticateUser(resp.token, resp.user.role, resp.user.username);
-        history.push('/clades');
+        history.push('/');
       }
     })();
   }
   
-  onForgot(e) {
-	    e.preventDefault();
-        history.push('/forgot');
-	  }
-
   onChange(e) {
     const model = {};
     this.setState(model);
@@ -65,15 +59,14 @@ class Form extends React.Component {
     return (
       <form onSubmit={(e) => this.onSubmit(e)}>
         <div className={s.formTop}>
-          <h1>Login to the Explorer</h1>
-          <p>Enter username and password to log in:</p>
+          <p>Enter username or email address to send new credentials to the email account on file.</p>
         </div>
         <div className={s.formBody}>
           {this.state.message && <Alert bsStyle="danger">{this.state.message}</Alert>}
           <FormGroup className={s.formGroup}>
             <FormControl
               className={s.input}
-              placeholder="Username..."
+              placeholder="Username or email address..."
               id="username"
               type="text"
               name="username"
@@ -82,19 +75,7 @@ class Form extends React.Component {
               autoFocus
             />
           </FormGroup>
-          <FormGroup className={s.formGroup}>
-            <FormControl
-              className={s.input}
-              placeholder="Password..."
-              id="password"
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={(e) => this.onChange(e)}
-            />
-          </FormGroup>
-          <p><Link className={s.link} to={`/forgot`}>Forgot your password? Click here.</Link></p>
-          <Button className={s.loginButton} block type="submit">Log in!</Button>
+          <Button className={s.loginButton} block type="submit">Request Credentials</Button>
         </div>
       </form>
     );
