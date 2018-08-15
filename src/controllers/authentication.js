@@ -10,6 +10,7 @@
 
 import validator from 'validator';
 import passport from 'passport';
+import { User } from 'common/databases/admin';
 
 const AuthenticationController = {
   /**
@@ -70,6 +71,34 @@ const AuthenticationController = {
     if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {
       isFormValid = false;
       errors.password = 'Please provide your password.';
+    }
+
+    if (!isFormValid) {
+      message = 'Check the form for errors.';
+    }
+
+    return {
+      success: isFormValid,
+      message,
+      errors,
+    };
+  },
+
+  /**
+   * Validate the forgot form
+   *
+   * @param {object} payload - the HTTP body message
+   * @returns {object} The result of validation. Object contains a boolean validation result,
+   *                   errors tips, and a global message for the whole form.
+   */
+  validateForgotForm: (payload) => {
+    const errors = {};
+    let isFormValid = true;
+    let message = '';
+
+    if (!payload || typeof payload.username !== 'string' || payload.username.trim().length === 0) {
+      isFormValid = false;
+      errors.username = 'Please provide your username or email address.';
     }
 
     if (!isFormValid) {
@@ -152,6 +181,36 @@ const AuthenticationController = {
         user: userData,
       });
     })(req, res, next);
+  },
+
+  forgot: (req, res, next) => {
+    const validationResult = AuthenticationController.validateForgotForm(req.body);
+    if (!validationResult.success) {
+      return res.status(400).json({
+        success: false,
+        message: validationResult.message,
+        errors: validationResult.errors,
+      });
+    }
+
+    return User.findOne({ $or: [ {username: req.body.username},{email: req.body.username} ], isActive: true }, (err, user) => {
+
+        if (err) {
+	    	return next(err);
+        }
+
+        if (!user) {
+    		return res.status(400).json({
+                success: true,
+                message: "Can't find username or email. Check the spelling. This user may not exist -- you should register."
+              });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Your temporary password was sent to " + user.email ,
+          });
+    });
   },
 
   logout: (req, res, next) => {

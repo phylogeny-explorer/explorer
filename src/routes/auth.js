@@ -22,6 +22,7 @@ const controller = AuthenticationController;
 const router = new Router(controller);
 router
   .post('/auth/login', controller.login)
+  .post('/auth/forgot', controller.forgot)
   .post('/auth/signup', controller.signup)
   .post('/auth/logout', controller.logout);
 
