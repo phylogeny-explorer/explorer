@@ -33,55 +33,26 @@ class Forgot extends React.Component {
     };
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-    (async() => {
-      const resp = await new Request('/auth/forgot', 'POST', this.state).fetch();
-      if (!resp.success) {
-        this.setState({
-          errors: resp.errors,
-          message: resp.message,
-          success: false,
-        });
-      } else {
-        Auth.authenticateUser(resp.token, resp.user.role, resp.user.username);
-        history.push('/');
-      }
-    })();
-  }
-
-  onChange(e) {
-    const model = {};
-    this.setState(model);
-    if (e.target.type === 'checkbox') {
-      model[e.target.id] = e.target.checked;
-    } else {
-      model[e.target.id] = e.target.value;
-    }
-  }
-
   render() {
     return (
-    		
-    	      <div className={s.root}>
-    	        <div className={s.container}>
-    	          <h1>{title}</h1>
-    	          {this.state.message}
-    	          <hr />
-    	          <Grid>
-    	            <Row>
-    	              <Col sm={5}>
-    	              <ForgotForm />
-    	              </Col>
-    	              <Col sm={1} className={s.middleCol}/>
-    	              <Col sm={1}/>
-    	              <Col sm={5}>
-    	              </Col>
-    	            </Row>
-    	          </Grid>
-    	        </div>
-    	      </div>
-
+	  <div className={s.root}>
+	    <div className={s.container}>
+	      <h1>{title}</h1>
+	      {this.state.message}
+	      <hr />
+	      <Grid>
+	        <Row>
+	          <Col sm={5}>
+	          <ForgotForm />
+	          </Col>
+	          <Col sm={1} className={s.middleCol}/>
+	          <Col sm={1}/>
+	          <Col sm={5}>
+	          </Col>
+	        </Row>
+	      </Grid>
+	    </div>
+	  </div>
     );
   }
 }

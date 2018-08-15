@@ -32,16 +32,10 @@ class Form extends React.Component {
     e.preventDefault();
     (async() => {
       const resp = await new Request('/auth/forgot', 'POST', this.state).fetch();
-      if (!resp.success) {
         this.setState({
-          errors: resp.errors,
           message: resp.message,
           success: false,
         });
-      } else {
-        Auth.authenticateUser(resp.token, resp.user.role, resp.user.username);
-        history.push('/');
-      }
     })();
   }
   
