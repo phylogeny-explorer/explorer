@@ -16,6 +16,7 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.13.4",
+    "generate-password": "~1.4.0",
     "jsonwebtoken": "^7.2.1",
     "mime": "^1.3.4",
     "morgan": "~1.7.0",

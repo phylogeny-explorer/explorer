@@ -57,6 +57,19 @@ const LoginStrategy = new PassportLocalStrategy({
         sub: user._id,
       };
 
+      let changed = false;
+      if(user.passwordResetCode) {
+    	  user.passwordResetCode = null;
+    	  changed = true;
+      }
+      if(user.passwordResetExpiry) {
+    	  user.passwordResetExpiry = null;
+    	  changed = true;
+      }
+      
+      if(changed) {
+    	  user.save()
+      }
       // create a token string
       const token = jwt.sign(payload, auth.jwt.secret);
       const data = {
