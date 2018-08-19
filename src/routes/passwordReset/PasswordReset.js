@@ -9,23 +9,25 @@
 
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Forgot.css';
+import s from './PasswordReset.css';
 import Request from '../../core/Request';
 import Auth from '../../components/Auth';
 import history from '../../core/history';
-import ForgotForm from './Form';
+import PasswordResetForm from './Form';
 import { Grid, Row, Col } from 'react-bootstrap';
 
-const title = 'Forgot Password';
+const title = 'Password Reset';
 
-class Forgot extends React.Component {
+class PasswordReset extends React.Component {
   constructor(props, context) {
     super(props);
     if (context.setTitle) {
       context.setTitle(title);
     }
     this.state = {
-      username: '',
+	  username: props.query.username,
+	  resetCode: props.query.resetCode,
+      password: '',
       errors: '',
       message: '',
     };
@@ -41,7 +43,7 @@ class Forgot extends React.Component {
 	      <Grid>
 	        <Row>
 	          <Col sm={5}>
-	          <ForgotForm />
+	          <PasswordResetForm username={this.state.username} resetCode={this.state.resetCode} />
 	          </Col>
 	          <Col sm={1} className={s.middleCol}/>
 	          <Col sm={1}/>
@@ -55,6 +57,6 @@ class Forgot extends React.Component {
   }
 }
 
-Forgot.contextTypes = { setTitle: React.PropTypes.func.isRequired };
+PasswordReset.contextTypes = { setTitle: React.PropTypes.func.isRequired };
 
-export default withStyles(s)(Forgot);
+export default withStyles(s)(PasswordReset);

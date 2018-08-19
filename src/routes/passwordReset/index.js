@@ -8,14 +8,14 @@
  */
 
 import React from 'react';
-import Forgot from './Forgot';
+import PasswordReset from './PasswordReset';
 
 export default {
 
-  path: '/forgot',
+  path: '/passwordReset',
 
-  action() {
-    return <Forgot />;
+  action(context) {
+    return <PasswordReset query={context.query}/>;
   },
 
 };

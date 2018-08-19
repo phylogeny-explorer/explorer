@@ -92,7 +92,6 @@ app.get('*', async(req, res, next) => {
     let css = new Set();
     let statusCode = 200;
     const data = { title: '', description: '', style: '', script: assets.main.js, children: '' };
-
     await UniversalRouter.resolve(routes, {
       path: req.path,
       query: req.query,

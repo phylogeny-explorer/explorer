@@ -20,6 +20,7 @@ import user from './user';
 import clade from './clade';
 import login from './login';
 import forgot from './forgot';
+import passwordReset from './passwordReset';
 import logout from './logout';
 import signup from './signup';
 import content from './content';
@@ -36,6 +37,7 @@ export default {
     clade,
     login,
     forgot,
+    passwordReset,
     signup,
     logout,
     rule,
