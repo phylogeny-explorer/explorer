@@ -8,11 +8,9 @@
  */
 
 import React from 'react';
-import Link from '../../components/Link';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './PasswordReset.css';
 import Request from '../../core/Request';
-import Auth from '../../components/Auth';
 import history from '../../core/history';
 import { FormGroup, FormControl, Alert, Button, ControlLabel } from 'react-bootstrap';
 
@@ -34,11 +32,11 @@ class Form extends React.Component {
     e.preventDefault();
     (async() => {
       if (this.state.repeat_password !== this.state.password) {
-          this.setState({
-            errors: { password: 'Passwords do not match' },
-            message: 'Passwords do not match',
-            success: false,
-          });
+        this.setState({
+          errors: { password: 'Passwords do not match' },
+          message: 'Passwords do not match',
+          success: false,
+        });
       } else {
         const resp = await new Request('/auth/passwordReset', 'POST', this.state).fetch();
         if (!resp.success) {
@@ -48,12 +46,12 @@ class Form extends React.Component {
             success: false,
           });
         } else {
-            history.push('/');
+          history.push('/');
         }
       }
     })();
   }
-  
+
   onChange(e) {
     const model = {};
     this.setState(model);
@@ -73,8 +71,8 @@ class Form extends React.Component {
         </div>
         <div className={s.formBody}>
           {this.state.message && <Alert bsStyle="danger">{this.state.message}</Alert>}
-          <input type="hidden" name="resetCode" value={this.state.resetCode}/>
-          <input type="hidden" name="username" value={this.state.username}/>
+          <input type="hidden" name="resetCode" value={this.state.resetCode} />
+          <input type="hidden" name="username" value={this.state.username} />
           <FormGroup controlId="password">
             <ControlLabel>Password</ControlLabel>
             <FormControl
@@ -99,8 +97,8 @@ class Form extends React.Component {
               minLength="8"
               required
             />
-        </FormGroup>
-        <Button className={s.loginButton} block type="submit">Save Password</Button>
+          </FormGroup>
+          <Button className={s.loginButton} block type="submit">Save Password</Button>
         </div>
       </form>
     );

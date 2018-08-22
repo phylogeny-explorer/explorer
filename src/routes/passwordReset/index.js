@@ -15,7 +15,7 @@ export default {
   path: '/passwordReset',
 
   action(context) {
-    return <PasswordReset query={context.query}/>;
+    return <PasswordReset query={context.query} />;
   },
 
 };
