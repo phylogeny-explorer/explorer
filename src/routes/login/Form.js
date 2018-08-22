@@ -47,9 +47,9 @@ class Form extends React.Component {
   }
   
   onForgot(e) {
-	    e.preventDefault();
+      e.preventDefault();
         history.push('/forgot');
-	  }
+    }
 
   onChange(e) {
     const model = {};

@@ -9,7 +9,7 @@
 
 
 var attachEvent = document.attachEvent;
-var	stylesCreated = false;
+var  stylesCreated = false;
 
 if (!attachEvent) {
   var requestFrame = (function(){

@@ -10,3 +10,4 @@ npm-debug.log
 process.json
 release
 /.project
+src/common/node_modules

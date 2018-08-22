@@ -25,8 +25,8 @@ class PasswordReset extends React.Component {
       context.setTitle(title);
     }
     this.state = {
-	  username: props.query.username,
-	  resetCode: props.query.resetCode,
+    username: props.query.username,
+    resetCode: props.query.resetCode,
       password: '',
       errors: '',
       message: '',
@@ -35,24 +35,24 @@ class PasswordReset extends React.Component {
 
   render() {
     return (
-	  <div className={s.root}>
-	    <div className={s.container}>
-	      <h1>{title}</h1>
-	      {this.state.message}
-	      <hr />
-	      <Grid>
-	        <Row>
-	          <Col sm={5}>
-	          <PasswordResetForm username={this.state.username} resetCode={this.state.resetCode} />
-	          </Col>
-	          <Col sm={1} className={s.middleCol}/>
-	          <Col sm={1}/>
-	          <Col sm={5}>
-	          </Col>
-	        </Row>
-	      </Grid>
-	    </div>
-	  </div>
+    <div className={s.root}>
+      <div className={s.container}>
+        <h1>{title}</h1>
+        {this.state.message}
+        <hr />
+        <Grid>
+          <Row>
+            <Col sm={5}>
+            <PasswordResetForm username={this.state.username} resetCode={this.state.resetCode} />
+            </Col>
+            <Col sm={1} className={s.middleCol}/>
+            <Col sm={1}/>
+            <Col sm={5}>
+            </Col>
+          </Row>
+        </Grid>
+      </div>
+    </div>
     );
   }
 }

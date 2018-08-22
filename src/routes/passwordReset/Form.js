@@ -33,24 +33,24 @@ class Form extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     (async() => {
-        if (this.state.repeat_password !== this.state.password) {
-            this.setState({
-              errors: { password: 'Passwords do not match' },
-              message: 'Passwords do not match',
-              success: false,
-            });
+      if (this.state.repeat_password !== this.state.password) {
+          this.setState({
+            errors: { password: 'Passwords do not match' },
+            message: 'Passwords do not match',
+            success: false,
+          });
+      } else {
+        const resp = await new Request('/auth/passwordReset', 'POST', this.state).fetch();
+        if (!resp.success) {
+          this.setState({
+            errors: resp.errors,
+            message: resp.message,
+            success: false,
+          });
         } else {
-        	const resp = await new Request('/auth/passwordReset', 'POST', this.state).fetch();
-			if (!resp.success) {
-			    this.setState({
-			      errors: resp.errors,
-			      message: resp.message,
-			      success: false,
-			    });
-			} else {
-			    history.push('/');
-			}
+            history.push('/');
         }
+      }
     })();
   }
   
@@ -76,29 +76,29 @@ class Form extends React.Component {
           <input type="hidden" name="resetCode" value={this.state.resetCode}/>
           <input type="hidden" name="username" value={this.state.username}/>
           <FormGroup controlId="password">
-	          <ControlLabel>Password</ControlLabel>
-	          <FormControl
-	            placeholder="A strong password!"
-	            type="password"
-	            value={this.state.password}
-	            onChange={(e) => this.onChange(e)}
-	            className={s.input}
-	            minLength="8"
-	            required
-	          />
+            <ControlLabel>Password</ControlLabel>
+            <FormControl
+              placeholder="A strong password!"
+              type="password"
+              value={this.state.password}
+              onChange={(e) => this.onChange(e)}
+              className={s.input}
+              minLength="8"
+              required
+            />
           </FormGroup>
 
           <FormGroup controlId="repeat_password">
-	          <ControlLabel>Repeat Password</ControlLabel>
-	          <FormControl
-	            placeholder="Please repeat for safety"
-	            type="password"
-	            value={this.state.repeat_password}
-	            onChange={(e) => this.onChange(e)}
-	            className={s.input}
-	            minLength="8"
-	            required
-	          />
+            <ControlLabel>Repeat Password</ControlLabel>
+            <FormControl
+              placeholder="Please repeat for safety"
+              type="password"
+              value={this.state.repeat_password}
+              onChange={(e) => this.onChange(e)}
+              className={s.input}
+              minLength="8"
+              required
+            />
         </FormGroup>
         <Button className={s.loginButton} block type="submit">Save Password</Button>
         </div>
