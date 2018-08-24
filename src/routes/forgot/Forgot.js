@@ -10,9 +10,6 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Forgot.css';
-import Request from '../../core/Request';
-import Auth from '../../components/Auth';
-import history from '../../core/history';
 import ForgotForm from './Form';
 import { Grid, Row, Col } from 'react-bootstrap';
 

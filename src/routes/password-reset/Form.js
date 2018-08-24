@@ -9,7 +9,7 @@
 
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './PasswordReset.css';
+import s from './password-reset.css';
 import Request from '../../core/Request';
 import history from '../../core/history';
 import { FormGroup, FormControl, Alert, Button, ControlLabel } from 'react-bootstrap';
@@ -38,8 +38,9 @@ class Form extends React.Component {
           success: false,
         });
       } else {
-        const resp = await new Request('/auth/passwordReset', 'POST', this.state).fetch();
+        const resp = await new Request('/auth/password-reset', 'POST', this.state).fetch();
         if (!resp.success) {
+          console.error("/auth/password-reset returned error: ", resp.errors);
           this.setState({
             errors: resp.errors,
             message: resp.message,

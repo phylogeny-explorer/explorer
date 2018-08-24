@@ -8,12 +8,9 @@
  */
 
 import React from 'react';
-import Link from '../../components/Link';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Forgot.css';
 import Request from '../../core/Request';
-import Auth from '../../components/Auth';
-import history from '../../core/history';
 import { FormGroup, FormControl, Alert, Button } from 'react-bootstrap';
 
 class Form extends React.Component {

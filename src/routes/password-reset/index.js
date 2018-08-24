@@ -8,11 +8,11 @@
  */
 
 import React from 'react';
-import PasswordReset from './PasswordReset';
+import PasswordReset from './password-reset';
 
 export default {
 
-  path: '/passwordReset',
+  path: '/password-reset',
 
   action(context) {
     return <PasswordReset query={context.query} />;

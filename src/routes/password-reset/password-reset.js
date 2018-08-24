@@ -9,10 +9,7 @@
 
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './PasswordReset.css';
-import Request from '../../core/Request';
-import Auth from '../../components/Auth';
-import history from '../../core/history';
+import s from './password-reset.css';
 import PasswordResetForm from './Form';
 import { Grid, Row, Col } from 'react-bootstrap';
 
@@ -25,8 +22,8 @@ class PasswordReset extends React.Component {
       context.setTitle(title);
     }
     this.state = {
-    username: props.query.username,
-    resetCode: props.query.resetCode,
+      username: props.query.username,
+      resetCode: props.query.resetCode,
       password: '',
       errors: '',
       message: '',

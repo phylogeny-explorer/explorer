@@ -20,13 +20,12 @@ import user from './user';
 import clade from './clade';
 import login from './login';
 import forgot from './forgot';
-import passwordReset from './passwordReset';
+import passwordReset from './password-reset';
 import logout from './logout';
 import signup from './signup';
 import content from './content';
 import error from './error';
 import transaction from './transaction';
-import Auth from '../components/Auth';
 
 export default {
 
