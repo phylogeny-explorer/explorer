@@ -28,13 +28,14 @@ class Form extends React.Component {
     e.preventDefault();
     (async() => {
       const resp = await new Request('/auth/forgot', 'POST', this.state).fetch();
-        this.setState({
-          message: resp.message,
-          success: false,
-        });
+      const success = resp.status >= 200 && resp.status < 300;
+      this.setState({
+        message: resp.message,
+        success: resp.success,
+      });
     })();
   }
-  
+
   onChange(e) {
     const model = {};
     this.setState(model);
@@ -52,7 +53,7 @@ class Form extends React.Component {
           <p>Enter username or email address to send new credentials to the email account on file.</p>
         </div>
         <div className={s.formBody}>
-          {this.state.message && <Alert bsStyle="danger">{this.state.message}</Alert>}
+          {this.state.message && <Alert bsStyle={this.state.success?'info':'danger'}>{this.state.message}</Alert>}
           <FormGroup className={s.formGroup}>
             <FormControl
               className={s.input}
