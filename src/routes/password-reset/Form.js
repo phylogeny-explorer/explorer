@@ -12,7 +12,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './password-reset.css';
 import Request from '../../core/Request';
 import history from '../../core/history';
-import { FormGroup, FormControl, Alert, Button, ControlLabel } from 'react-bootstrap';
+import { FormGroup, FormControl, Alert, Button, ControlLabel, Panel } from 'react-bootstrap';
 
 class Form extends React.Component {
   constructor(props, context) {
@@ -35,7 +35,6 @@ class Form extends React.Component {
         this.setState({
           errors: { password: 'Passwords do not match' },
           message: 'Passwords do not match',
-          success: false,
         });
       } else {
         const resp = await new Request('/auth/password-reset', 'POST', this.state).fetch();
@@ -44,7 +43,6 @@ class Form extends React.Component {
           this.setState({
             errors: resp.errors,
             message: resp.message,
-            success: false,
           });
         } else {
           history.push('/');
@@ -56,11 +54,7 @@ class Form extends React.Component {
   onChange(e) {
     const model = {};
     this.setState(model);
-    if (e.target.type === 'checkbox') {
-      model[e.target.id] = e.target.checked;
-    } else {
-      model[e.target.id] = e.target.value;
-    }
+    model[e.target.id] = e.target.value;
   }
 
   render() {
@@ -99,6 +93,17 @@ class Form extends React.Component {
               required
             />
           </FormGroup>
+          {(this.state.errors && this.state.errors !== '') ? (
+            <Panel header="Form Errors" bsStyle="danger">
+              <ul>
+                {Object.keys(this.state.errors).map((error, j) =>
+                  <li key={j}>
+                    {error} - {this.state.errors[error]}
+                  </li>
+                )}
+              </ul>
+            </Panel>
+          ) : ''}
           <Button className={s.loginButton} block type="submit">Save Password</Button>
         </div>
       </form>

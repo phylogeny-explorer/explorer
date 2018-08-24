@@ -15,7 +15,7 @@ import s from './Login.css';
 import Request from '../../core/Request';
 import Auth from '../../components/Auth';
 import history from '../../core/history';
-import { FormGroup, FormControl, Alert, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, Alert, Button, Panel } from 'react-bootstrap';
 
 
 class Form extends React.Component {
@@ -93,6 +93,17 @@ class Form extends React.Component {
               onChange={(e) => this.onChange(e)}
             />
           </FormGroup>
+          {(this.state.errors && this.state.errors !== '') ? (
+            <Panel header="Form Errors" bsStyle="danger">
+              <ul>
+                {Object.keys(this.state.errors).map((error, j) =>
+                  <li key={j}>
+                    {error} - {this.state.errors[error]}
+                  </li>
+                )}
+              </ul>
+            </Panel>
+          ) : ''}
           <p><Link className={s.link} to={`/forgot`}>Forgot your password? Click here.</Link></p>
           <Button className={s.loginButton} block type="submit">Log in!</Button>
         </div>

@@ -290,9 +290,8 @@ class Signup extends React.Component {
                   </Checkbox>
                 </FormGroup>
 
-                {(this.state.errors !== '') ? (
+                {(this.state.errors && this.state.errors !== '') ? (
                   <Panel header="Form Errors" bsStyle="danger">
-                    {this.state.message}
                     <ul>
                       {Object.keys(this.state.errors).map((error, j) =>
                         <li key={j}>

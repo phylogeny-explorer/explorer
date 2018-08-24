@@ -268,7 +268,7 @@ class Signup extends React.Component {
                 />
               </FormGroup>
 
-              {(this.state.errors !== '') ? (
+              {(this.state.errors && this.state.errors !== '') ? (
                 <Panel header="Form Errors" bsStyle="danger">
                   {this.state.message}
                   <ul>

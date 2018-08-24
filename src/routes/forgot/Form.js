@@ -11,7 +11,7 @@ import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Forgot.css';
 import Request from '../../core/Request';
-import { FormGroup, FormControl, Alert, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, Alert, Button, Panel } from 'react-bootstrap';
 
 class Form extends React.Component {
   constructor(props) {
@@ -28,8 +28,8 @@ class Form extends React.Component {
     e.preventDefault();
     (async() => {
       const resp = await new Request('/auth/forgot', 'POST', this.state).fetch();
-      const success = resp.status >= 200 && resp.status < 300;
       this.setState({
+        errors: resp.errors,
         message: resp.message,
         success: resp.success,
       });
@@ -66,6 +66,17 @@ class Form extends React.Component {
               autoFocus
             />
           </FormGroup>
+          {this.state.errors ? (
+            <Panel header="Form Errors" bsStyle="danger">
+              <ul>
+                {Object.keys(this.state.errors).map((error, j) =>
+                  <li key={j}>
+                    {error} - {this.state.errors[error]}
+                  </li>
+                )}
+              </ul>
+            </Panel>
+          ) : ''}
           <Button className={s.loginButton} block type="submit">Request Credentials</Button>
         </div>
       </form>
