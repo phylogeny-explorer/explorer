@@ -130,12 +130,22 @@ const AuthenticationController = {
       errors,
     };
   },
+
+  /**
+   * Validate the password reset form
+   *
+   * @param {object}
+   *          payload - the HTTP body message
+   * @returns {object} The result of validation. Object contains a boolean
+   *          validation result, errors tips, and a global message for the whole
+   *          form.
+   */
   validatePasswordResetForm: (payload) => {
     const errors = {};
     let isFormValid = true;
     let message = '';
-    let p1 = false;
-    let p2 = false;
+    let password1Valid = false;
+    let password2Valid = false;
 
     if (!payload || typeof payload.username !== 'string' || payload.username.trim().length === 0) {
       isFormValid = false;
@@ -148,7 +158,7 @@ const AuthenticationController = {
       isFormValid = false;
       errors.password = 'Please provide a password.';
     } else {
-      p1 = true;
+      password1Valid = true;
       payload.password = payload.password.trim();
     }
 
@@ -156,11 +166,11 @@ const AuthenticationController = {
       isFormValid = false;
       errors.repeat_password = 'Enter the password a second time.';
     } else {
-      p2 = true;
+      password2Valid = true;
       payload.repeat_password = payload.repeat_password.trim();
     }
 
-    if (p1 && p2 && payload.repeat_password != payload.password) {
+    if (password1Valid && password2Valid && payload.repeat_password != payload.password) {
       isFormValid = false;
       errors.repeat_password = 'The second password does not match the first one.';
     }
