@@ -278,14 +278,14 @@ const AuthenticationController = {
       user.passwordResetExpiry = new Date(now.getTime() + 30 * 60000);
       user.save((err, user) => {
         if (err) {
-          console.log('User update error: Can\'t save password reset code');
+          console.error('User update error: Can\'t save password reset code');
           return res.status(400).json({
             success: false,
             message: "Can't save password reset code.",
           });
         }
         let url = req.headers.referer.substring(0, req.headers.referer.lastIndexOf('/'));
-        url += `/passwordReset?resetCode=${resetCode}&username=${user.username}`;
+        url += `/password-reset?resetCode=${resetCode}&username=${user.username}`;
         SES.sendEmail(user.email,
             'Password Change -- Phylogeny Explorer',
             `<HTML><BODY><H1>Choose a new password!</H1><p>You have requested a new password for the account '${user.username}'. To assign new password, click on this link:</p><p><a href='${url}'>${url}</a></p><p>This link is only valid for 30 minutes from now.</p><p>PS. If you did not request a new password, do not worry; your account is intact and your old password still works.</p><p>Yours truly,</p><p><i>The Phylogeny Explorer</i></p></p></BODY><HTML>`);
@@ -310,6 +310,7 @@ const AuthenticationController = {
       username: req.body.username,
       passwordResetExpiry: { $gt: Date.now() }, isActive: true }, (err, user) => {
       if (err) {
+        console.error('Error getting password reset code ' + err);
         return next(err);
       }
 
@@ -324,7 +325,7 @@ const AuthenticationController = {
       user.passwordResetExpiry = null;
       user.save((err) => {
         if (err) {
-          console.log('user update error');
+          console.error('Error saving user password: ' + err);
           return res.status(400).json({
             success: false,
             message: "Can't save password.",
