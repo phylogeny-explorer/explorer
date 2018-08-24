@@ -42,10 +42,7 @@ class PasswordReset extends React.Component {
             <Col sm={5}>
             <PasswordResetForm username={this.state.username} resetCode={this.state.resetCode} />
             </Col>
-            <Col sm={1} className={s.middleCol}/>
-            <Col sm={1}/>
-            <Col sm={5}>
-            </Col>
+            <Col sm={7}/>>
           </Row>
         </Grid>
       </div>

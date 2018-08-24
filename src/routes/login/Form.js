@@ -45,11 +45,6 @@ class Form extends React.Component {
       }
     })();
   }
-  
-  onForgot(e) {
-      e.preventDefault();
-        history.push('/forgot');
-    }
 
   onChange(e) {
     const model = {};
@@ -104,7 +99,7 @@ class Form extends React.Component {
               </ul>
             </Panel>
           ) : ''}
-          <p><Link className={s.link} to={`/forgot`}>Forgot your password? Click here.</Link></p>
+          <p><Link to={`/forgot`}>Forgot your password? Click here.</Link></p>
           <Button className={s.loginButton} block type="submit">Log in!</Button>
         </div>
       </form>

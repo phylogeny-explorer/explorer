@@ -39,11 +39,7 @@ class Form extends React.Component {
   onChange(e) {
     const model = {};
     this.setState(model);
-    if (e.target.type === 'checkbox') {
-      model[e.target.id] = e.target.checked;
-    } else {
-      model[e.target.id] = e.target.value;
-    }
+    model[e.target.id] = e.target.value;
   }
 
   render() {
