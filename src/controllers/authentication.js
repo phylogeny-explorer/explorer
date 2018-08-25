@@ -13,7 +13,7 @@ import passport from 'passport';
 import generator from 'generate-password';
 import { User } from 'common/databases/admin';
 import { SES } from 'common/aws';
-
+import { config } from 'common/config';
 
 const AuthenticationController = {
   /**
@@ -294,7 +294,7 @@ const AuthenticationController = {
             message: "Can't save password reset code.",
           });
         }
-        let url = req.headers.referer.substring(0, req.headers.referer.lastIndexOf('/'));
+        let url = config.url;
         url += `/password-reset?resetCode=${resetCode}&username=${user.username}`;
         SES.sendEmail(user.email,
             'Password Change -- Phylogeny Explorer',
