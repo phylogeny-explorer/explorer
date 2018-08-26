@@ -30,23 +30,23 @@ class EmailManager {
   //NOTE: toAddresses must be a string array
   sendEmail(toAddresses, subject, body) {
     var params = {
-        Destination: {
-          ToAddresses: toAddresses
-        },
-        Message: { 
-          Body: { 
-            Html: {
-             Charset: "UTF-8",
-             Data: body
-            }
-        },
-          Subject: {
-          Charset: 'UTF-8',
-          Data: subject
+      Destination: {
+        ToAddresses: toAddresses
+      },
+      Message: {
+        Body: {
+          Html: {
+            Charset: "UTF-8",
+            Data: body
           }
         },
-        Source: config.sender_email
-      };       
+        Subject: {
+          Charset: 'UTF-8',
+          Data: subject
+        }
+      },
+      Source: config.sender_email
+    };
     return this.getSES().sendEmail(params).promise();
   }
 }
