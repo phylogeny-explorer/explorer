@@ -8,6 +8,7 @@ function getEnv(env) {
 
 export const config = {
   url: getEnv('URL') || 'explorer.phylogenyexplorerproject.com',
+  sender_email: getEnv('SENDER_EMAIL') || 'contact@phylogenyexplorerproject.com',
   admin_api_url: getEnv('ADMIN_API_URL') || 'admin-api.phylogenyexplorerproject.com',
   public_api_url: getEnv('PUBLIC_API_URL') || 'public-api.phylogenyexplorerproject.com'
 };
