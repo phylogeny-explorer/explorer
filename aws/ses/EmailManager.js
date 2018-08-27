@@ -2,7 +2,7 @@ import AWS from 'aws-sdk';
 import { aws, config  } from '../../config';
 import { Promise } from 'bluebird';
 
-AWS.aws.update({
+AWS.config.update({
   region: aws.region,
   credentials: new AWS.CognitoIdentityCredentials({
     IdentityPoolId: aws.identityPoolId,
