@@ -39,7 +39,7 @@ class Form extends React.Component {
       } else {
         const resp = await new Request('/auth/password-reset', 'POST', this.state).fetch();
         if (!resp.success) {
-          console.error("/auth/password-reset returned error: ", resp.errors);
+          console.error('/auth/password-reset returned error: ', resp.errors);
           this.setState({
             errors: resp.errors,
             message: resp.message,
@@ -61,6 +61,7 @@ class Form extends React.Component {
     return (
       <form onSubmit={(e) => this.onSubmit(e)}>
         <div className={s.formTop}>
+          <h1>Choose New Password</h1>
           <p>Your username is '{this.state.username}'.</p>
           <p>Enter a new password. It must be at least 8 characters long.</p>
         </div>
@@ -93,7 +94,8 @@ class Form extends React.Component {
               required
             />
           </FormGroup>
-          {(this.state.errors && this.state.errors !== '') ? (
+          {
+            this.state.errors && this.state.errors !== '' &&
             <Panel header="Form Errors" bsStyle="danger">
               <ul>
                 {Object.keys(this.state.errors).map((error, j) =>
@@ -103,7 +105,7 @@ class Form extends React.Component {
                 )}
               </ul>
             </Panel>
-          ) : ''}
+          }
           <Button className={s.loginButton} block type="submit">Save Password</Button>
         </div>
       </form>

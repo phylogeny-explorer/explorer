@@ -30,24 +30,20 @@ class Forgot extends React.Component {
 
   render() {
     return (
-    <div className={s.root}>
-      <div className={s.container}>
-        <h1>{title}</h1>
-        {this.state.message}
-        <hr />
-        <Grid>
-          <Row>
-            <Col sm={5}>
-            <ForgotForm />
-            </Col>
-            <Col sm={1} className={s.middleCol}/>
-            <Col sm={1}/>
-            <Col sm={5}>
-            </Col>
-          </Row>
-        </Grid>
+      <div className={s.root}>
+        <div className={s.container}>
+          {this.state.message}
+          <Grid>
+            <Row>
+              <Col sm={5}>
+                <ForgotForm />
+              </Col>
+              <Col sm={1} className={s.middleCol} />
+              <Col sm={6} />
+            </Row>
+          </Grid>
+        </div>
       </div>
-    </div>
     );
   }
 }

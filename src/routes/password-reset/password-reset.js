@@ -32,21 +32,19 @@ class PasswordReset extends React.Component {
 
   render() {
     return (
-    <div className={s.root}>
-      <div className={s.container}>
-        <h1>{title}</h1>
-        {this.state.message}
-        <hr />
-        <Grid>
-          <Row>
-            <Col sm={5}>
-            <PasswordResetForm username={this.state.username} resetCode={this.state.resetCode} />
-            </Col>
-            <Col sm={7}/>>
+      <div className={s.root}>
+        <div className={s.container}>
+          {this.state.message}
+          <Grid>
+            <Row>
+              <Col sm={5}>
+                <PasswordResetForm username={this.state.username} resetCode={this.state.resetCode} />
+              </Col>
+              <Col sm={7} />>
           </Row>
-        </Grid>
+          </Grid>
+        </div>
       </div>
-    </div>
     );
   }
 }

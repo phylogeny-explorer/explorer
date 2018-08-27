@@ -46,10 +46,11 @@ class Form extends React.Component {
     return (
       <form onSubmit={(e) => this.onSubmit(e)}>
         <div className={s.formTop}>
+          <h1>Password Reset</h1>
           <p>Enter username or email address to send new credentials to the email account on file.</p>
         </div>
         <div className={s.formBody}>
-          {this.state.message && <Alert bsStyle={this.state.success?'info':'danger'}>{this.state.message}</Alert>}
+          {this.state.message && <Alert bsStyle={this.state.success ? 'info' : 'danger'}>{this.state.message}</Alert>}
           <FormGroup className={s.formGroup}>
             <FormControl
               className={s.input}
@@ -62,7 +63,8 @@ class Form extends React.Component {
               autoFocus
             />
           </FormGroup>
-          {this.state.errors ? (
+          {
+            this.state.errors &&
             <Panel header="Form Errors" bsStyle="danger">
               <ul>
                 {Object.keys(this.state.errors).map((error, j) =>
@@ -72,7 +74,7 @@ class Form extends React.Component {
                 )}
               </ul>
             </Panel>
-          ) : ''}
+          }
           <Button className={s.loginButton} block type="submit">Request Credentials</Button>
         </div>
       </form>
