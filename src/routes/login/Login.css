@@ -8,3 +8,8 @@
  * Copyright(c) 2016 Phylogeny Explorer
  */
 @import '../../components/variables.css';
+
+.forgotPasswordLink {
+    margin-top: 14px;
+    font-size: 0.9em;
+}

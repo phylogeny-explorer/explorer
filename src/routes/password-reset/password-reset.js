@@ -24,9 +24,6 @@ class PasswordReset extends React.Component {
     this.state = {
       username: props.query.username,
       resetCode: props.query.resetCode,
-      password: '',
-      errors: '',
-      message: '',
     };
   }
 
@@ -34,14 +31,12 @@ class PasswordReset extends React.Component {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          {this.state.message}
           <Grid>
             <Row>
-              <Col sm={5}>
+              <Col sm={6} smOffset={3}>
                 <PasswordResetForm username={this.state.username} resetCode={this.state.resetCode} />
               </Col>
-              <Col sm={7} />
-          </Row>
+            </Row>
           </Grid>
         </div>
       </div>

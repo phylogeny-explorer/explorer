@@ -15,7 +15,7 @@ import s from './Login.css';
 import Request from '../../core/Request';
 import Auth from '../../components/Auth';
 import history from '../../core/history';
-import { FormGroup, FormControl, Alert, Button, Panel } from 'react-bootstrap';
+import { FormGroup, FormControl, Alert, Button, Panel, ControlLabel } from 'react-bootstrap';
 
 
 class Form extends React.Component {
@@ -46,14 +46,8 @@ class Form extends React.Component {
     })();
   }
 
-  onChange(e) {
-    const model = {};
-    this.setState(model);
-    if (e.target.type === 'checkbox') {
-      model[e.target.id] = e.target.checked;
-    } else {
-      model[e.target.id] = e.target.value;
-    }
+  onChange({target}) {
+    this.setState({ [target.id] : target.value });
   }
 
   render() {
@@ -66,6 +60,7 @@ class Form extends React.Component {
         <div className={s.formBody}>
           {this.state.message && <Alert bsStyle="danger">{this.state.message}</Alert>}
           <FormGroup className={s.formGroup}>
+            <ControlLabel>Username:</ControlLabel>
             <FormControl
               className={s.input}
               placeholder="Username..."
@@ -78,6 +73,7 @@ class Form extends React.Component {
             />
           </FormGroup>
           <FormGroup className={s.formGroup}>
+            <ControlLabel>Password:</ControlLabel>
             <FormControl
               className={s.input}
               placeholder="Password..."
@@ -88,7 +84,8 @@ class Form extends React.Component {
               onChange={(e) => this.onChange(e)}
             />
           </FormGroup>
-          {(this.state.errors && this.state.errors !== '') ? (
+          {
+            (this.state.errors && this.state.errors !== '') &&
             <Panel header="Form Errors" bsStyle="danger">
               <ul>
                 {Object.keys(this.state.errors).map((error, j) =>
@@ -98,9 +95,9 @@ class Form extends React.Component {
                 )}
               </ul>
             </Panel>
-          ) : ''}
-          <p><Link to={`/forgot`}>Forgot your password? Click here.</Link></p>
+          }
           <Button className={s.loginButton} block type="submit">Log in!</Button>
+          <p className={s.forgotPasswordLink}><Link to={`/forgot`}>Forgot your password? Click here.</Link></p>
         </div>
       </form>
     );

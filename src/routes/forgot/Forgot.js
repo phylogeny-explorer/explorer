@@ -21,25 +21,17 @@ class Forgot extends React.Component {
     if (context.setTitle) {
       context.setTitle(title);
     }
-    this.state = {
-      username: '',
-      errors: '',
-      message: '',
-    };
   }
 
   render() {
     return (
       <div className={s.root}>
         <div className={s.container}>
-          {this.state.message}
           <Grid>
             <Row>
-              <Col sm={5}>
+              <Col sm={6} smOffset={3}>
                 <ForgotForm />
               </Col>
-              <Col sm={1} className={s.middleCol} />
-              <Col sm={6} />
             </Row>
           </Grid>
         </div>
