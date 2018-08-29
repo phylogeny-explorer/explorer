@@ -27,12 +27,12 @@ class EmailManager {
     return this._ses;
   }
 
-  //NOTE: toAddresses must be a string array
   sendEmail(toAddresses, subject, body) {
-    var params = {
+    let params = {
       Destination: {
-        ToAddresses: toAddresses
+        ToAddresses: Array.isArray(toAddresses) ? toAddresses : [toAddresses]
       },
+
       Message: {
         Body: {
           Html: {
@@ -40,14 +40,30 @@ class EmailManager {
             Data: body
           }
         },
+
         Subject: {
           Charset: 'UTF-8',
           Data: subject
         }
       },
-      Source: config.sender_email
+
+      Source: `${config.sender_name} <${config.sender_email}>`
     };
+
     return this.getSES().sendEmail(params).promise();
+  }
+
+  sendEmailTemplate(toAddresses, templateName, data) {
+    let params = {
+      Destination: {
+        ToAddresses: Array.isArray(toAddresses) ? toAddresses : [toAddresses]
+      },
+      Template: templateName,
+      TemplateData: (typeof data === 'string') ? data : JSON.stringify(data),
+      Source: `${config.sender_name} <${config.sender_email}>`
+    };
+
+    return this.getSES().sendTemplatedEmail(params).promise();
   }
 }
 
