@@ -19,13 +19,12 @@ const AuthenticationController = {
   /**
    * Validate the sign up form
    *
-   * @param {object}
-   *          payload - the HTTP body message
+   * @param {object} payload - the HTTP body message
    * @returns {object} The result of validation. Object contains a boolean
    *          validation result, errors tips, and a global message for the whole
    *          form.
    */
-  validateSignupForm: (payload) => {
+  _validateSignupForm: (payload) => {
     const errors = {};
     let isFormValid = true;
     let message = '';
@@ -63,13 +62,12 @@ const AuthenticationController = {
   /**
    * Validate the login form
    *
-   * @param {object}
-   *          payload - the HTTP body message
+   * @param {object} payload - the HTTP body message
    * @returns {object} The result of validation. Object contains a boolean
    *          validation result, errors tips, and a global message for the whole
    *          form.
    */
-  validateLoginForm: (payload) => {
+  _validateLoginForm: (payload) => {
     const errors = {};
     let isFormValid = true;
     let message = '';
@@ -102,13 +100,12 @@ const AuthenticationController = {
   /**
    * Validate the forgot form
    *
-   * @param {object}
-   *          payload - the HTTP body message
+   * @param {object} payload - the HTTP body message
    * @returns {object} The result of validation. Object contains a boolean
    *          validation result, errors tips, and a global message for the whole
    *          form.
    */
-  validateForgotForm: (payload) => {
+  _validateForgotForm: (payload) => {
     const errors = {};
     let isFormValid = true;
     let message = '';
@@ -134,18 +131,15 @@ const AuthenticationController = {
   /**
    * Validate the password reset form
    *
-   * @param {object}
-   *          payload - the HTTP body message
+   * @param {object} payload - the HTTP body message
    * @returns {object} The result of validation. Object contains a boolean
    *          validation result, errors tips, and a global message for the whole
    *          form.
    */
-  validatePasswordResetForm: (payload) => {
+  _validatePasswordResetForm: (payload) => {
     const errors = {};
     let isFormValid = true;
     let message = '';
-    let password1Valid = false;
-    let password2Valid = false;
 
     if (!payload || typeof payload.username !== 'string' || payload.username.trim().length === 0) {
       isFormValid = false;
@@ -158,7 +152,6 @@ const AuthenticationController = {
       isFormValid = false;
       errors.password = 'Please provide a password.';
     } else {
-      password1Valid = true;
       payload.password = payload.password.trim();
     }
 
@@ -166,11 +159,10 @@ const AuthenticationController = {
       isFormValid = false;
       errors.repeat_password = 'Enter the password a second time.';
     } else {
-      password2Valid = true;
       payload.repeat_password = payload.repeat_password.trim();
     }
 
-    if (password1Valid && password2Valid && payload.repeat_password != payload.password) {
+    if (isFormValid && payload.repeat_password !== payload.password) {
       isFormValid = false;
       errors.repeat_password = 'The second password does not match the first one.';
     }
@@ -187,7 +179,7 @@ const AuthenticationController = {
   },
 
   signup: (req, res, next) => {
-    const validationResult = AuthenticationController.validateSignupForm(req.body);
+    const validationResult = AuthenticationController._validateSignupForm(req.body);
     if (!validationResult.success) {
       return res.status(400).json({
         success: false,
@@ -223,7 +215,7 @@ const AuthenticationController = {
   },
 
   login: (req, res, next) => {
-    const validationResult = AuthenticationController.validateLoginForm(req.body);
+    const validationResult = AuthenticationController._validateLoginForm(req.body);
     if (!validationResult.success) {
       return res.status(400).json({
         success: false,
@@ -256,7 +248,8 @@ const AuthenticationController = {
   },
 
   forgot: (req, res, next) => {
-    const validationResult = AuthenticationController.validateForgotForm(req.body);
+    const validationResult = AuthenticationController._validateForgotForm(req.body);
+
     if (!validationResult.success) {
       return res.status(400).json({
         success: false,
@@ -276,38 +269,40 @@ const AuthenticationController = {
           message: "Can't find username or email. Check the spelling. This user may not exist -- you should register.",
         });
       }
-      const resetCode = generator.generate({
+
+      user.passwordResetCode = generator.generate({
         length: 16,
         numbers: true,
         excludeSimilarCharacters: false,
         symbols: false,
       });
-      user.passwordResetCode = resetCode;
-      const now = new Date();
-      // 30 minutes expiry
-      user.passwordResetExpiry = new Date(now.getTime() + (30 * 60000));
+
+      user.passwordResetExpiry = new Date((new Date()).getTime() + (30 * 60000)); // 30 minutes expiry
+
       user.save((err, user) => {
         if (err) {
-          console.error('User update error: Can\'t save password reset code.' + err);
+          console.error("User update error: Can't save password reset code.", err);
           return res.status(400).json({
             success: false,
             message: "Can't save password reset code.",
           });
         }
-        let url = config.url;
-        url += `/password-reset?resetCode=${resetCode}&username=${user.username}`;
-        SES.sendEmail([user.email],
-            'Password Change -- Phylogeny Explorer',
-            `<HTML><BODY><H1>Choose a new password!</H1><p>You have requested a new password for the account '${user.username}'. To assign new password, click on this link:</p><p><a href='${url}'>${url}</a></p><p>This link is only valid for 30 minutes from now.</p><p>PS. If you did not request a new password, do not worry; your account is intact and your old password still works.</p><p>Yours truly,</p><p><i>The Phylogeny Explorer</i></p></p></BODY><HTML>`);
+
+        SES.sendEmailTemplate(user.email, 'PasswordResetCode', {
+          username: user.username,
+          url: `https://${config.url}/password-reset?resetCode=${user.passwordResetCode}&username=${user.username}`
+        });
+
         return res.status(200).json({
           success: true,
-          message: `Your temporary password was sent to ${  user.email}`,
+          message: `Your temporary password was sent to ${user.email}`,
         });
       });
     });
   },
+
   passwordReset: (req, res, next) => {
-    const validationResult = AuthenticationController.validatePasswordResetForm(req.body);
+    const validationResult = AuthenticationController._validatePasswordResetForm(req.body);
     if (!validationResult.success) {
       return res.status(400).json({
         success: false,
@@ -335,7 +330,7 @@ const AuthenticationController = {
       user.passwordResetExpiry = null;
       user.save((err) => {
         if (err) {
-          console.error('Error saving user password: ' + err);
+          console.error('Error saving user password: ', err);
           return res.status(400).json({
             success: false,
             message: "Can't save password.",
@@ -348,9 +343,8 @@ const AuthenticationController = {
       });
     });
   },
-  logout: () => {
 
-  },
+  logout: () => {},
 };
 
 export default AuthenticationController;
