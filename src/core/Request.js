@@ -26,7 +26,6 @@ class Request {
     this._config = {};
 
     this._url = this.localUrl(url);
-    console.log(this._url);
 
     this._method = method;
 
@@ -46,7 +45,7 @@ class Request {
         'Content-Type': 'application/json',
       };
     } else {
-      this._payload = {};
+      this._payload = JSON.stringify({});
       this._config.headers = {
         Accept: 'application/json',
         'Content-Type': 'application/json',
