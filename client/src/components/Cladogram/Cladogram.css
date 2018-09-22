@@ -1,0 +1,88 @@
+@import '../../components/variables.css';
+
+.container {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    position: absolute;
+    top: 52px;
+    left: 0;
+    max-width: none;
+}
+
+.container svg {
+    cursor: grab;
+}
+
+.container svg.moving {
+    cursor: grabbing;
+}
+
+.edge {
+    fill: none;
+    stroke: #555;
+    stroke-opacity: 1;
+    stroke-width: 2px;
+}
+
+.node circle {
+    fill: #999;
+}
+
+.node text {
+    font-size: 13px;
+}
+
+.node_internal circle {
+    fill: #555;
+}
+
+.node_internal text {
+    text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+    cursor: pointer;
+}
+
+.node_internal text:hover {
+    fill: orangered;
+    font-weight: bold;
+}
+
+
+.trigger_button {
+    padding: 0 5px;
+    height: 22px;
+}
+
+.trigger_button span {
+    padding-top: 3px;
+}
+
+.search_form {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: white;
+    padding: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    padding-right: 5px;
+    z-index: 2000;
+}
+
+.search_box {
+  width: 250px;
+}
+
+
+.search_form input,
+.search_form select {
+    border: 0;
+    box-shadow: none;
+    outline: 0;
+    border-radius: 0;
+}
+
+.reset_button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}

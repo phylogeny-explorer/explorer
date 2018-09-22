@@ -1,0 +1,59 @@
+/*!
+ * Phylogeny Explorer
+ *
+ * @summary
+ * @author John Ropas
+ * @since 23/10/2016
+ *
+ * Copyright(c) 2016 Phylogeny Explorer
+ */
+
+import React from 'react';
+
+class TouchableArea extends React.Component {
+
+  getDefaultProps() {
+    return {
+      touchable: true,
+    };
+  }
+
+  handleTouchStart(e) {
+    if (!this.props.scroller || !this.props.touchable) {
+      return;
+    }
+    this.props.scroller.doTouchStart(e.touches, e.timeStamp);
+    e.preventDefault();
+  }
+
+  handleTouchMove(e) {
+    if (!this.props.scroller || !this.props.touchable) {
+      return;
+    }
+    this.props.scroller.doTouchMove(e.touches, e.timeStamp, e.scale);
+    e.preventDefault();
+  }
+
+  handleTouchEnd(e) {
+    if (!this.props.scroller || !this.props.touchable) {
+      return;
+    }
+    this.props.scroller.doTouchEnd(e.timeStamp);
+    e.preventDefault();
+  }
+
+  render() {
+    return (
+      <div
+        onTouchStart={this.handleTouchStart}
+        onTouchMove={this.handleTouchMove}
+        onTouchEnd={this.handleTouchEnd}
+        onTouchCancel={this.handleTouchEnd}
+      >
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+export default TouchableArea;

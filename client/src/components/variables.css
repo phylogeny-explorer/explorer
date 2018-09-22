@@ -1,0 +1,122 @@
+:root {
+  /*
+   * Typography
+   * ======================================================================== */
+
+  --font-family-base: 'HelveticaNeue', 'Segoe UI', sans-serif;
+
+  /*
+   * Layout
+   * ======================================================================== */
+
+  --max-content-width: 1000px;
+
+  /*
+   * Media queries breakpoints
+   * ======================================================================== */
+
+  --screen-xs-min: 480px; /* Extra small screen / phone */
+  --screen-sm-min: 768px; /* Small screen / tablet */
+  --screen-md-min: 992px; /* Medium screen / desktop */
+  --screen-lg-min: 1200px; /* Large screen / wide desktop */
+}
+
+.root {
+  min-height: calc(100vh - 135px);
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0;
+}
+
+.content_container {
+  margin: 0 auto;
+  max-width: var(--max-content-width);
+  position: relative;
+  padding: 0 20px 20px 20px;
+}
+
+.content_container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+.formTop {
+  overflow: hidden;
+  padding: 0 25px 15px 25px;
+  background: #fff;
+  -moz-border-radius: 4px 4px 0 0;
+  -webkit-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+  text-align: left;
+}
+
+.formBody {
+  padding: 25px 25px 30px 25px;
+  background: #eee;
+  -moz-border-radius: 0 0 4px 4px;
+  -webkit-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+  text-align: left;
+}
+
+.input {
+  height: 50px;
+  margin: 0;
+  padding: 0 20px;
+  vertical-align: middle;
+  background: #f8f8f8;
+  border: 3px solid #ddd;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 50px;
+  color: #888;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -o-transition: all .3s;
+  -moz-transition: all .3s;
+  -webkit-transition: all .3s;
+  -ms-transition: all .3s;
+  transition: all .3s;
+}
+
+.loginButton {
+  height: 50px;
+  margin: 0;
+  padding: 0 20px;
+  vertical-align: middle;
+  background: #19b9e7;
+  border: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 50px;
+  color: #fff;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  text-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -o-transition: all .3s;
+  -moz-transition: all .3s;
+  -webkit-transition: all .3s;
+  -ms-transition: all .3s;
+  transition: all .3s;
+  width: 100%;
+}
+
+.loginButton:hover {
+  opacity: 0.6;
+  color: #fff;
+  background: #19b9e7;
+}

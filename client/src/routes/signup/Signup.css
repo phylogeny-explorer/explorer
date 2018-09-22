@@ -1,0 +1,22 @@
+/*!
+ * Phylogeny Explorer
+ *
+ * @summary
+ * @author John Ropas
+ * @since 02/10/2016
+ *
+ * Copyright(c) 2016 Phylogeny Explorer
+ */
+
+@import '../../components/variables.css';
+
+.root {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 0 40px;
+  max-width: 500px;
+}
