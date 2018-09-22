@@ -1,0 +1,35 @@
+{
+  "name": "admin-api-daemon",
+  "version": "1.2.0",
+  "private": true,
+  "scripts": {
+    "execute": "node build/daemon.js",
+    "build": "webpack --config ./tools/webpack.config.js --progress --colors --env",
+    "build:watch": "webpack --config ./tools/webpack.config.js --progress --colors --watch --env",
+    "build:release": "webpack --config ./tools/webpack.config.js --progress --colors --env.release",
+    "test": "mocha --compilers js:babel-register",
+    "postinstall": "npm install ./src/common"
+  },
+  "dependencies": {
+    "async": "^2.1.4",
+    "common": "file:src/common"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-strict-mode": "^6.11.3",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.14.0",
+    "eslint": "^3.5.0",
+    "eslint-config-airbnb": "^11.1.0",
+    "eslint-plugin-import": "^1.15.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.2.2",
+    "generate-package-json-webpack-plugin": "^1.0.0",
+    "mocha": "^3.0.2",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.1.2"
+  }
+}
