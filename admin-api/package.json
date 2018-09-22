@@ -1,0 +1,48 @@
+{
+  "name": "admin-api",
+  "version": "1.1.10",
+  "private": true,
+  "description": "The Admin API for the Phylogeny Explorer Project. Used to run admin functions.",
+  "scripts": {
+    "build": "webpack --config ./tools/webpack.config.js --progress --colors --env.local",
+    "build:watch": "webpack --config ./tools/webpack.config.js --progress --colors --watch --env.local",
+    "build:release": "webpack --config ./tools/webpack.config.js --progress --colors --env.release",
+    "test": "mocha --compilers js:babel-register",
+    "postinstall": "npm install ./src/common"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "common": "file:src/common",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "generate-password": "~1.4.0",
+    "jsonwebtoken": "^7.2.1",
+    "mime": "^1.3.4",
+    "morgan": "~1.7.0",
+    "multer": "^1.2.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "password-hash": "^1.2.2",
+    "validator": "^6.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-strict-mode": "^6.11.3",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.14.0",
+    "eslint": "^3.5.0",
+    "eslint-config-airbnb": "^11.1.0",
+    "eslint-plugin-import": "^1.15.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.2.2",
+    "generate-package-json-webpack-plugin": "^1.0.0",
+    "json-loader": "^0.5.4",
+    "mocha": "^3.0.2",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.0.15"
+  }
+}
