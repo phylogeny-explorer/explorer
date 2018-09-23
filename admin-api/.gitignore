@@ -1,9 +1,0 @@
-node_modules/
-.DS_Store
-.idea
-build
-process.json
-release
-/.project
-src/common/node_modules
-build.sh

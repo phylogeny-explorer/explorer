@@ -7,7 +7,8 @@
   "extends": "airbnb",
   "rules": {
     "no-underscore-dangle": ["error", { "allowAfterThis": true, "allow": ["_id", "_router", "_controller"] }],
-    "no-console": ["error", { "allow": ["warn", "error"] }]
+    "no-console": ["error", { "allow": ["warn", "error", "log"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   },
   "installedESLint": true,
   "plugins": [

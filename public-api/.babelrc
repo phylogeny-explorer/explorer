@@ -1,6 +1,0 @@
-{
-  "presets": ["env"],
-  "plugins": [
-    ["transform-strict-mode", { "strict": true }]
-  ]
-}

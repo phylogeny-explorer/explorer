@@ -4,7 +4,7 @@ module.exports = env => {
 
   const PACKAGE_DIR = __dirname + "/../package.json";
   const PACKAGE = require(PACKAGE_DIR);
-  const COMMON_PACKAGE = require(__dirname + "/../src/common/package.json");
+  const COMMON_PACKAGE = require(__dirname + "/../../common/package.json");
   const RELEASE = env.release;
 
   const buildPackage = {
@@ -24,7 +24,7 @@ module.exports = env => {
     .forEach(mod => (nodeModules[mod] = `commonjs ${mod}`));
 
   return {
-    entry: './src/app.js',
+    entry: __dirname + '/../src/app.js',
     target: 'node',
     output: {
       path: __dirname + (RELEASE ? '/../release' : '/../build'),

@@ -7,12 +7,10 @@
     "build": "webpack --config ./tools/webpack.config.js --progress --colors --env",
     "build:watch": "webpack --config ./tools/webpack.config.js --progress --colors --watch --env",
     "build:release": "webpack --config ./tools/webpack.config.js --progress --colors --env.release",
-    "test": "mocha --compilers js:babel-register",
-    "postinstall": "npm install ./src/common"
+    "test": "mocha --compilers js:babel-register"
   },
   "dependencies": {
-    "async": "^2.1.4",
-    "common": "file:src/common"
+    "async": "^2.1.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
