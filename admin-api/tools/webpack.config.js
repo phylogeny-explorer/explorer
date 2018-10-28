@@ -42,9 +42,7 @@ module.exports = env => {
           exclude: [/node_modules/],
           loader: 'babel-loader',
           options: {
-            presets: [
-              'babel-preset-env'
-            ].map(require.resolve),
+            presets: ["@babel/preset-env"].map(require.resolve),
             plugins: [
               ["babel-plugin-transform-strict-mode", { "strict": true }]
             ].map(plugin => require.resolve(plugin[0]))
