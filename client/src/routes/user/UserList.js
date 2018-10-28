@@ -53,13 +53,8 @@ class UserList extends React.Component {
     })();
   }
 
-  onChangeUserActivationStatus(e, id, status) {
-    e.preventDefault();
-    (async() => {
-      const action = status === true ? 'deactivate' : 'activate';
-      await new Request(`/users/${id}/${action}`, 'PATCH').fetch();
-      history.push('/users');
-    })();
+  getName(user) {
+    return (`${user.firstName.trim()} ${user.lastName.trim()}`).trim();
   }
 
   render() {
@@ -75,7 +70,7 @@ class UserList extends React.Component {
           <br />
           <Table
             rowsCount={this.props.users.length}
-            rowHeight={50}
+            rowHeight={60}
             headerHeight={50}
             width={1000}
             height={500}
@@ -84,9 +79,7 @@ class UserList extends React.Component {
               header={<Cell>Name</Cell>}
               cell={props => (
                 <Cell {...props}>
-                  {this.props.users[props.rowIndex].title}&nbsp;
-                  {this.props.users[props.rowIndex].firstName}&nbsp;
-                  {this.props.users[props.rowIndex].lastName}
+                  {this.getName(this.props.users[props.rowIndex])}
                 </Cell>
               )}
               width={150}
@@ -113,19 +106,10 @@ class UserList extends React.Component {
             />
 
             <Column
-              header={<Cell>Active</Cell>}
+              header={<Cell>Ref Code</Cell>}
               cell={props => (
                 <Cell {...props}>
-                  <Checkbox
-                    checked={this.props.users[props.rowIndex].isActive}
-                    value={this.props.users[props.rowIndex].isActive}
-                    onChange={(e) => this.onChangeUserActivationStatus(
-                      e,
-                      this.props.users[props.rowIndex]._id,
-                      this.props.users[props.rowIndex].isActive
-                    )}
-                    bsSize="small"
-                  />
+                  {this.props.users[props.rowIndex].referenceCode}
                 </Cell>
               )}
               width={100}

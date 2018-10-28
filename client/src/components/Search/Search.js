@@ -7,12 +7,13 @@
  *
  * Copyright(c) 2016 Phylogeny Explorer
  */
-
+///
 import React from 'react';
 import AutoComplete from 'react-autocomplete';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Search.css';
 import debounce from 'throttle-debounce/debounce';
+import reactStringReplace from 'react-string-replace';
 
 class Search extends React.Component {
   static propTypes = {
@@ -34,7 +35,7 @@ class Search extends React.Component {
       items: this.props.items || [],
       loading: false,
     };
-    this.search = debounce(300, this.search.bind(this));
+    this.search = debounce(600, this.search.bind(this));
   }
 
   onSelect(value, item) {
@@ -61,17 +62,33 @@ class Search extends React.Component {
   search(value) {
     this.props.onSearch(value, (items) => {
       if (this.state.value.length === 0) items = [];
-      this.setState({ items, loading: false });
+      this.setState({ items, loading: true });
     });
   }
 
   onRenderItem(item, isHighlighted) {
+    console.log(this.state.value);
+    let name = reactStringReplace(item.name, this.state.value, (match, i) => (
+      <span className={s.match}>{match}</span>
+    ));
+
+    let otherNames = item.otherNames ? reactStringReplace(item.otherNames, this.state.value, (match, i) => (
+      <span className={s.match}>{match}</span>
+    )) : null;
+
     return (
       <div
-        className={isHighlighted ? s.highlightedItem : s.item}
+        className={`${s.item} ${isHighlighted ? s.highlightedItem : ''}`}
         key={item._id}
         id={item._id}
-      >{item.name}</div>);
+      >
+        <strong>{name}</strong>
+        {
+          otherNames &&
+          <div><small>{otherNames}</small></div>
+        }
+      </div>
+    );
   }
 
   resetComponent() {
@@ -88,7 +105,7 @@ class Search extends React.Component {
           name: this.props.name,
           id: this.props.id,
           type: 'text',
-          className: 'form-control',
+          className: 'form-control ' + s.search_input,
           placeholder: this.props.placeholder,
         }}
         value={this.state.value}
@@ -98,7 +115,8 @@ class Search extends React.Component {
         onChange={(event, value) => this.onChange(event, value)}
         renderItem={(item, isHighlighted) => this.onRenderItem(item, isHighlighted)}
         menuStyle={{
-          background: 'rgba(255, 255, 255, 0.9)',
+          background: 'rgba(0, 0, 0, 0.9)',
+          color: '#ffffff',
           padding: '2px 0',
           fontSize: '90%',
           position: 'absolute',
@@ -109,7 +127,10 @@ class Search extends React.Component {
           left: 0,
           boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
         }}
-        wrapperStyle={{ display: this.props.inline ? 'inline-block' : 'block', }}
+        wrapperStyle={{
+          display: this.props.inline ? 'inline-block' : 'block',
+          width: '100%',
+        }}
       />
     );
   }

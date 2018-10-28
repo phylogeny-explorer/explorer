@@ -10,9 +10,17 @@ function Html({ title, description, style, script, children }) {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="apple-touch-icon" href="apple-touch-icon.png" />
         <link rel="stylesheet" href="/css/bootstrap.min.css" />
         <style id="css" dangerouslySetInnerHTML={{ __html: style }} />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=M4mbjyp03J" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=M4mbjyp03J" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=M4mbjyp03J" />
+        <link rel="manifest" href="/site.webmanifest?v=M4mbjyp03J" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg?v=M4mbjyp03J" color="#212331" />
+        <link rel="shortcut icon" href="/favicon.ico?v=M4mbjyp03J" />
+        <meta name="msapplication-TileColor" content="#212331" />
+        <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=M4mbjyp03J" />
+        <meta name="theme-color" content="#212331" />
       </head>
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: children }} />

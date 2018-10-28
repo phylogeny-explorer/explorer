@@ -155,17 +155,6 @@ class UserForm extends React.Component {
               </FormControl>
             </FormGroup>
 
-            <FormGroup controlId="title">
-              <ControlLabel>Title</ControlLabel>
-              <FormControl
-                placeholder="Title"
-                type="text"
-                value={this.state.title}
-                onChange={(e) => this.onChange(e)}
-                disabled={this.props.mode === 'Destroy'}
-              />
-            </FormGroup>
-
             <FormGroup controlId="firstName">
               <ControlLabel>First Name</ControlLabel>
               <FormControl
@@ -215,38 +204,15 @@ class UserForm extends React.Component {
               </FormGroup>
             ) : ''}
 
-            <FormGroup controlId="address">
-              <ControlLabel>Address</ControlLabel>
+            <FormGroup controlId="referenceCode">
+              <ControlLabel>Reference Code</ControlLabel>
               <FormControl
-                placeholder="Address"
+                placeholder="Reference Code"
                 type="text"
-                value={this.state.address}
+                value={this.state.referenceCode}
                 onChange={(e) => this.onChange(e)}
                 disabled={this.props.mode === 'Destroy'}
                 required
-              />
-            </FormGroup>
-
-            <FormGroup controlId="postcode">
-              <ControlLabel>Postcode</ControlLabel>
-              <FormControl
-                placeholder="Postcode"
-                type="text"
-                value={this.state.postcode}
-                onChange={(e) => this.onChange(e)}
-                disabled={this.props.mode === 'Destroy'}
-                required
-              />
-            </FormGroup>
-
-            <FormGroup controlId="phone">
-              <ControlLabel>Phone</ControlLabel>
-              <FormControl
-                placeholder="Phone"
-                type="text"
-                value={this.state.phone}
-                onChange={(e) => this.onChange(e)}
-                disabled={this.props.mode === 'Destroy'}
               />
             </FormGroup>
 
@@ -260,35 +226,6 @@ class UserForm extends React.Component {
                 disabled={this.props.mode === 'Destroy'}
                 required
               />
-            </FormGroup>
-
-            <FormGroup controlId="dateOfBirth">
-              <ControlLabel>Date of Birth</ControlLabel>
-              <FormControl
-                placeholder="Date of Birth"
-                type="date"
-                value={this.state.dateOfBirth ?
-                  new Date(this.state.dateOfBirth)
-                    .toISOString().slice(0, 10).replace(/-/g, '-') : null}
-                onChange={(e) => this.onChange(e)}
-                disabled={this.props.mode === 'Destroy'}
-              />
-            </FormGroup>
-
-            <FormGroup controlId="gender">
-              <ControlLabel>Gender</ControlLabel>
-              <FormControl
-                componentClass="select"
-                disabled={this.props.mode === 'Destroy'}
-                value={this.state.gender}
-                onChange={(e) => this.onChange(e)}
-                required
-              >
-                <option value="">Please select a gender...</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </FormControl>
             </FormGroup>
 
             <FormGroup controlId="subscribed">

@@ -3,7 +3,7 @@
    * Typography
    * ======================================================================== */
 
-  --font-family-base: 'HelveticaNeue', 'Segoe UI', sans-serif;
+  --font-family-base: 'Helvetica Neue', 'Segoe UI', sans-serif;
 
   /*
    * Layout
@@ -19,7 +19,14 @@
   --screen-sm-min: 768px; /* Small screen / tablet */
   --screen-md-min: 992px; /* Medium screen / desktop */
   --screen-lg-min: 1200px; /* Large screen / wide desktop */
+
+  --brand-color: #212331;
+  --nav-text-color: #eee;
+  --nav-text-highlight-color: #ccc;
+  --nav-highlight-border: 3px solid #00CAB1;
 }
+
+
 
 .root {
   min-height: calc(100vh - 135px);
@@ -86,6 +93,11 @@
   -webkit-transition: all .3s;
   -ms-transition: all .3s;
   transition: all .3s;
+}
+
+.textarea {
+  line-height: 1.6;
+  padding: 20px;
 }
 
 .loginButton {
