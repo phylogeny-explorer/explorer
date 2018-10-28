@@ -1,18 +1,11 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 21/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
 import React, { PropTypes } from 'react';
 import {
   FormGroup,
   FormControl,
   Form,
   Button,
+  Tooltip,
+  OverlayTrigger,
 } from 'react-bootstrap';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Cladogram.css';
@@ -21,6 +14,11 @@ import history from '../../core/history';
 import Pane from './Pane';
 import Search from '../../components/Search';
 import Request from '../../core/Request';
+
+const HEADER_HEIGHT = 62;
+
+const resetViewTooltip = (<Tooltip>Reset Zoom / Center Cladogram</Tooltip>);
+const depthTooltip = (<Tooltip>Depth</Tooltip>);
 
 class Cladogram extends React.Component {
   static propTypes = {
@@ -33,7 +31,7 @@ class Cladogram extends React.Component {
   constructor(props, context) {
     super(props);
     if (context.setTitle) {
-      context.setTitle('Cladogram');
+      context.setTitle('Phylogeny Explorer');
     }
     this.prepareState(props);
     this.resetView = this.resetView.bind(this);
@@ -41,9 +39,9 @@ class Cladogram extends React.Component {
 
   componentDidMount() {
     const dims = document.getElementsByClassName(s.container)[0];
-    this.setState({
+    dims && this.setState({
       width: dims.clientWidth,
-      height: window.innerHeight - 52,
+      height: window.innerHeight - HEADER_HEIGHT,
     });
   }
 
@@ -93,20 +91,25 @@ class Cladogram extends React.Component {
       width: 0,
       height: 0,
       scale: 1,
-      matrix: [1, 0, 0, 1, 0, 0]
+      matrix: [1, 0, 0, 1, 0, 0],
     };
   }
 
   resetView(e) {
     e.preventDefault();
-    this.setState({matrix: [1,0,0,1,0,0]});
+    this.setState({ matrix: [1, 0, 0, 1, 0, 0] });
   }
 
   render() {
+    let options = [];
+    for (let i = 1; i <= 9; i++) {
+      options.push(<option key={i} value={i}>{i}</option>);
+    }
+
     return (
       <div className={s.container}>
         <Form inline className={s.search_form}>
-          <FormGroup controlId="search">
+          <FormGroup controlId="search" className={s.search_form_group}>
             <Search
               id="search"
               name="search"
@@ -116,24 +119,25 @@ class Cladogram extends React.Component {
               inline
             />
           </FormGroup>
-          &nbsp;&nbsp;|&nbsp;&nbsp;
-          <FormGroup controlId="depth">
-            <FormControl
-              componentClass="select"
-              value={this.state.depth}
-              onChange={(e) => this.onChangeDepth(e)}
-              required
-            >
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-            </FormControl>
-          </FormGroup>
+          <OverlayTrigger placement="bottom" overlay={depthTooltip}>
+            <FormGroup controlId="depth" className={s.depth_form_group}>
+              <FormControl
+                componentClass="select"
+                value={this.state.depth}
+                onChange={(e) => this.onChangeDepth(e)}
+                required
+              >
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+              </FormControl>
+            </FormGroup>
+          </OverlayTrigger>
         </Form>
         <Tree
           root={this.state.root}
@@ -144,11 +148,13 @@ class Cladogram extends React.Component {
           depth={this.state.actualDepth}
           matrix={this.state.matrix}
         />
-        <Button
-          bsStyle="default"
-          className={s.reset_button}
-          onClick={e => this.resetView(e)}
-        ><span className="glyphicon glyphicon-screenshot"></span></Button>
+        <OverlayTrigger placement="left" overlay={resetViewTooltip}>
+          <Button
+            bsStyle="default"
+            className={s.reset_button}
+            onClick={e => this.resetView(e)}
+          ><span className="glyphicon glyphicon-screenshot" /></Button>
+        </OverlayTrigger>
       </div>
     );
   }

@@ -17,7 +17,6 @@ class Footer extends React.Component {
     const date = new Date();
     return (
       <div className={s.root}>
-        <img id="logo" src="/logo.svg" className={s.logo} />
         <span className={s.text}>©{date.getFullYear()} <a href="//phylogenyexplorerproject.com/">Phylogeny Explorer Project</a></span>
       </div>
     );

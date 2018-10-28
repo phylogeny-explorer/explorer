@@ -1,14 +1,18 @@
 
-.item{
-  padding: 2px 6px;
+.item {
+  padding: 8px 6px;
   cursor: default;
+  border-bottom: 1px solid rgba(50, 50, 50, 1);
+}
+
+.item strong {
+  font-weight: bold;
 }
 
 .highlightedItem {
   color: white;
-  background: hsl(200, 50%, 50%);
-  padding: 2px 6px;
-  cursor: default;
+  background: rgba(174, 152, 110, 0.6);
+  cursor: pointer;
 }
 
 .menu {
@@ -21,4 +25,14 @@
   overflow: auto;
   max-height: 50%;
   z-index: 1000;
+}
+
+.search_input {
+  width: 100% !important; /* I hate this, but BS styles don't work well with CSS modules.... */
+}
+
+.item span {
+    background-color: rgba(0, 202, 177, 0.5);
+    padding: 3px 1px 3px 2px;
+    border-radius: 4px;
 }

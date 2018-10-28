@@ -1,15 +1,7 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 25/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import React, { PropTypes } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import { Citation as AttributionsCitation } from '../Citation';
 import s from '../../components/Cladogram/Cladogram.css';
 
 class Node extends React.Component {
@@ -17,7 +9,9 @@ class Node extends React.Component {
   static propTypes = {
     id: PropTypes.any.isRequired,
     name: PropTypes.any,
+    otherNames: PropTypes.any,
     description: PropTypes.any,
+    attributions: PropTypes.array,
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
     hasChildren: PropTypes.bool.isRequired,
@@ -54,9 +48,15 @@ class Node extends React.Component {
   }
 
   render() {
+    const tooltip = (
+      <Tooltip id="tooltip">
+        <AttributionsCitation attributions={this.props.attributions} />
+      </Tooltip>
+    );
+  
     const PopOver = this.props.nodePopoverComponent;
-    return (
-      <g
+
+    let result = (<g
         className={`${s.node} ${this.props.hasChildren ? s.node_internal : s.node_internal}`}
         transform={`translate(${this.props.y}, ${this.props.x})`}
       >
@@ -77,10 +77,17 @@ class Node extends React.Component {
             name={this.props.name}
             hasChildren={this.props.hasChildren}
             description={this.props.description}
+            attributions={this.props.attributions}
+            otherNames={this.props.otherNames}
           />
         }
-      </g>
-    );
+      </g>);
+
+    if (this.props.attributions && this.props.attributions.length>0 ) {
+      result = <OverlayTrigger overlay={tooltip}>{result}</OverlayTrigger>; 
+    }
+
+    return result;
   }
 }
 

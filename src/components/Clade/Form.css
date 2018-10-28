@@ -59,3 +59,7 @@
 .helpText b {
     font-weight: bold;
 }
+
+.parent_form_group > div {
+    position:relative;
+}

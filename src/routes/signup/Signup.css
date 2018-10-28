@@ -20,3 +20,8 @@
   padding: 0 0 40px;
   max-width: 500px;
 }
+
+.helpBlock {
+  font-size: 0.8em;
+  padding: 0 10px;
+}

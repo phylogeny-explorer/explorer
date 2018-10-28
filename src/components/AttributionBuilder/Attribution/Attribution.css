@@ -1,0 +1,44 @@
+.compacttable {
+  margin-bottom: 0px;
+}
+.compacttable>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  border-top: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.impliedbox {
+  padding-top: 18px;
+}
+
+.impliedbox input {
+  height: 30px;
+  width: 30px;
+  margin: 0 5px 0 0 !important;
+  border: none;
+  padding: 0;
+  vertical-align: middle;
+  position: relative !important;
+}
+
+.impliedbox label {
+  font-weight: bold;
+}
+
+.compact {
+  margin: 0 10px 10px 0;
+  padding: 5px;
+  page-break-inside: avoid;
+  border: 1px solid lightgray;
+}
+
+.row {
+  padding-right: 10px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}

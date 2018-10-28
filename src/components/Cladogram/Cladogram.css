@@ -5,7 +5,7 @@
     padding: 0;
     width: 100%;
     position: absolute;
-    top: 52px;
+    top: 62px;
     left: 0;
     max-width: none;
 }
@@ -47,7 +47,6 @@
     font-weight: bold;
 }
 
-
 .trigger_button {
     padding: 0 5px;
     height: 22px;
@@ -57,21 +56,37 @@
     padding-top: 3px;
 }
 
+.info_window {
+    max-width: 300px;
+}
+
+.description {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
 .search_form {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: white;
+    top: -49px;
+    left: 50%;
+    margin-left: -25%;
+    background-color: rgba(0,0,0,0.8);
     padding: 0;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     padding-right: 5px;
-    z-index: 2000;
+    z-index: 1050;
+    width: 50%;
+    border-radius: 3px;
+}
+
+.search_form_group {
+    width: 100%;
 }
 
 .search_box {
-  width: 250px;
+  width: 100%;
 }
-
 
 .search_form input,
 .search_form select {
@@ -79,10 +94,36 @@
     box-shadow: none;
     outline: 0;
     border-radius: 0;
+    background: none;
+    color: #efefef;
+}
+
+.search_form select {
+    background-color: rgba(0,0,0,0.8);
+}
+
+.search_form input::placeholder {
+    color: #ffffff;
+}
+
+.search_form input:focus,
+.search_form select:focus {
+    box-shadow: none;
+}
+
+.depth_form_group {
+    position: absolute;
+    top: 0;
+    right: 5px;
 }
 
 .reset_button {
     position: absolute;
     bottom: 10px;
     right: 10px;
+}
+
+.attribution {
+    display: block;
+    margin-bottom: 10px;
 }

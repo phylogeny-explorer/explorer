@@ -16,6 +16,7 @@ import {
   Checkbox,
   Button,
   Panel,
+  HelpBlock,
 } from 'react-bootstrap';
 import DatePicker from 'react-bootstrap-date-picker';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
@@ -40,12 +41,12 @@ class Signup extends React.Component {
       dateOfBirthFormatted: '',
       gender: '',
       coverLetter: '',
-      subscribed: false,
+      subscribed: true,
       errors: '',
       success: false,
       message: '',
       repeat_password: '',
-      showSection2: false,
+      referenceCode: '',
     };
 
     this.continueRegistration = this.continueRegistration.bind(this);
@@ -61,38 +62,31 @@ class Signup extends React.Component {
     }
   }
 
-  onHandleDateOfBirthChange(value, formattedValue) {
-    this.setState({
-      dateOfBirth: value, // ISO String, ex: "2016-11-19T12:00:00.000Z"
-      dateOfBirthFormatted: formattedValue, // Formatted String, ex: "11/19/2016"
-    });
-  }
-
   onSubmit(e) {
     e.preventDefault();
     (async() => {
       if (this.state.repeat_password !== this.state.password) {
-        this.setState({
+        return this.setState({
           errors: { password: 'Passwords do not match' },
           message: 'Passwords do not match',
           success: false,
         });
-      } else {
-        const resp = await new Request('/auth/signup', 'POST', this.state).fetch();
-        if (!resp.success) {
-          this.setState({
-            errors: resp.errors,
-            message: resp.message,
-            success: false,
-          });
-        } else {
-          this.setState({
-            errors: resp.errors,
-            message: resp.message,
-            success: true,
-          });
-        }
       }
+
+      const resp = await new Request('/auth/signup', 'POST', this.state).fetch();
+      if (!resp.success) {
+        return this.setState({
+          errors: resp.errors,
+          message: resp.message,
+          success: false,
+        });
+      }
+
+      return this.setState({
+        errors: resp.errors,
+        message: resp.message,
+        success: true,
+      });
     })();
   }
 
@@ -109,7 +103,6 @@ class Signup extends React.Component {
             !this.state.success &&
             <div>
               <p>You must register to use the Phylogeny Explorer.</p>
-              <p>Please contact an admin after registration to have your account approved.</p>
             </div>
           }
         </div>
@@ -173,17 +166,6 @@ class Signup extends React.Component {
             {
               this.state.showSection2 &&
               <div>
-                <FormGroup controlId="title">
-                  <ControlLabel>Title</ControlLabel>
-                  <FormControl
-                    placeholder="ex. 'Mr, Miss, Mrs'"
-                    type="text"
-                    value={this.state.title}
-                    onChange={(e) => this.onChange(e)}
-                    className={s.input}
-                  />
-                </FormGroup>
-
                 <FormGroup controlId="firstName">
                   <ControlLabel>First Name</ControlLabel>
                   <FormControl
@@ -206,64 +188,18 @@ class Signup extends React.Component {
                   />
                 </FormGroup>
 
-                <FormGroup controlId="address">
-                  <ControlLabel>Address</ControlLabel>
+                <FormGroup controlId="referenceCode">
+                  <ControlLabel>Reference Code</ControlLabel>
                   <FormControl
-                    placeholder="Complete address please, we will verify!"
+                    placeholder=""
                     type="text"
-                    value={this.state.address}
-                    onChange={(e) => this.onChange(e)}
-                    className={s.input}
-                    required
-                  />
-                </FormGroup>
-
-                <FormGroup controlId="postcode">
-                  <ControlLabel>Postcode</ControlLabel>
-                  <FormControl
-                    placeholder="ex. '10067'"
-                    type="text"
-                    value={this.state.postcode}
-                    onChange={(e) => this.onChange(e)}
-                    className={s.input}
-                    required
-                  />
-                </FormGroup>
-
-                <FormGroup controlId="phone">
-                  <ControlLabel>Phone</ControlLabel>
-                  <FormControl
-                    placeholder="Phone"
-                    type="text"
-                    value={this.state.phone}
+                    value={this.state.referenceCode}
                     onChange={(e) => this.onChange(e)}
                     className={s.input}
                   />
-                </FormGroup>
-
-                <FormGroup controlId="dateOfBirth">
-                  <ControlLabel>Date of Birth</ControlLabel>
-                  <DatePicker
-                    value={this.state.dateOfBirth}
-                    onChange={(v, f) => this.onHandleDateOfBirthChange(v, f)}
-                    className={s.input}
-                  />
-                </FormGroup>
-
-                <FormGroup controlId="gender">
-                  <ControlLabel>Gender</ControlLabel>
-                  <FormControl
-                    componentClass="select"
-                    value={this.state.gender}
-                    onChange={(e) => this.onChange(e)}
-                    className={s.input}
-                    required
-                  >
-                    <option value="">Please select a gender...</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </FormControl>
+                  <HelpBlock className={s.helpBlock}>
+                    <span className="glyphicon glyphicon-triangle-top" /> TetZooCon or other Reference Code
+                  </HelpBlock>
                 </FormGroup>
 
                 <FormGroup controlId="coverLetter">
@@ -274,19 +210,18 @@ class Signup extends React.Component {
                     rows="8"
                     value={this.state.coverLetter}
                     onChange={(e) => this.onChange(e)}
-                    className={s.input}
+                    className={`${s.input} ${s.textarea}`}
                   />
                 </FormGroup>
 
                 <FormGroup controlId="subscribed">
-                  <ControlLabel>Subscribe to Newsletter</ControlLabel>
                   <Checkbox
                     id="subscribed"
                     onChange={(e) => this.onChange(e)}
                     value={this.state.subscribed}
                     checked={this.state.subscribed}
                   >
-                    Yes
+                    Subscribe to Newsletter
                   </Checkbox>
                 </FormGroup>
 

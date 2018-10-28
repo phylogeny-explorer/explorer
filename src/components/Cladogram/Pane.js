@@ -1,7 +1,9 @@
+/* eslint-disable max-len */
 import React, { PropTypes } from 'react';
 import { OverlayTrigger, Button, Popover, ButtonToolbar, Glyphicon } from 'react-bootstrap';
-import Link from '../../components/Link';
+import Link from '../Link';
 import history from '../../core/history';
+import { Citation as AttributionsCitation } from '../Citation';
 import s from './Cladogram.css';
 
 export default class Pane extends React.Component {
@@ -9,9 +11,15 @@ export default class Pane extends React.Component {
   static propTypes = {
     id: PropTypes.any.isRequired,
     name: PropTypes.any,
+    otherNames: PropTypes.any,
     description: PropTypes.any,
+    attributions: PropTypes.array,
     hasChildren: PropTypes.any,
   };
+
+  onView() {
+    history.push(`/clades/info/${this.props.id}`);
+  }
 
   onCreate() {
     history.push(`/clades/evolve/${this.props.id}`);
@@ -29,32 +37,48 @@ export default class Pane extends React.Component {
   render() {
     const coords = {
       x: 5,
-      y: -12
+      y: -12,
     };
 
-    let description = this.props.description || (<i>No description available</i>);
+    let description = this.strip(this.props.description);
 
-    if (description.length > 100) {
-      description = `${description.substring(0, 100)}...`;
+    if (description.length > 200) {
+      description = `${description.substring(0, 200)}...`;
     }
 
+    const title = (
+      <span>
+        {this.props.name || '[UNNAMED]'}
+        {this.props.otherNames && <small style={{display:'block', marginTop: '3px'}}>{this.props.otherNames}</small>}
+      </span>
+    );
+
     const actualWindow = (
-      <Popover id="information-panel" title={`Clade: ${this.props.name || '[UNNAMED]'}`}>
-        {description} <br /><br />
-        <Link to={`/clades/info/${this.props.id}`}>Click here for more...</Link>
+      <Popover id="information-panel" title={title} className={s.info_window}>
+        {
+          this.props.attributions && this.props.attributions.length > 0 &&
+          <small className={s.attribution}>
+            <AttributionsCitation attributions={this.props.attributions}/>
+          </small>
+        }
+        <div className={s.description}>{description || <i>No description available</i>}</div>
         <hr />
         <ButtonToolbar>
-          <Button bsStyle="primary" bsSize="xsmall" onClick={(e) => this.onCreate(e)}>
-            <Glyphicon glyph="random" /> Evolve
+          <Button bsStyle="success" bsSize="xsmall" onClick={(e) => this.onView(e)}>
+            <Glyphicon glyph="search" /> View
           </Button>
           <Button bsStyle="info" bsSize="xsmall" onClick={(e) => this.onUpdate(e)}>
             <Glyphicon glyph="pencil" /> Update
+          </Button>
+          <Button bsStyle="primary" bsSize="xsmall" onClick={(e) => this.onCreate(e)}>
+            <Glyphicon glyph="random" /> Evolve
           </Button>
           <Button bsStyle="danger" bsSize="xsmall" onClick={(e) => this.onDestroy(e)}>
             <Glyphicon glyph="trash" /> Destroy
           </Button>
         </ButtonToolbar>
-      </Popover>);
+      </Popover>
+    );
 
     return (
       <foreignObject width="24px" height="22px" x={coords.x} y={coords.y}>
@@ -68,5 +92,11 @@ export default class Pane extends React.Component {
         </OverlayTrigger>
       </foreignObject>
     );
+  }
+
+  strip(html) {
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
   }
 }

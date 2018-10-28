@@ -1,0 +1,20 @@
+{
+    "name": "Phylogeny Explorer",
+    "short_name": "Phylogeny Explorer",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png?v=M4mbjyp03J",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png?v=M4mbjyp03J",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#212331",
+    "background_color": "#212331",
+    "start_url": "http://explorer.phylogenyexplorerproject.com",
+    "display": "standalone"
+}

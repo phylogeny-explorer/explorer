@@ -21,8 +21,10 @@ import Request from '../../core/Request';
 import history from '../../core/history';
 import Search from '../Search';
 import PhylexEditor from '../Editor';
+import { AttributionBuilder } from '../AttributionBuilder';
 import S3 from 'common/aws/s3/Frontend';
 import Link from '../../components/Link';
+import { AttributionType, SensuLabel } from 'common/databases/public/constants';
 
 class Form extends React.Component {
 
@@ -43,6 +45,7 @@ class Form extends React.Component {
       this.state = {
         parent: this.props.clade.parent._id,
         name: this.props.clade.name || '',
+        attributions: this.props.clade.attributions || [],
         description: this.props.clade.description || '',
         extant: this.isParentExtinct() ? false : this.props.clade.extant,
         otherNames: this.props.clade.otherNames || '',
@@ -55,6 +58,7 @@ class Form extends React.Component {
       this.state = {
         parent: this.props.parent._id,
         name: '',
+        attributions: [],
         description: '',
         extant: !this.isParentExtinct(),
         otherNames: '',
@@ -65,11 +69,16 @@ class Form extends React.Component {
     this.state.submitting = false;
     this.state.errors = [];
     this.onDescriptionChange = this.onDescriptionChange.bind(this);
+    this.onAttributionsChange = this.onAttributionsChange.bind(this);
     this.isParentExtinct = this.isParentExtinct.bind(this);
   }
 
-  onDescriptionChange(html) {
-    this.setState({ description: html });
+  onDescriptionChange(description) {
+    this.setState({ description });
+  }
+
+  onAttributionsChange(attributions) {
+    this.setState({ attributions });
   }
 
   onChange(e) {
@@ -91,11 +100,26 @@ class Form extends React.Component {
     history.goBack();
   }
 
+  static validateAttribution(attribution) {
+    attribution.errors = [];
+
+    if (!attribution.name) attribution.errors.push('Missing attribution name.');
+    if (!attribution.date) attribution.errors.push('Missing attribution date.');
+    if (attribution.type === AttributionType.Emended && !attribution.emendedOldName) {
+      attribution.errors.push('Missing the old name.');
+    }
+
+    return (attribution.errors.length === 0);
+  }
+
+  validateAttributions() {
+    return this.state.attributions.map(Form.validateAttribution).every(isValid => isValid);
+  }
+
   validate() {
     let errors = [];
-    if (this.state.extant === null) {
-      errors.push('Please select a status (Extant/Extinct)');
-    }
+    if (this.state.extant === null) errors.push('Please select a status (Extant/Extinct)');
+    if (!this.validateAttributions()) errors.push('Error in one or more attributions.');
 
     this.setState({errors});
     return errors.length === 0;
@@ -103,9 +127,7 @@ class Form extends React.Component {
 
   async onSubmit(e) {
     e.preventDefault();
-    if (!this.validate()) {
-      return;
-    }
+    if (!this.validate()) return;
 
     let payload = {};
     switch (this.props.mode) {
@@ -136,34 +158,6 @@ class Form extends React.Component {
       history.goBack();
     } else {
       this.setState({ submitting: false });
-    }
-  }
-
-  async onSubmitAttachments() {
-    const cladeIds = this.state.newChildren.map((child) => child.id);
-    const clades = await
-      new Request('/clades/enrich', 'POST', { cladeIds }, Request.endPoints.public).fetch();
-    for (let i = 0; i < clades.length; i += 1) {
-      const dataBefore = JSON.parse(JSON.stringify(clades[i]));
-      const dataAfter = JSON.parse(JSON.stringify(clades[i]));
-      const assetsBefore = dataBefore.assets;
-      const assetsAfter = dataBefore.assets;
-      dataAfter.parent = this.props.clade._id;
-      delete dataBefore.assets;
-      delete dataAfter.assets;
-      const postObj = {
-        identifier: dataBefore._id,
-        data: {
-          before: dataBefore || {},
-          after: dataAfter || {},
-        },
-        assets: {
-          before: assetsBefore || [],
-          after: assetsAfter || [],
-        },
-        mode: this.props.mode,
-      };
-      await new Request('/transactions', 'POST', postObj).fetch();
     }
   }
 
@@ -262,6 +256,7 @@ class Form extends React.Component {
     const dataAfter = {
       parent: this.state.newParent || this.state.parent,
       name: this.state.name.trim() || null,
+      attributions: this.state.attributions || null,
       description: this.state.description || null,
       extant: this.state.extant,
       otherNames: this.state.otherNames.trim() || null,
@@ -298,6 +293,7 @@ class Form extends React.Component {
     const dataBefore = {
       parent: this.props.clade.parent._id,
       name: this.props.clade.name,
+      attributions: this.props.clade.attributions,
       description: this.props.clade.description,
       extant: this.props.clade.extant,
       otherNames: this.props.clade.otherNames,
@@ -308,6 +304,7 @@ class Form extends React.Component {
     const dataAfter = {
       parent: this.state.newParent || this.state.parent,
       name: this.state.name.trim() || null,
+      attributions: this.state.attributions || null,
       description: this.state.description || null,
       extant: this.state.extant || null,
       otherNames: this.state.otherNames.trim() || null,
@@ -339,6 +336,7 @@ class Form extends React.Component {
     const dataBefore = {
       parent: this.props.clade.parent._id,
       name: this.props.clade.name,
+      attributions: this.props.clade.attributions,
       description: this.props.clade.description,
       extant: this.props.clade.extant,
       otherNames: this.props.clade.otherNames,
@@ -386,12 +384,15 @@ class Form extends React.Component {
             {
               this.state.errors &&
                 <div id="errors">
-                  { this.state.errors.map(err => <Alert bsStyle="danger">{err}</Alert>) }
+                  { this.state.errors.map(err => <Alert key={err} bsStyle="danger">{err}</Alert>) }
                 </div>
             }
             <form onSubmit={(e) => this.onSubmit(e)}>
 
               <ButtonToolbar className={s.controls}>
+                <Button type="button" bsStyle="success" onClick={(e) => this.onView(e)} disabled={this.state.submitting}>
+                  Back to View
+                </Button>
                 <Button type="submit" bsStyle={this.getButtonStyle()} disabled={this.state.submitting}>
                   {this.props.mode}
                 </Button>
@@ -417,7 +418,7 @@ class Form extends React.Component {
               {
                 this.props.mode === 'Update' &&
                 <Alert bsStyle="warning">
-                  <FormGroup controlId="parent">
+                  <FormGroup controlId="parent" className={s.parent_form_group}>
                     <ControlLabel>Set New Parent</ControlLabel>
                     <Search
                       id="newParent"
@@ -473,6 +474,16 @@ class Form extends React.Component {
                 <PhylexEditor
                   initialValue={this.state.description}
                   onChange={this.onDescriptionChange}
+                  disabled={this.props.mode === 'Destroy'}
+                />
+              </FormGroup>
+
+              <FormGroup controlId="attributions">
+                <ControlLabel>Attributions</ControlLabel>
+                <AttributionBuilder
+                  attributions={this.state.attributions}
+                  onAttributionsChange={this.onAttributionsChange}
+                  cladeName={this.state.name}
                   disabled={this.props.mode === 'Destroy'}
                 />
               </FormGroup>

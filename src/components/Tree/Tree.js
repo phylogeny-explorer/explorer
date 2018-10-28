@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 25/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import React, { PropTypes } from 'react';
 import * as d3 from 'd3';
 import Node from './Node';
@@ -108,9 +98,11 @@ class Tree extends React.Component {
             k={index}
             hasChildren={!!node.children}
             name={node.data.name}
+            otherNames={node.data.otherNames}
             extinct={!node.data.extant}
             id={node.data._id}
             description={node.data.description}
+            attributions={node.data.attributions}
             x={node.x}
             y={node.y}
             onSelect={(e) => this.props.onSelectNode(e)}
