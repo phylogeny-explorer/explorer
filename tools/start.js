@@ -1,24 +1,12 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 02/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import Browsersync from 'browser-sync';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import run from './run';
 import runServer from './runServer';
-import webpackConfig from './webpack.config';
+import webpackConfig from '../webpack.config';
 import clean from './clean';
 import copy from './copy';
-
-const DEBUG = !process.argv.includes('--release');
 
 /**
  * Launches a development web server with "live reload" functionality -
@@ -26,10 +14,12 @@ const DEBUG = !process.argv.includes('--release');
  */
 async function start() {
   await run(clean);
-  await run(copy.bind(undefined, { watch: true }));
-  await new Promise(resolve => {
-    // Patch the client-side bundle configurations
-    // to enable Hot Module Replacement (HMR) and React Transform
+  await run(copy.bind(undefined));
+
+  // Patch the client-side bundle configurations
+  // to enable Hot Module Replacement (HMR) and React Transform
+  await new Promise(resolve =>
+  {
     webpackConfig.filter(x => x.target !== 'node').forEach(config => {
       /* eslint-disable no-param-reassign */
       config.entry = ['webpack-hot-middleware/client'].concat(config.entry);
@@ -40,26 +30,29 @@ async function start() {
       config
         .module
         .loaders
-        .filter(x => x.loader === 'babel-loader')
-        .forEach(x => (x.query = {
-          ...x.query,
+        .filter(loader => loader.loader === 'babel-loader')
+        .forEach(babel_loader => (babel_loader.query = {
+          ...babel_loader.query,
 
           // Wraps all React components into arbitrary transforms
           // https://github.com/gaearon/babel-plugin-react-transform
           plugins: [
-            ...(x.query ? x.query.plugins : []),
-            ['react-transform', {
-              transforms: [
-                {
-                  transform: 'react-transform-hmr',
-                  imports: ['react'],
-                  locals: ['module'],
-                }, {
-                  transform: 'react-transform-catch-errors',
-                  imports: ['react', 'redbox-react'],
-                },
-              ],
-            },
+            ...(babel_loader.query ? babel_loader.query.plugins : []),
+            [
+              'react-transform',
+              {
+                transforms: [
+                  {
+                    transform: 'react-transform-hmr',
+                    imports: ['react'],
+                    locals: ['module'],
+                  },
+                  {
+                    transform: 'react-transform-catch-errors',
+                    imports: ['react', 'redbox-react'],
+                  },
+                ],
+              },
             ],
           ],
         }));
@@ -68,17 +61,14 @@ async function start() {
 
     const bundler = webpack(webpackConfig);
     const wpMiddleware = webpackMiddleware(bundler, {
-
       // IMPORTANT: webpack middleware can't access config,
       // so we should provide publicPath by ourselves
       publicPath: webpackConfig[0].output.publicPath,
 
       // Pretty colored output
       stats: webpackConfig[0].stats,
-
-      // For other settings see
-      // https://webpack.github.io/docs/webpack-dev-middleware
     });
+
     const hotMiddlewares = bundler
       .compilers
       .filter(compiler => compiler.options.target !== 'node')
@@ -86,26 +76,20 @@ async function start() {
 
     let handleServerBundleComplete = () => {
       runServer((err, host) => {
-        if (!err) {
-          const bs = Browsersync.create();
-          bs.init({
-            ...(DEBUG ? {} : { notify: false, ui: false }),
+        if (err) return;
 
-            proxy: {
-              target: host,
-              middleware: [wpMiddleware, ...hotMiddlewares],
-            },
+        Browsersync.create().init({
+          proxy: {
+            target: host,
+            middleware: [wpMiddleware, ...hotMiddlewares],
+          },
+        }, resolve);
 
-            // no need to watch '*.js' here, webpack will take care of it for us,
-            // including full page reloads if HMR won't work
-            files: ['build/content/**/*.*'],
-          }, resolve);
-          handleServerBundleComplete = runServer;
-        }
+        handleServerBundleComplete = runServer;
       });
     };
 
-    bundler.plugin('done', () => handleServerBundleComplete());
+    bundler.plugin('done', handleServerBundleComplete);
   });
 }
 

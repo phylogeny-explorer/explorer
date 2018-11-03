@@ -1,8 +1,8 @@
 {
-  "name": "admin-api",
+  "name": "user-api",
   "version": "1.1.10",
   "private": true,
-  "description": "The Admin API for the Phylogeny Explorer Project. Used to run admin functions.",
+  "description": "The user API for the Phylogeny Explorer. Used to manage user functions.",
   "scripts": {
     "build": "webpack --config ./tools/webpack.config.js --progress --colors --env.local",
     "build:watch": "webpack --config ./tools/webpack.config.js --progress --colors --watch --env.local",

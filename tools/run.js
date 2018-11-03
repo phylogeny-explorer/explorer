@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 02/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 function format(time) {
   return time.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
 }

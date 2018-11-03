@@ -11,7 +11,7 @@
 import fetch from 'node-fetch';
 import runServer from './runServer';
 import fs from './lib/fs';
-import { host } from '../src/config';
+import { host } from '../client/src/config';
 
 // Enter your paths here which you want to render as static
 const routes = [

@@ -1,15 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 02/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
-import path from 'path';
-import gaze from 'gaze';
 import Promise from 'bluebird';
 import fs from './lib/fs';
 import pkg from '../package.json';
@@ -21,13 +9,13 @@ const BUILD_DIR = IS_LOCAL ? 'build' : 'release';
  * Copies static files such as robots.txt, favicon.ico to the
  * output (build) folder.
  */
-async function copy({ watch } = {}) {
+async function copy() {
   const ncp = Promise.promisify(require('ncp'));
 
   await Promise.all([
     ncp('node_modules/bootstrap/dist/css', BUILD_DIR+'/public/css'),
     ncp('node_modules/bootstrap/dist/fonts', BUILD_DIR+'/public/fonts'),
-    ncp('src/public', BUILD_DIR+'/public'),
+    ncp('client/src/public', BUILD_DIR+'/public'),
   ]);
 
   await fs.writeFile('./'+BUILD_DIR+'/package.json', JSON.stringify({
@@ -35,23 +23,9 @@ async function copy({ watch } = {}) {
     engines: pkg.engines,
     dependencies: pkg.dependencies,
     scripts: {
-      start: 'node server.js',
+      start: 'pm2 start ecosystem.config.js',
     },
   }, null, 2));
-
-  if (watch) {
-    const watcher = await new Promise((resolve, reject) => {
-      gaze('src/content/**/*.*', (err, val) => err ? reject(err) : resolve(val));
-    });
-
-    const cp = async (file) => {
-      const relPath = file.substr(path.join(__dirname, '../src/content/').length);
-      await ncp(`src/content/${relPath}`, `${BUILD_DIR}/content/${relPath}`);
-    };
-
-    watcher.on('changed', cp);
-    watcher.on('added', cp);
-  }
 }
 
 export default copy;

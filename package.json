@@ -10,10 +10,11 @@
   "author": "Phylogeny Explorer Project",
   "license": "ISC",
   "dependencies": {
-    "admin-api": "file:admin-api",
     "common": "file:common",
     "daemon": "file:daemon",
-    "public-api": "file:public-api"
+    "pm2": "^3.2.2",
+    "tree-api": "file:tree-api",
+    "user-api": "file:user-api"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",

@@ -1,16 +1,25 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 02/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import path from 'path';
 import cp from 'child_process';
-import webpackConfig from './webpack.config';
+import webpackConfig from '../webpack.config';
+import ecosystem from '../ecosystem.config';
+import pm2 from 'pm2';
+
+function runSever(cb)
+{
+  // connect to pm2
+    // start ecosystem file
+    // connect browser sync
+}
+
+
+
+
+
+
+
+
+
+
 
 // Should match the text string used in `src/server.js/server.listen(...)`
 const RUNNING_REGEXP = /The server is running at http:\/\/(.*?)\//;
@@ -48,6 +57,7 @@ function runServer(cb) {
     env: Object.assign({ NODE_ENV: 'development' }, process.env),
     silent: false,
   });
+
   if (cbIsPending) {
     server.once('exit', (code, signal) => {
       if (cbIsPending) {

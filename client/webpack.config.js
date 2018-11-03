@@ -255,24 +255,16 @@ const config = {
 
 const clientConfig = extend(true, {}, config, {
   entry: './client.js',
+  target: 'web',
+  browser: { fs: false, child_process: false },
+  node: { child_process: 'empty', fs: 'empty' },
 
   output: {
     filename: IS_LOCAL ? '[name].js?[chunkhash]' : '[name].[chunkhash].js',
     chunkFilename: IS_LOCAL ? '[name].[id].js?[chunkhash]' : '[name].[id].[chunkhash].js',
   },
-  browser: { fs: false, child_process: false },
-
-  target: 'web',
-
-  node: {
-    child_process: 'empty',
-    fs: 'empty',
-  },
 
   plugins: [
-
-    // Define free variables
-    // https://webpack.github.io/docs/list-of-plugins.html#defineplugin
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: `"${ENVIRONMENT}"`,
@@ -286,7 +278,7 @@ const clientConfig = extend(true, {}, config, {
     new AssetsPlugin({
       path: path.resolve(__dirname, '../'+BUILD_DIR),
       filename: 'assets.js',
-      processOutput: x => `module.exports = ${JSON.stringify(x)};`,
+      processOutput: assets => `module.exports = ${JSON.stringify(assets)};`,
     }),
 
     // Assign the module and chunk ids by occurrence count
@@ -326,6 +318,7 @@ const clientConfig = extend(true, {}, config, {
 
 const serverConfig = extend(true, {}, config, {
   entry: './server.js',
+  target: 'node',
 
   output: {
     path: path.resolve(__dirname, '../'+BUILD_DIR),
@@ -333,8 +326,6 @@ const serverConfig = extend(true, {}, config, {
     chunkFilename: 'server.[name].js',
     libraryTarget: 'commonjs2',
   },
-
-  target: 'node',
 
   externals: [
     /^\.\/assets$/,
