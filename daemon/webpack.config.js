@@ -2,9 +2,9 @@ module.exports = env => {
   const fs = require('fs');
   const GeneratePackageJsonPlugin = require('generate-package-json-webpack-plugin');
 
-  const PACKAGE_DIR = __dirname + "/../package.json";
+  const PACKAGE_DIR = __dirname + "/package.json";
   const PACKAGE = require(PACKAGE_DIR);
-  const COMMON_PACKAGE = require(__dirname + "/../../common/package.json");
+  const COMMON_PACKAGE = require("common/package.json");
   const RELEASE = env.release;
 
   const buildPackage = {
@@ -20,14 +20,14 @@ module.exports = env => {
 
   const nodeModules = {};
   fs.readdirSync('./node_modules')
-    .filter(x => ['.bin', 'common'].indexOf(x) === -1)
-    .forEach(mod => (nodeModules[mod] = `commonjs ${mod}`));
+  .filter(x => ['.bin', 'common'].indexOf(x) === -1)
+  .forEach(mod => (nodeModules[mod] = `commonjs ${mod}`));
 
   return {
-    entry: __dirname + '/../src/app.js',
+    entry: __dirname + '/src/app.js',
     target: 'node',
     output: {
-      path: __dirname + (RELEASE ? '/../release' : '/../build'),
+      path: __dirname + (RELEASE ? '/release' : '/build'),
       filename: 'server.js',
     },
     mode: RELEASE ? 'production' : 'development',
@@ -42,7 +42,7 @@ module.exports = env => {
           exclude: [/node_modules/],
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env'].map(require.resolve),
+            presets: ["@babel/preset-env"].map(require.resolve),
             plugins: [
               ["babel-plugin-transform-strict-mode", { "strict": true }]
             ].map(plugin => require.resolve(plugin[0]))
