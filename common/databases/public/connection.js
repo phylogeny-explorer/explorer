@@ -1,4 +1,4 @@
-import {database as config} from "../../config";
+import { database as config } from '../../config';
 import dbFactory from '../factory';
 
 export default dbFactory(

@@ -23,6 +23,7 @@ const UserSchema = new mongoose.Schema({
   isConfirmed: { type: Boolean, default: false },
   created: { type: Date, default: Date.now },
   modified: { type: Date },
+  referenceCode: { type: String },
 });
 
 /**
