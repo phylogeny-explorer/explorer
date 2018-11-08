@@ -1,6 +1,6 @@
 import Browsersync from 'browser-sync';
 import webpack from 'webpack';
-import webpackMiddleware from 'webpack-middleware';
+import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import run from './run';
 import runServer from './runServer';
@@ -14,7 +14,7 @@ import copy from './copy';
  */
 async function start() {
   await run(clean);
-  await run(copy.bind(undefined));
+  await run(copy);
 
   // Patch the client-side bundle configurations
   // to enable Hot Module Replacement (HMR) and React Transform
@@ -26,18 +26,17 @@ async function start() {
       config.output.filename = config.output.filename.replace('[chunkhash]', '[hash]');
       config.output.chunkFilename = config.output.chunkFilename.replace('[chunkhash]', '[hash]');
       config.plugins.push(new webpack.HotModuleReplacementPlugin());
-      config.plugins.push(new webpack.NoErrorsPlugin());
       config
         .module
-        .loaders
-        .filter(loader => loader.loader === 'babel-loader')
-        .forEach(babel_loader => (babel_loader.query = {
-          ...babel_loader.query,
+        .rules
+        .filter(rule => rule.use.loader === 'babel-loader')
+        .forEach(babel_loader => (babel_loader.use.options = {
+          ...babel_loader.use.options,
 
           // Wraps all React components into arbitrary transforms
           // https://github.com/gaearon/babel-plugin-react-transform
           plugins: [
-            ...(babel_loader.query ? babel_loader.query.plugins : []),
+            ...(babel_loader.use.options && babel_loader.use.options.plugins ? babel_loader.use.options.plugins : []),
             [
               'react-transform',
               {
@@ -63,7 +62,7 @@ async function start() {
     const wpMiddleware = webpackMiddleware(bundler, {
       // IMPORTANT: webpack middleware can't access config,
       // so we should provide publicPath by ourselves
-      publicPath: webpackConfig[0].output.publicPath,
+      publicPath: webpackConfig[3].output.publicPath,
 
       // Pretty colored output
       stats: webpackConfig[0].stats,
