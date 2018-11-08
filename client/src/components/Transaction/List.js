@@ -1,14 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 16/11/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
-
 import React, { PropTypes } from 'react';
 import { Button, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';

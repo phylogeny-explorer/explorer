@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary User controller class
- * @author John Ropas
- * @since 19/09/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import { User } from 'common/databases/admin';
 import { Controller } from '../modules';
 import AccessControl from '../middleware/AccessControl';

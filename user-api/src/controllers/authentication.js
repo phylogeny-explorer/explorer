@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 06/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import validator from 'validator';
 import passport from 'passport';
 import generator from 'generate-password';

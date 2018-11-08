@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 02/12/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-///
 import React from 'react';
 import AutoComplete from 'react-autocomplete';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';

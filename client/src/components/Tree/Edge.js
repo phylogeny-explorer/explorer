@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 25/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from '../../components/Cladogram/Cladogram.css';

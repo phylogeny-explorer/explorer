@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 05/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import { Controller } from '../modules';
 import AccessControl from '../middleware/AccessControl';
 import { Rule } from 'common/databases/admin';

@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary Define security routes
- * @author John Ropas
- * @since 06/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 /**
  * Module dependencies.
  */

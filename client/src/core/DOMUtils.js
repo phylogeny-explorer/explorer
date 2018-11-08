@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 02/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 export function addEventListener(node, event, listener) {
   if (node.addEventListener) {
     node.addEventListener(event, listener, false);

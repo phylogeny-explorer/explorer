@@ -7,7 +7,15 @@ module.exports = {
   ],
 
   "plugins": [
-    '@babel/plugin-transform-runtime',
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": false,
+        "helpers": false,
+        "regenerator": true,
+        "useESModules": false
+      }
+    ],
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-export-default-from',
     ["transform-strict-mode", { "strict": true }],

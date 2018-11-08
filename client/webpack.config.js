@@ -80,7 +80,6 @@ module.exports = (env) => {
     },
 
     resolve: {
-      modules: ['node_modules'],
       extensions: ['.webpack.js', '.web.js', '.js', '.jsx', '.json'],
       alias: { common: env.COMMON }
     },
@@ -98,7 +97,8 @@ module.exports = (env) => {
             options: {
               include: [
                 path.resolve(__dirname, 'src'),
-              ]
+              ],
+              exclude: /node_modules/
             }
           }
         },
@@ -266,7 +266,7 @@ module.exports = (env) => {
 
     // Choose a developer tool to enhance debugging
     // http://webpack.github.io/docs/configuration.html#devtool
-    devtool: env.IS_LOCAL ? 'cheap-module-eval-source-map' : false,
+    devtool: env.IS_LOCAL ? 'source-map' : false,
   });
 
   //

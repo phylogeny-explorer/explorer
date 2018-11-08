@@ -148,12 +148,4 @@ var removeResizeListener = function(element, fn){
 module.exports = {
   addResizeListener : addResizeListener,
   removeResizeListener : removeResizeListener
-};/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 23/10/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
+};

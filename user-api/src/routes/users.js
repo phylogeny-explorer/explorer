@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary Define user routes
- * @author John Ropas
- * @since 19/09/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 /**
  * Module dependencies.
  */

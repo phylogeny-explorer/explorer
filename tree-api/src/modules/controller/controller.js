@@ -1,13 +1,3 @@
-/*!
- * Controller
- *
- * @summary Controller class that support class-based middleware
- * @author John Ropas
- * @since 29/09/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 class Controller {
   /**
    * Constructor

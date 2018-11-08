@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary Model representing a role
- * @author John Ropas
- * @since 29/09/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import mongoose from 'mongoose';
 import asset from '../../shared_schema/asset';
 import connection from '../connection';

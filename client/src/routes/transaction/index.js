@@ -1,13 +1,3 @@
-/*!
- * Phylogeny Explorer
- *
- * @summary
- * @author John Ropas
- * @since 16/11/2016
- *
- * Copyright(c) 2016 Phylogeny Explorer
- */
-
 import React from 'react';
 import CladeTransactionForm from '../../components/Transaction/Form';
 import TransactionList from '../../components/Transaction/List';

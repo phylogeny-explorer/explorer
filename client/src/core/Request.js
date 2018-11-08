@@ -1,12 +1,3 @@
-/**
- *  Request
- *
- *  @author John Ropas
- *  @since 21/10/2016
- *
- *  Copyright (c) 2016 Phylogeny Explorer. All rights reserved.
- */
-
 import fetch from './fetch';
 import { adminApiHost, publicApiHost } from '../config';
 import Auth from '../components/Auth';

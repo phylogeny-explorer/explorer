@@ -18,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.1.5",
+    "@babel/runtime-corejs2": "^7.1.5",
     "client": "file:client",
     "common": "file:common",
     "daemon": "file:daemon",
