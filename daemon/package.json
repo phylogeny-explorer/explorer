@@ -1,16 +1,8 @@
 {
   "name": "daemon",
-  "version": "1.2.0",
   "private": true,
-  "scripts": {
-    "execute": "node build/daemon.js",
-    "build": "webpack --config ./tools/webpack.config.js --progress --colors --env",
-    "build:watch": "webpack --config ./tools/webpack.config.js --progress --colors --watch --env",
-    "build:release": "webpack --config ./tools/webpack.config.js --progress --colors --env.release",
-    "test": "mocha --compilers js:babel-register"
-  },
+  "description": "Background processing daemon for the Phylogeny Explorer",
   "dependencies": {
     "async": "^2.1.4"
-  },
-  "devDependencies": {}
+  }
 }

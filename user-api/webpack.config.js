@@ -5,7 +5,6 @@ module.exports = env => {
   const PACKAGE_DIR = __dirname + "/package.json";
   const PACKAGE = require(PACKAGE_DIR);
   const COMMON_PACKAGE = require("common/package.json");
-  const RELEASE = env.release;
 
   const buildPackage = {
     "name": PACKAGE.name,
@@ -20,19 +19,24 @@ module.exports = env => {
 
   const nodeModules = {};
   fs.readdirSync('./node_modules')
-    .filter(x => ['.bin', 'common'].indexOf(x) === -1)
-    .forEach(mod => (nodeModules[mod] = `commonjs ${mod}`));
+  .filter(x => ['.bin', 'common'].indexOf(x) === -1)
+  .forEach(mod => (nodeModules[mod] = `commonjs ${mod}`));
 
   return {
     entry: __dirname + '/src/app.js',
     target: 'node',
     output: {
-      path: __dirname + (RELEASE ? '/release' : '/build'),
+      path: env.BUILD_DIR,
       filename: 'server.js',
     },
-    mode: RELEASE ? 'production' : 'development',
+    resolve: {
+      alias: {
+        common: env.COMMON,
+      }
+    },
+    mode: env.IS_RELEASE ? 'production' : 'development',
     externals: nodeModules,
-    plugins: RELEASE ? [
+    plugins: env.IS_RELEASE ? [
       new GeneratePackageJsonPlugin(buildPackage, PACKAGE_DIR)
     ] : [],
     module: {

@@ -1,6 +1,6 @@
 {
   "name": "phylogeny-explorer",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Phylogeny Explorer",
   "main": "webpack.config.js",
   "scripts": {
@@ -21,7 +21,6 @@
     "client": "file:client",
     "common": "file:common",
     "daemon": "file:daemon",
-    "pm2": "^3.2.2",
     "tree-api": "file:tree-api",
     "user-api": "file:user-api"
   },
@@ -58,6 +57,7 @@
     "postcss-nesting": "^7.0.0",
     "postcss-selector-matches": "^4.0.0",
     "postcss-selector-not": "^4.0.0",
+    "pm2": "^3.2.2",
     "raw-loader": "^0.5.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",

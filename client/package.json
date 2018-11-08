@@ -1,11 +1,7 @@
 {
   "name": "client",
-  "version": "1.1.11",
   "private": true,
-  "engines": {
-    "node": ">=5.0 <7",
-    "npm": ">=3.3 <4"
-  },
+  "description": "The front-end client for the Phylogeny Explorer",
   "dependencies": {
     "awesome-debounce-promise": "^1.0.0",
     "babel-polyfill": "6.13.0",
@@ -59,83 +55,5 @@
     "universal-router": "1.2.2",
     "uuid": "^3.3.2",
     "whatwg-fetch": "1.0.0"
-  },
-  "babel": {
-    "presets": [
-      "react",
-      "node5",
-      "stage-0"
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "rewire"
-        ]
-      }
-    }
-  },
-  "browser": {
-    "fs": false,
-    "child_process": false
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": "airbnb",
-    "globals": {
-      "__DEV__": true
-    },
-    "env": {
-      "browser": true
-    },
-    "rules": {
-      "generator-star-spacing": 0,
-      "import/no-extraneous-dependencies": 0,
-      "jsx-quotes": [
-        2,
-        "prefer-double"
-      ],
-      "no-confusing-arrow": 0,
-      "react/jsx-filename-extension": 0,
-      "react/jsx-quotes": 0,
-      "react/require-extension": 0
-    }
-  },
-  "stylelint": {
-    "extends": "stylelint-config-standard",
-    "rules": {
-      "string-quotes": "single",
-      "property-no-unknown": [
-        true,
-        {
-          "ignoreProperties": [
-            "composes"
-          ]
-        }
-      ],
-      "selector-pseudo-class-no-unknown": [
-        true,
-        {
-          "ignorePseudoClasses": [
-            "global",
-            "local"
-          ]
-        }
-      ]
-    }
-  },
-  "scripts": {
-    "eslint": "eslint src tools",
-    "stylelint": "stylelint \"src/**/*.css\"",
-    "lint": "npm run eslint && npm run stylelint",
-    "test": "mocha \"src/**/*.test.js\" --require test/setup.js --compilers js:babel-register",
-    "test:watch": "npm run test -- --reporter min --watch",
-    "clean": "babel-node tools/run clean",
-    "copy": "babel-node tools/run copy",
-    "bundle": "babel-node tools/run bundle",
-    "build": "babel-node tools/run build",
-    "build:release": "babel-node tools/run build --release",
-    "deploy": "babel-node tools/run deploy",
-    "render": "babel-node tools/run render",
-    "start": "babel-node tools/run start"
   }
 }

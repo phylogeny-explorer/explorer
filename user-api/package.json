@@ -1,14 +1,7 @@
 {
   "name": "user-api",
-  "version": "1.1.10",
   "private": true,
   "description": "The user API for the Phylogeny Explorer. Used to manage user functions.",
-  "scripts": {
-    "build": "webpack --config ./tools/webpack.config.js --progress --colors --env.local",
-    "build:watch": "webpack --config ./tools/webpack.config.js --progress --colors --watch --env.local",
-    "build:release": "webpack --config ./tools/webpack.config.js --progress --colors --env.release",
-    "test": "mocha --compilers js:babel-register"
-  },
   "dependencies": {
     "body-parser": "^1.15.2",
     "cookie-parser": "~1.4.3",

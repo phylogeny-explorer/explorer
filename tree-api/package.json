@@ -1,13 +1,7 @@
 {
   "name": "tree-api",
-  "version": "1.1.4",
   "private": true,
-  "scripts": {
-    "build": "webpack --config ./tools/webpack.config.js --progress --colors --env",
-    "build:watch": "webpack --config ./tools/webpack.config.js --progress --colors --watch --env",
-    "build:release": "webpack --config ./tools/webpack.config.js --progress --colors --env.release",
-    "test": "mocha --compilers js:babel-register"
-  },
+  "description": "An API to build a JSON representation of a slice of the phylogenetic tree.",
   "dependencies": {
     "async": "^2.1.2",
     "body-parser": "^1.15.2",
