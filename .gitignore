@@ -2,11 +2,7 @@ node_modules
 .DS_Store
 .idea
 .project
-process.json
 build
 release
-lib
-database.sqlite
 ncp-debug.log
 npm-debug.log
-build.sh

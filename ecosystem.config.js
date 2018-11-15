@@ -82,7 +82,6 @@ module.exports = {
       "log_date_format" : DATE_FORMAT,
       "env": Object.assign({}, AWS_CONFIG, TREE_DB, USER_DB, {
         "NODE_ENV": "development",
-        "DB_HOSTS": "localhost:27017",
       })
     }
   ]
