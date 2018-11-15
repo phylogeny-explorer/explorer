@@ -11,9 +11,9 @@ const AWS_PUBLIC = {
 };
 
 const AWS_CONFIG = Object.assign({}, AWS_PUBLIC, {
-  "AWS_IDENTITY_POOL_ID": "explorer.phylogenyexplorerproject.com",
-  "AWS_ACCESS_KEY_ID": "AKIAJQD2HB4ZEW4B5TOA",
-  "AWS_SECRET_ACCESS_KEY": "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"
+  "AWS_IDENTITY_POOL_ID": "",
+  "AWS_ACCESS_KEY_ID": "",
+  "AWS_SECRET_ACCESS_KEY": ""
 });
 
 const DB = {
