@@ -1,0 +1,1 @@
+{"_id":{"$oid":"5c52000c4e309105a35f9dce"},"username":"admin","password":"$2b$10$RVkeQ9z1WAqXvdu/dzHhEe5WYHrtTL2.SdFA2VCffh7/.B/bPgXEe","isActive":true,"isConfirmed":true,"role":{"$oid":"586fd4ab55fe6fd1992c5eac"},"email":"admin@example.com"}
