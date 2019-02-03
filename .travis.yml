@@ -1,8 +1,21 @@
 language: node_js
 node_js:
   - "node"
-  
+addons:
+  apt:
+    packages:
+      - mongodb-org-tools
+services:
+  - docker
+before_install:
+  - docker pull mongo 
 install:
   - npm install
 script:
+  - docker run -d -p 27017:27017 mongo
+  - mongoimport -d phylex-admin ./dump/users.json
+  - mongoimport -d phylex-admin ./dump/roles.json
+  - mongoimport -d phylex-public -c clades ./dump/clades.json
   - npm run build
+  - npx pm2 start ecosystem.config.js
+  - ./node_modules/cypress/bin/cypress
