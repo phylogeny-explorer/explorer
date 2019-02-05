@@ -58,7 +58,7 @@ class Attribution extends React.Component {
                     </td>
                   }
                   <td className={s.row}>
-                    <Button onClick={this.onDelete} bsStyle="danger" className={s.delete_button}>
+                    <Button id="removeButton" onClick={this.onDelete} bsStyle="danger" className={s.delete_button}>
                       <Glyphicon glyph="remove" />
                     </Button>
                   </td>

@@ -150,7 +150,7 @@ class Signup extends React.Component {
             </FormGroup>
             {
               !this.state.showSection2 &&
-              <Button className={s.loginButton} onClick={this.continueRegistration} bsSize="large" block>Continue &gt;</Button>
+              <Button id="continueButton" className={s.loginButton} onClick={this.continueRegistration} bsSize="large" block>Continue &gt;</Button>
             }
 
             {
@@ -227,7 +227,7 @@ class Signup extends React.Component {
                   </Panel>
                 ) : ''}
 
-                <Button className={s.loginButton} type="submit" bsSize="large" block>Register</Button>
+                <Button id="registerButton" className={s.loginButton}_register type="submit" bsSize="large" block>Register</Button>
               </div>
             }
           </form>

@@ -45,8 +45,8 @@ class CladeView extends React.Component {
         <div className={s.container}>
           <div className={s.content_container}>
             <ButtonToolbar className={s.controls}>
-              <Button type="button" bsStyle="success" onClick={(e) => this.edit(e)}>Edit</Button>
-              <Button type="button" bsStyle="info" onClick={(e) => this.goBack(e)}>Return To Tree</Button>
+              <Button id="editButton" type="button" bsStyle="success" onClick={(e) => this.edit(e)}>Edit</Button>
+              <Button id="returnToTreeButton" type="button" bsStyle="info" onClick={(e) => this.goBack(e)}>Return To Tree</Button>
             </ButtonToolbar>
 
             {this.props.clade.parent &&
@@ -93,8 +93,8 @@ class CladeView extends React.Component {
 
             <hr />
             <ButtonToolbar className={s.controls}>
-              <Button type="button" bsStyle="success" onClick={(e) => this.edit(e)}>Edit</Button>
-              <Button type="button" bsStyle="info" onClick={(e) => this.goBack(e)}>Return To Tree</Button>
+              <Button id="editButton" type="button" bsStyle="success" onClick={(e) => this.edit(e)}>Edit</Button>
+              <Button id="returnToTreeButton" type="button" bsStyle="info" onClick={(e) => this.goBack(e)}>Return To Tree</Button>
             </ButtonToolbar>
           </div>
         </div>

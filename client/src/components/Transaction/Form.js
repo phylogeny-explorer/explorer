@@ -175,13 +175,14 @@ class Form extends React.Component {
             </FormGroup>
             <ButtonToolbar>
               <Button
+		id="submitButton"
                 type="submit"
                 bsStyle={this.getButtonStyle()}
                 style={{ display: this.props.mode === 'Destroy' ? 'block' : 'none' }}
               >
                 {this.props.mode}
               </Button>
-              <Button type="button" bsStyle="warning" onClick={(e) => this.onCancel(e)}>
+              <Button id="cancelButton" type="button" bsStyle="warning" onClick={(e) => this.onCancel(e)}>
                 Cancel
               </Button>
             </ButtonToolbar>
