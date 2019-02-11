@@ -244,10 +244,10 @@ class UserForm extends React.Component {
             </FormGroup>
 
             <ButtonToolbar>
-              <Button type="submit" bsStyle={this.getButtonStyle()}>
+              <Button id="submitButton" type="submit" bsStyle={this.getButtonStyle()}>
                 {this.props.mode}
               </Button>
-              <Button type="button" bsStyle="warning" onClick={(e) => this.onCancel(e)}>
+              <Button id="cancelButton" type="button" bsStyle="warning" onClick={(e) => this.onCancel(e)}>
                 Cancel
               </Button>
             </ButtonToolbar>

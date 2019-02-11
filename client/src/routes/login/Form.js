@@ -86,7 +86,7 @@ class Form extends React.Component {
               </ul>
             </Panel>
           }
-          <Button className={s.loginButton} block type="submit">Log in!</Button>
+          <Button id="loginButton" className={s.loginButton} block type="submit">Log in!</Button>
           <p className={s.forgotPasswordLink}><Link to={`/forgot`}>Forgot your password? Click here.</Link></p>
         </div>
       </form>
