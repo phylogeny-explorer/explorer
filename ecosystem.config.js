@@ -16,8 +16,10 @@ const AWS_CONFIG = Object.assign({}, AWS_PUBLIC, {
   "AWS_SECRET_ACCESS_KEY": ""
 });
 
+const MONGO_URL = process.env.MONGO_URL || "localhost"
+
 const DB = {
-  "DB_HOSTS": "localhost:27017",
+  "DB_HOSTS": MONGO_URL+":27017",
   "DB_REPLICA_SET": "",
   "DB_SSL": false,
   "DB_AUTH_SOURCE": ""
