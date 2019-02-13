@@ -1,9 +1,9 @@
-var React = require('react');
+import React from 'react';
+import PropTypes from 'prop-types';
+
 
 var ZyngaScroller = require('./ZyngaScroller.jsx');
 var TouchableArea = require('./TouchableArea.jsx');
-
-var PropTypes = React.PropTypes;
 
 var cloneWithProps = require('react/lib/cloneWithProps');
 

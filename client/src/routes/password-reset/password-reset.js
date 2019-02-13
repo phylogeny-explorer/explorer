@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './password-reset.css';
 import PasswordResetForm from './Form';
@@ -44,6 +45,6 @@ class PasswordReset extends React.Component {
   }
 }
 
-PasswordReset.contextTypes = { setTitle: React.PropTypes.func.isRequired };
+PasswordReset.contextTypes = { setTitle: PropTypes.func.isRequired };
 
 export default withStyles(s)(PasswordReset);

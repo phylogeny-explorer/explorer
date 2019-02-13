@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import 'react-dom';
 import { stateToHTML } from 'draft-js-export-html';
 import { stateFromHTML } from 'draft-js-import-html';
@@ -247,9 +248,9 @@ class PhylexEditor extends React.Component {
 }
 
 PhylexEditor.propTypes = {
-  onChange: React.PropTypes.func.isRequired,
-  disabled: React.PropTypes.bool.isRequired,
-  initialValue: React.PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  initialValue: PropTypes.string.isRequired,
 };
 
 export default withStyles(s)(PhylexEditor);

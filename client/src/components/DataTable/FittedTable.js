@@ -1,11 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import FixedDataTable from 'fixed-data-table';
 import SetContainerSize from './SetContainerSize';
 import TouchScrollArea  from './TouchScrollArea';
 
 const Table = FixedDataTable.Table;
 const Column = FixedDataTable.Column;
-const PropTypes = React.PropTypes;
 
 class FittedTable extends React.Component {
 

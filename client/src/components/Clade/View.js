@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import {
   Button,
@@ -15,7 +16,7 @@ import { Citation as AttributionsCitation } from '../Citation';
 class CladeView extends React.Component {
 
   static propTypes = {
-    clade: React.PropTypes.any,
+    clade: PropTypes.any,
   };
 
   constructor(props, context) {

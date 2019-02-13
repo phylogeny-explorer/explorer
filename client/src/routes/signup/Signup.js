@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   FormGroup,
   ControlLabel,
@@ -287,6 +288,6 @@ class Signup extends React.Component {
   }
 }
 
-Signup.contextTypes = { setTitle: React.PropTypes.func.isRequired };
+Signup.contextTypes = { setTitle: PropTypes.func.isRequired };
 
 export default withStyles(s)(Signup);
