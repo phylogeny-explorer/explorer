@@ -1,0 +1,21 @@
+version: '3'
+services:
+  explorer:
+    image: phylogenyexplorer/explorer
+    environment:
+      - MONGO_URL=mongo
+    ports:
+      - "3000:3000"
+      - "5000:5000"
+      - "5500:5500"
+    depends_on:
+      - mongoseed
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+  mongoseed:
+    image: phylogenyexplorer/mongoseed
+    depends_on:
+      - mongo
+
