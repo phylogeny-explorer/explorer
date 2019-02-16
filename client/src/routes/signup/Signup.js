@@ -8,11 +8,10 @@ import {
   ButtonToolbar,
   Panel,
 } from 'react-bootstrap';
-import DatePicker from 'react-bootstrap-date-picker';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Signup.css';
 import Request from '../../core/Request';
-import history from '../../core/history';
+import DateChooser from "../../components/Input/DateChooser/DateChooser";
 
 
 const title = 'Signup Form';
@@ -35,8 +34,7 @@ class Signup extends React.Component {
       postcode: '',
       phone: '',
       email: '',
-      dateOfBirth: '',
-      dateOfBirthFormatted: '',
+      dateOfBirth: null, //Date
       gender: '',
       coverLetter: '',
       subscribed: false,
@@ -47,21 +45,30 @@ class Signup extends React.Component {
     };
   }
 
+
+  //UTILS
+  makeRequestBody() {
+    const dataToSend = Object.assign({}, this.state);
+    dataToSend.dateOfBirth = this.state.dateOfBirth? this.state.dateOfBirth.toISOString() : null;
+    return dataToSend;
+  }
+
+
+
+
+  //EVENT HANDLERS
+  handleDateOfBirthChange(value) {
+    this.setState({dateOfBirth: value});
+  }
+
   onChange(e) {
     const model = {};
-    this.setState(model);
     if (e.target.type === 'checkbox') {
       model[e.target.id] = e.target.checked;
     } else {
       model[e.target.id] = e.target.value;
     }
-  }
-
-  onHandleDateOfBirthChange(value, formattedValue) {
-    this.setState({
-      dateOfBirth: value, // ISO String, ex: "2016-11-19T12:00:00.000Z"
-      dateOfBirthFormatted: formattedValue, // Formatted String, ex: "11/19/2016"
-    });
+    this.setState(model);
   }
 
   onSubmit(e) {
@@ -73,25 +80,21 @@ class Signup extends React.Component {
           message: 'Passwords do not match',
           success: false,
         });
-      } else {
-        const resp = await new Request('/auth/signup', 'POST', this.state).fetch();
-        if (!resp.success) {
-          this.setState({
-            errors: resp.errors,
-            message: resp.message,
-            success: false,
-          });
-        } else {
-          this.setState({
-            errors: resp.errors,
-            message: resp.message,
-            success: true,
-          });
-        }
+      }
+      else {
+        const resp = await new Request('/auth/signup', 'POST', this.makeRequestBody()).fetch();
+        this.setState({
+          errors: resp.errors,
+          message: resp.message,
+          success: resp.success,
+        });
       }
     })();
   }
 
+
+
+  //RENDERING
   render() {
     return (
       <div className={s.root}>
@@ -214,10 +217,10 @@ class Signup extends React.Component {
 
               <FormGroup controlId="dateOfBirth">
                 <ControlLabel>Date of Birth</ControlLabel>
-                <DatePicker
+                <DateChooser
+                  className='form-control'
                   value={this.state.dateOfBirth}
-                  onChange={(v, f) => this.onHandleDateOfBirthChange(v, f)}
-                />
+                  onChange={d => this.handleDateOfBirthChange(d)}/>
               </FormGroup>
 
               <FormGroup controlId="gender">
