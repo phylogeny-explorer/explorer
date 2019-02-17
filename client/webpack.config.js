@@ -166,22 +166,6 @@ module.exports = (env) => {
           ],
         },
         {
-          test: /\.scss$/,
-          use: [
-            'isomorphic-style-loader',
-            `sass-loader?${JSON.stringify({sourceMap: env.IS_LOCAL, minimize: !env.IS_LOCAL})}`,
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: () => [
-                  require('autoprefixer')({browsers: AUTOPREFIXER_BROWSERS})
-                ]
-              }
-            },
-            'sass-loader',
-          ],
-        },
-        {
           test: /\.txt$/,
           use: 'raw-loader',
         },
