@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/phylogeny-explorer/explorer.svg?branch=master)](https://travis-ci.org/phylogeny-explorer/explorer) [![Known Vulnerabilities](https://snyk.io/test/github/phylogeny-explorer/explorer/badge.svg)](https://snyk.io/test/github/phylogeny-explorer/explorer)
+ 
 # Phylogeny Explorer
 The Phylogeny Explorer is a navigable, online encyclopaedia of the entire evolutionary tree of life.
 
