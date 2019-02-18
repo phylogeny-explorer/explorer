@@ -10,10 +10,14 @@ const AWS_PUBLIC = {
   "AWS_REGION": "us-east-1"
 };
 
+const AWS_IDENTITY_POOL_ID = process.env.AWS_IDENTITY_POOL_ID || ""
+const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || ""
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || ""
+
 const AWS_CONFIG = Object.assign({}, AWS_PUBLIC, {
-  "AWS_IDENTITY_POOL_ID": "",
-  "AWS_ACCESS_KEY_ID": "",
-  "AWS_SECRET_ACCESS_KEY": ""
+  "AWS_IDENTITY_POOL_ID": AWS_IDENTITY_POOL_ID,
+  "AWS_ACCESS_KEY_ID": AWS_ACCESS_KEY_ID,
+  "AWS_SECRET_ACCESS_KEY": AWS_SECRET_ACCESS_KEY
 });
 
 const MONGO_URL = process.env.MONGO_URL || "localhost"
