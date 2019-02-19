@@ -8,7 +8,6 @@ import {
   Panel,
   HelpBlock,
 } from 'react-bootstrap';
-import DatePicker from 'react-bootstrap-date-picker';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Signup.css';
 import Request from '../../core/Request';
