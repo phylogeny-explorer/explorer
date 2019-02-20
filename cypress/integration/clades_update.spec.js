@@ -2,7 +2,7 @@ const localhost_and_port = 'http://localhost:3000';
 const cladeID = '55d5cb8f343108110a2d6f70';
 
 describe('Can view clade info page when', function() {
-  it('logs in, visits /clades/update/... and gos back to clade view', function() {
+  it('logs in, visits /clades/update/... and goes back to clade view', function() {
     cy.login('admin', 'adminadmin');
     cy.url().should('eq', localhost_and_port + '/clades');
 
