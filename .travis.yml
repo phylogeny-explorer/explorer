@@ -20,15 +20,7 @@ script:
   - npx pm2 start ecosystem.config.js
   - ./node_modules/cypress/bin/cypress run
   - npm run build:release
-  - cd release/client
-  - docker build -t phylogeny-explorer/client .
-  - cd ..
-  - cd release/daemon
-  - docker build -t phylogeny-explorer/daemon .
-  - cd ..
-  - cd release/tree-api
-  - docker build -t phylogeny-explorer/tree-api .
-  - cd ..
-  - cd release/user-api
-  - docker build -t phylogeny-explorer/user-api .
-  - cd ..
+  - docker build -t phylogeny-explorer/client:0.0.1 -f client/Dockerfile .
+  - docker build -t phylogeny-explorer/daemon:0.0.1 -f daemon/Dockerfile .
+  - docker build -t phylogeny-explorer/tree-api:0.0.1 -f tree-api/Dockerfile .
+  - docker build -t phylogeny-explorer/user-api:0.0.1 -f user-api/Dockerfile .
