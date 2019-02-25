@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import {
   FormGroup,
@@ -28,9 +29,9 @@ import { AttributionType, SensuLabel } from 'common/databases/public/constants';
 
 class Form extends React.Component {
   static propTypes = {
-    clade: React.PropTypes.any,
-    parent: React.PropTypes.any,
-    mode: React.PropTypes.string
+    clade: PropTypes.any,
+    parent: PropTypes.any,
+    mode: PropTypes.string,
   };
 
   constructor(props, context) {

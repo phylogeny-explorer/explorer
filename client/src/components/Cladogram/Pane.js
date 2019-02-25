@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { OverlayTrigger, Button, Popover, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 import Link from '../Link';
 import history from '../../core/history';

@@ -1,7 +1,7 @@
 version: '3'
 services:
   explorer:
-    image: phylogenyexplorer/explorer
+    image: phylogenyexplorer/explorer:0.2
     environment:
       - MONGO_URL=mongo
     ports:

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import {
   FormGroup,
@@ -19,8 +20,8 @@ let title = '';
 class Form extends React.Component {
 
   static propTypes = {
-    transaction: React.PropTypes.any.isRequired,
-    mode: React.PropTypes.string,
+    transaction: PropTypes.any.isRequired,
+    mode: PropTypes.string,
   };
 
   constructor(props, context) {

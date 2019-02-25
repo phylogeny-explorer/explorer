@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import {
   Table,
@@ -19,9 +20,9 @@ let title = '';
 class RoleForm extends React.Component {
 
   static propTypes = {
-    role: React.PropTypes.any,
-    rules: React.PropTypes.array,
-    mode: React.PropTypes.string,
+    role: PropTypes.any,
+    rules: PropTypes.array,
+    mode: PropTypes.string,
   };
 
   constructor(props, context) {

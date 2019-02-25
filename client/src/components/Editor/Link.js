@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Entity } from 'draft-js';
 import Styles from './Styles';
 
@@ -30,4 +31,3 @@ export function findLinkEntities(contentBlock, callback) {
     callback
   );
 }
-

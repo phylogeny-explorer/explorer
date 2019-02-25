@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import {
   FormGroup,
@@ -17,9 +18,9 @@ let title = '';
 class UserForm extends React.Component {
 
   static propTypes = {
-    user: React.PropTypes.any,
-    activeRoles: React.PropTypes.array,
-    mode: React.PropTypes.string,
+    user: PropTypes.any,
+    activeRoles: PropTypes.array,
+    mode: PropTypes.string,
   };
 
   constructor(props, context) {

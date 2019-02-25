@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import { Citation as AttributionsCitation } from '../Citation';
@@ -53,7 +54,7 @@ class Node extends React.Component {
         <AttributionsCitation attributions={this.props.attributions} />
       </Tooltip>
     );
-  
+
     const PopOver = this.props.nodePopoverComponent;
 
     let result = (<g
@@ -84,7 +85,7 @@ class Node extends React.Component {
       </g>);
 
     if (this.props.attributions && this.props.attributions.length>0 ) {
-      result = <OverlayTrigger overlay={tooltip}>{result}</OverlayTrigger>; 
+      result = <OverlayTrigger overlay={tooltip}>{result}</OverlayTrigger>;
     }
 
     return result;

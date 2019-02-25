@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AutoComplete from 'react-autocomplete';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Search.css';
@@ -7,15 +8,15 @@ import reactStringReplace from 'react-string-replace';
 
 class Search extends React.Component {
   static propTypes = {
-    onSelect: React.PropTypes.any.isRequired,
-    onSearch: React.PropTypes.any.isRequired,
-    items: React.PropTypes.any,
-    id: React.PropTypes.any.isRequired,
-    name: React.PropTypes.any.isRequired,
-    placeholder: React.PropTypes.any,
-    value: React.PropTypes.any,
-    resetAfterSelection: React.PropTypes.bool,
-    inline: React.PropTypes.bool,
+    onSelect: PropTypes.any.isRequired,
+    onSearch: PropTypes.any.isRequired,
+    items: PropTypes.any,
+    id: PropTypes.any.isRequired,
+    name: PropTypes.any.isRequired,
+    placeholder: PropTypes.any,
+    value: PropTypes.any,
+    resetAfterSelection: PropTypes.bool,
+    inline: PropTypes.bool,
   };
 
   constructor(props) {

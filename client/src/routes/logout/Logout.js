@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Logout.css';
 import Auth from '../../components/Auth';
@@ -27,6 +28,6 @@ class Logout extends React.Component {
   }
 }
 
-Logout.contextTypes = { setTitle: React.PropTypes.func.isRequired };
+Logout.contextTypes = { setTitle: PropTypes.func.isRequired };
 
 export default withStyles(s)(Logout);

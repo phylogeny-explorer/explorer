@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   FormGroup,
   FormControl,
@@ -50,8 +51,14 @@ class Cladogram extends React.Component {
     this.setState({
       width: this.state.width,
       height: this.state.height,
+      root: newProps.root,
+      total: newProps.total,
+      depth: newProps.depth,
+      actualDepth: newProps.actualDepth,
+      id: newProps.root._id,
+      scale: 1,
+      matrix: [1, 0, 0, 1, 0, 0],
     });
-    this.prepareState(newProps);
   }
 
   onChangeDepth(e) {
