@@ -1,7 +1,7 @@
 const cladeID = '55d5cb8f343108110a2d6f70';
 
 describe('Can view clade info page when', function() {
-  it('logs in, visits /clades/info/... and return to tree', function() {
+  it('visits /clades/info/... and return to tree', function() {
     cy.login('admin', 'adminadmin');
     cy.location('pathname').should('eq', '/clades');
 
