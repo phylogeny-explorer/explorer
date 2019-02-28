@@ -8,7 +8,7 @@ addons:
 services:
   - docker
 before_install:
-  - docker pull mongo 
+  - docker pull mongo
 install:
   - npm install
 script:
@@ -20,8 +20,8 @@ script:
   - npx pm2 start ecosystem.config.js
   - ./node_modules/cypress/bin/cypress run
   - npm run build:release
-  - ./dockerSub.sh client
-  - ./dockerSub.sh daemon
-  - ./dockerSub.sh tree-api
-  - ./dockerSub.sh user-api
+  - ./dockerSub.sh client 0.0.1
+  - ./dockerSub.sh daemon 0.0.1
+  - ./dockerSub.sh tree-api 0.0.1
+  - ./dockerSub.sh user-api 0.0.1
 
