@@ -13,6 +13,7 @@ if [[ -z "${DOCKER_PASSWORD}" ]]; then
 exit 0
 fi
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+docker tag $1 phylogeny-explorer/$1
 docker push phylogeny-explorer/$1:0.0.1
 
 cd ../..
