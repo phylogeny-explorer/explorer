@@ -4,6 +4,9 @@ services:
     image: phylogenyexplorer/explorer
     environment:
       - MONGO_URL=mongo
+      - PHYLEX_PUBLIC_API_HOSTNAME=demo.phylogenyexplorerproject.com:5500
+      - PHYLEX_ADMIN_API_HOSTNAME=demo.phylogenyexplorerproject.com:5000
+      - PHYLEX_WEBSITE_HOSTNAME=demo.phylogenyexplorerproject.com:3000
     ports:
       - "3000:3000"
       - "5000:5000"
@@ -11,8 +14,7 @@ services:
     depends_on:
       - mongoseed
     volumes:
-      - certbot-webroot-evsoul:/app/public/.well-known
-      - certbot-letsencrypt:/etc/letsencrypt
+      - /etc/letsencrypt:/etc/letsencrypt
 
   mongo:
     image: mongo
@@ -24,21 +26,6 @@ services:
     depends_on:
       - mongo
 
-  letsencrypt:
-    image: linuxserver/letsencrypt
-    container_name: letsencrypt
-    environment:
-      - PUID=1001
-      - PGID=1001
-      - TZ=Europe/London
-      - URL=demo.phylogenyexplorerproject.com
-      - SUBDOMAINS=www,
-      - VALIDATION=http
-      - EMAIL=it@phylogenyexplorerproject.com
-    volumes:
-      - certbot-webroot-evsoul:/webroots/demo.phylogenyexplorerproject.com/.well-known
-      - certbot-letsencrypt:/etc/letsencrypt
-
   nginx:
     image: phylogenyexplorer/nginx-demo:0.2
     ports:
@@ -46,13 +33,9 @@ services:
       - "443:443"
     restart: always
     depends_on:
-      - letsencrypt
+      - app
+    links:
+      - app
     volumes:
-      # - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - certbot-webroot-evsoul:/webroots/demo.phylogenyexplorerproject.com/.well-known
-      - certbot-letsencrypt:/etc/letsencrypt
-    # command: [nginx-debug, '-g', 'daemon off;']
+      - /etc/letsencrypt:/etc/letsencrypt
 
-volumes:
-  certbot-webroot-evsoul:
-  certbot-letsencrypt:

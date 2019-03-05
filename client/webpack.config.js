@@ -31,9 +31,9 @@ module.exports = (env) => {
     staging: {
       'AWS_BUCKET': '"phylex-assets"',
       'AWS_REGION': '"us-east-1"',
-      'PUBLIC_API_HOSTNAME': '"staging-public-api.phylogenyexplorerproject.com"',
-      'ADMIN_API_HOSTNAME': '"staging-admin-api.phylogenyexplorerproject.com"',
-      'WEBSITE_HOSTNAME': '"staging-explorer.phylogenyexplorerproject.com"',
+      'PUBLIC_API_HOSTNAME': '"demo.phylogenyexplorerproject.com"',
+      'ADMIN_API_HOSTNAME': '"demo.phylogenyexplorerproject.com"',
+      'WEBSITE_HOSTNAME': '"demo.phylogenyexplorerproject.com"',
       'PORT': 3000,
       __DEV__: env.IS_LOCAL,
     },
