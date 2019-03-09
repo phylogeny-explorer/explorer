@@ -1,18 +1,46 @@
 version: '3'
 services:
-  app:
-    image: phylogenyexplorer/explorer
+  appclient:
+    image: phylogenyexplorer/client:0.0.2
     environment:
-      - MONGO_URL=mongo
+      - DB_HOSTS=mongo
     ports:
       - "3000:3000"
+    depends_on:
+      - mongoseed
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+
+  appuser:
+    image: phylogenyexplorer/user-api:0.0.2
+    environment:
+      - DB_HOSTS=mongo
+    ports:
       - "5000:5000"
+    depends_on:
+      - mongoseed
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+
+  apptree:
+    image: phylogenyexplorer/tree-api:0.0.2
+    environment:
+      - DB_HOSTS=mongo
+    ports:
       - "5500:5500"
     depends_on:
       - mongoseed
     volumes:
-      - certbot-webroot-evsoul:/app/public/.well-known
-      - certbot-letsencrypt:/etc/letsencrypt
+      - /etc/letsencrypt:/etc/letsencrypt
+
+  appdaemon:
+    image: phylogenyexplorer/daemon:0.0.2
+    environment:
+      - DB_HOSTS=mongo
+    depends_on:
+      - mongoseed
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
 
   mongo:
     image: mongo
@@ -24,35 +52,15 @@ services:
     depends_on:
       - mongo
 
-  letsencrypt:
-    image: linuxserver/letsencrypt
-    container_name: letsencrypt
-    environment:
-      - PUID=1001
-      - PGID=1001
-      - TZ=Europe/London
-      - URL=demo.phylogenyexplorerproject.com
-      - SUBDOMAINS=www,
-      - VALIDATION=http
-      - EMAIL=it@phylogenyexplorerproject.com
-    volumes:
-      - certbot-webroot-evsoul:/webroots/demo.phylogenyexplorerproject.com/.well-known
-      - certbot-letsencrypt:/etc/letsencrypt
-
   nginx:
-    image: phylogenyexplorer/nginx-demo:0.2
+    image: phylogenyexplorer/nginx-demo:0.0.3
     ports:
       - "80:80"
       - "443:443"
     restart: always
     depends_on:
-      - letsencrypt
+      - appclient
+      - appuser
+      - apptree
     volumes:
-      # - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - certbot-webroot-evsoul:/webroots/demo.phylogenyexplorerproject.com/.well-known
-      - certbot-letsencrypt:/etc/letsencrypt
-    # command: [nginx-debug, '-g', 'daemon off;']
-
-volumes:
-  certbot-webroot-evsoul:
-  certbot-letsencrypt:
+      - /etc/letsencrypt:/etc/letsencrypt
