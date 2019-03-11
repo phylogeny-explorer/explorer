@@ -4,6 +4,9 @@ services:
     image: phylogenyexplorer/client:0.0.2
     environment:
       - DB_HOSTS=mongo
+      - PHYLEX_PUBLIC_API_HOSTNAME=demo-tree.phylogenyexplorerproject.com:5500
+      - PHYLEX_ADMIN_API_HOSTNAME=demo-user.phylogenyexplorerproject.com:5000
+      - PHYLEX_WEBSITE_HOSTNAME=demo.phylogenyexplorerproject.com:3000
     ports:
       - "3000:3000"
     depends_on:
@@ -42,6 +45,7 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
 
+
   mongo:
     image: mongo
     ports:
@@ -64,3 +68,5 @@ services:
       - apptree
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
+    links:
+      - app
