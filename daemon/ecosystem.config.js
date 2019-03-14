@@ -1,4 +1,3 @@
-const workspace = '.';
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm Z';
 
 const AWS_BUCKET = process.env.AWS_BUCKET || ""
@@ -7,7 +6,7 @@ const AWS_IDENTITY_POOL_ID = process.env.AWS_IDENTITY_POOL_ID || ""
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || ""
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || ""
 
-const DB_HOSTS = process.env.DB_HOSTS || ""
+const DB_HOSTS = process.env.DB_HOSTS || "localhost:27017"
 const DB_REPLICA_SET = process.env.DB_REPLICA_SET || ""
 const ADMIN_DB_USER = process.env.ADMIN_DB_USER || ""
 const ADMIN_DB_PASS = process.env.ADMIN_DB_PASS || ""
@@ -51,12 +50,11 @@ module.exports = {
     {
       "name": "daemon",
       "script": "server.js",
-      "cwd": workspace + "server",
       "watch": true,
       "log_date_format" : DATE_FORMAT,
       "env": Object.assign({}, AWS_CONFIG, {
         "NODE_ENV": "development",
-        "DB_HOSTS": "localhost:27017",
+        "DB_HOSTS": DB_HOSTS,
         "ADMIN_DB_USER": "",
         "ADMIN_DB_PASS": "",
         "ADMIN_DB_NAME": "phylex-admin",

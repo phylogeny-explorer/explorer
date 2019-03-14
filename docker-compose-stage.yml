@@ -1,20 +1,50 @@
 version: '3'
 services:
-  app:
-    image: phylogenyexplorer/explorer
+  appclient:
+    image: phylogenyexplorer/client:0.0.2
     environment:
-      - MONGO_URL=mongo
-      - PHYLEX_PUBLIC_API_HOSTNAME=demo.phylogenyexplorerproject.com:5500
-      - PHYLEX_ADMIN_API_HOSTNAME=demo.phylogenyexplorerproject.com:5000
+      - DB_HOSTS=mongo
+      - PHYLEX_PUBLIC_API_HOSTNAME=demo-tree.phylogenyexplorerproject.com:5500
+      - PHYLEX_ADMIN_API_HOSTNAME=demo-user.phylogenyexplorerproject.com:5000
       - PHYLEX_WEBSITE_HOSTNAME=demo.phylogenyexplorerproject.com:3000
     ports:
       - "3000:3000"
+    depends_on:
+      - mongoseed
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+
+  appuser:
+    image: phylogenyexplorer/user-api:0.0.2
+    environment:
+      - DB_HOSTS=mongo
+    ports:
       - "5000:5000"
+    depends_on:
+      - mongoseed
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+
+  apptree:
+    image: phylogenyexplorer/tree-api:0.0.2
+    environment:
+      - DB_HOSTS=mongo
+    ports:
       - "5500:5500"
     depends_on:
       - mongoseed
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
+
+  appdaemon:
+    image: phylogenyexplorer/daemon:0.0.2
+    environment:
+      - DB_HOSTS=mongo
+    depends_on:
+      - mongoseed
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+
 
   mongo:
     image: mongo
@@ -27,15 +57,16 @@ services:
       - mongo
 
   nginx:
-    image: phylogenyexplorer/nginx-demo:0.2
+    image: phylogenyexplorer/nginx-demo:0.0.3
     ports:
       - "80:80"
       - "443:443"
     restart: always
     depends_on:
-      - app
-    links:
-      - app
+      - appclient
+      - appuser
+      - apptree
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
-
+    links:
+      - app
