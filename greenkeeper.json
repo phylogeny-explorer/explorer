@@ -1,0 +1,15 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "client/package.json",
+        "client/src/core/fetch/package.json",
+        "common/package.json",
+        "daemon/package.json",
+        "package.json",
+        "tree-api/package.json",
+        "user-api/package.json"
+      ]
+    }
+  }
+}
