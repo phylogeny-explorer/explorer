@@ -4,10 +4,10 @@
   "description": "An API to build a JSON representation of a slice of the phylogenetic tree.",
   "dependencies": {
     "async": "^2.1.2",
-    "body-parser": "^1.15.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
-    "express": "~4.13.4",
-    "morgan": "~1.7.0"
+    "body-parser": "1.18.3",
+    "cookie-parser": "1.4.4",
+    "debug": "~4.1.1",
+    "express": "~4.16.4",
+    "morgan": "~1.9.1"
   }
 }
