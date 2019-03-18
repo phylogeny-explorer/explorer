@@ -9,3 +9,11 @@ Join the [Facebook Group](https://www.facebook.com/groups/1493690154202103/) to 
 is making this project a reality.
 
 Read [Getting Started With Development](https://github.com/phylogeny-explorer/explorer/wiki/Getting-Started-with-Development) to learn more about how to help develop the explorer.
+
+# License
+
+The software (code) is distributed under the MIT License. But the DATA is not. The data is distributed under the "Creative Commons, Attribution-NoDerivatives" license.
+
+Reasoning: In order to prevent fragmentation and ensure the data is properly vetted, the data must go through a verification process in order to be included in the Phylogeny Explorer Project database.
+
+For full license text, see https://github.com/phylogeny-explorer/explorer/blob/master/LICENSE
