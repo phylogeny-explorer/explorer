@@ -8,12 +8,8 @@ export default {
   path: '/',
 
   action: async() => {
-    if (Auth.isUserAuthenticated()) {
-      history.push('/clades');
-      return '';
-    }
-
-    return <Home />;
+    history.push('/clades');
+    return '';
   },
 
 };
