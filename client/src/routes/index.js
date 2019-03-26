@@ -6,6 +6,7 @@ import home from './home';
 import profile from './profile';
 import rule from './rule';
 import role from './role';
+import root from './root';
 import user from './user';
 import clade from './clade';
 import login from './login';
@@ -34,6 +35,7 @@ export default {
     user,
     transaction,
     home,
+    root,
     profile,
     // place new routes before...
     content,
