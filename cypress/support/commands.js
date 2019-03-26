@@ -12,7 +12,7 @@
 // -- This is a parent command --
 // Cypress.Commands.add("login", (email, password) => { ... })
 Cypress.Commands.add('login', (email, password) => {
-  cy.visit('http://localhost:3000');
+  cy.visit('http://localhost:3000/home');
   cy.get('#username').type(email);
   cy.get('#password').type(password);
   cy.get('#loginButton').click();
