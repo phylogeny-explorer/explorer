@@ -9,12 +9,11 @@ import history from '../../core/history';
 export default {
   path: '/clades',
   action: async({ next }) => {
-    if (Auth.isUserAuthenticated()) {
-      const component = await next();
-      if (component !== undefined) {
-        return component;
-      }
+    const component = await next();
+    if (component !== undefined) {
+      return component;
     }
+    
     history.push('/');
   },
 
@@ -22,9 +21,6 @@ export default {
     {
       path: '/',
       action: async() => {
-        if (!Auth.isUserAuthenticated()) {
-          return '';
-        }
         const response = await new Request('/clades/tree',
           'GET', {}, Request.endPoints.public).fetch();
         return (
@@ -39,9 +35,6 @@ export default {
     {
       path: '/:id',
       action: async(context) => {
-        if (!Auth.isUserAuthenticated()) {
-          return '';
-        }
         const response = await new Request(`/clades/tree/${context.params.id}`,
           'GET', {}, Request.endPoints.public).fetch();
         return (
@@ -56,9 +49,6 @@ export default {
     {
       path: '/depth/:depth',
       action: async(context) => {
-        if (!Auth.isUserAuthenticated()) {
-          return '';
-        }
         const response = await new Request(`/clades/tree/depth/${context.params.depth}`,
           'GET', {}, Request.endPoints.public).fetch();
         return (
@@ -73,9 +63,6 @@ export default {
     {
       path: '/:id/depth/:depth',
       action: async(context) => {
-        if (!Auth.isUserAuthenticated()) {
-          return '';
-        }
         const response = await
           new Request(`/clades/tree/${context.params.id}/depth/${context.params.depth}`,
             'GET', {}, Request.endPoints.public).fetch();
@@ -91,9 +78,6 @@ export default {
     {
       path: '/info/:id',
       action: async(context) => {
-        if (!Auth.isUserAuthenticated()) {
-          return '';
-        }
         const clade = await
           new Request(`/clades/${context.params.id}`,
             'GET', {}, Request.endPoints.public).fetch();
