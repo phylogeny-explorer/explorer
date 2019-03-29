@@ -6,7 +6,7 @@ const AWS_IDENTITY_POOL_ID = process.env.AWS_IDENTITY_POOL_ID || ""
 const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || ""
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || ""
 
-const DB_HOSTS = process.env.DB_HOSTS || "localhost:27017"
+const DB_HOSTS = process.env.DB_HOSTS || "mongo:27017"
 const DB_REPLICA_SET = process.env.DB_REPLICA_SET || ""
 const ADMIN_DB_USER = process.env.ADMIN_DB_USER || ""
 const ADMIN_DB_PASS = process.env.ADMIN_DB_PASS || ""

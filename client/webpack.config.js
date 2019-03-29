@@ -41,9 +41,9 @@ module.exports = (env) => {
     production: {
       'AWS_BUCKET': '"phylex-assets"',
       'AWS_REGION': '"us-east-1"',
-      'PUBLIC_API_HOSTNAME': '"public-api.phylogenyexplorerproject.com"',
-      'ADMIN_API_HOSTNAME': '"admin-api.phylogenyexplorerproject.com"',
-      'WEBSITE_HOSTNAME': '"explorer.phylogenyexplorerproject.com"',
+      'PUBLIC_API_HOSTNAME': '"demo-tree.phylogenyexplorerproject.com"',
+      'ADMIN_API_HOSTNAME': '"demo-user.phylogenyexplorerproject.com"',
+      'WEBSITE_HOSTNAME': '"demo.phylogenyexplorerproject.com"',
       'PORT': 3000,
       __DEV__: env.IS_LOCAL,
     }
@@ -263,7 +263,8 @@ module.exports = (env) => {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: `"${env.ENVIRONMENT}"`,
-          BROWSER: false
+          BROWSER: false,
+          ...GLOBALS[env.ENVIRONMENT]
         }
       }),
 

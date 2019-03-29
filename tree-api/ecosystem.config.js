@@ -2,7 +2,7 @@ const public_api_port = 5500;
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm Z';
 
-const DB_HOSTS = process.env.DB_HOSTS || "localhost:27017"
+const DB_HOSTS = process.env.DB_HOSTS || "mongo:27017"
 const DB_REPLICA_SET = process.env.DB_REPLICA_SET || ""
 const PUBLIC_DB_USER = process.env.PUBLIC_DB_USER || ""
 const PUBLIC_DB_PASS = process.env.PUBLIC_DB_PASS || ""

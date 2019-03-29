@@ -5,7 +5,7 @@ const DATE_FORMAT = 'YYYY-MM-DD HH:mm Z';
 const AWS_BUCKET = process.env.AWS_BUCKET || ""
 const AWS_REGION = process.env.AWS_REGION || ""
 const GOOGLE_TRACKING_ID = process.env.GOOGLE_TRACKING_ID || ""
-const DB_HOSTS = process.env.DB_HOSTS || "localhost:27017"
+const DB_HOSTS = process.env.DB_HOSTS || "mongo:27017"
 
 const AWS_PUBLIC = {
     "AWS_BUCKET" : AWS_BUCKET,
