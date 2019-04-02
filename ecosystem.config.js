@@ -25,7 +25,7 @@ const MONGO_URL = process.env.MONGO_URL || "localhost"
 const DB = {
   "DB_HOSTS": MONGO_URL+":27017",
   "DB_REPLICA_SET": "",
-  "DB_SSL": false,
+  "DB_SSL": true,
   "DB_AUTH_SOURCE": ""
 };
 

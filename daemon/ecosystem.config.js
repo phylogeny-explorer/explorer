@@ -61,8 +61,8 @@ module.exports = {
         "PUBLIC_DB_USER": "",
         "PUBLIC_DB_PASS": "",
         "PUBLIC_DB_NAME": "phylex-public",
-        "DB_REPLICA_SET": "",
-        "DB_SSL": false,
+        "DB_REPLICA_SET": DB_REPLICA_SET,
+        "DB_SSL": true,
         "DB_AUTH_SOURCE": ""
       }),
       'env_production': Object.assign({}, AWS_CONFIG, ADMIN_DB, PUBLIC_DB, {

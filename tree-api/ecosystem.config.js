@@ -35,7 +35,7 @@ module.exports = {
         "PUBLIC_DB_PASS": PUBLIC_DB_PASS,
         "PUBLIC_DB_NAME": PUBLIC_DB_NAME,
         "DB_REPLICA_SET": DB_REPLICA_SET,
-        "DB_SSL": false,
+        "DB_SSL": true,
         "DB_AUTH_SOURCE": "",
       }),
       'env_production': Object.assign({}, PUBLIC_DB, {

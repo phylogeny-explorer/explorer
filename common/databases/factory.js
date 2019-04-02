@@ -7,8 +7,10 @@ function databaseFactory(user, pass, hosts, dbName, ssl, replicaSet, authSource)
   if (authSource) query['authSource'] = authSource;
 
   let connectionString = hosts + '/' + dbName + '?' + querystring.stringify(query);
+  
+  mongoose.set('debug', true);
 
-  const db = mongoose.createConnection("mongodb://" + connectionString, user ? { user, pass } : null);
+  const db = mongoose.createConnection("mongodb://" + user + ":" + pass + "@" + connectionString);
 
   db.on('connected', function() {
     console.log('Connected to ' + connectionString);

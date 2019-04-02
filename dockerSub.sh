@@ -8,7 +8,7 @@ cp $1/Dockerfile release/$1
 cp $1/start.sh release/$1
 
 cd release/$1
-docker build -t phylogenyexplorer/$1:$2 .
+docker build --no-cache -t phylogenyexplorer/$1:$2 .
 if [[ -z "${DOCKER_USERNAME}" ]]; then
 exit 0
 fi
