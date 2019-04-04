@@ -13,15 +13,18 @@ function databaseFactory(user, pass, hosts, dbName, ssl, replicaSet, authSource)
   const db = mongoose.createConnection("mongodb://" + user + ":" + pass + "@" + connectionString);
 
   db.on('connected', function() {
-    console.log('Connected to ' + connectionString);
+    console.log('Connected to ' + connectionString + "with user" + user +"/"+pass);
+    console.log(process.env);
   });
 
   db.on('error', function(err) {
-    console.log('Failed to connect to ' + connectionString + ' -- ' + err);
+    console.log('Failed to connect to ' + connectionString + ' -- ' + err+ "with user" + user +"/"+pass);
+    console.log(process.env);
   });
 
   db.on('disconnected', function () {
-    console.log('Disconnected from ' + connectionString);
+    console.log('Disconnected from ' + connectionString+ "with user" + user +"/"+pass);
+    console.log(process.env);
   });
 
   return db;

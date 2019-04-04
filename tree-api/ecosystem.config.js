@@ -36,7 +36,7 @@ module.exports = {
         "PUBLIC_DB_NAME": PUBLIC_DB_NAME,
         "DB_REPLICA_SET": DB_REPLICA_SET,
         "DB_SSL": true,
-        "DB_AUTH_SOURCE": "",
+        "DB_AUTH_SOURCE": "admin",
       }),
       'env_production': Object.assign({}, PUBLIC_DB, {
         "NODE_ENV": "production",

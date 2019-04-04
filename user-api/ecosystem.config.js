@@ -47,12 +47,12 @@ module.exports = {
         "NODE_ENV": "development",
         "PORT": admin_api_port,
         "DB_HOSTS": DB_HOSTS,
-        "ADMIN_DB_USER": "",
-        "ADMIN_DB_PASS": "",
+        "ADMIN_DB_USER": ADMIN_DB_USER,
+        "ADMIN_DB_PASS": ADMIN_DB_PASS,
         "ADMIN_DB_NAME": "phylex-admin",
         "DB_REPLICA_SET": DB_REPLICA_SET,
         "DB_SSL": true,
-        "DB_AUTH_SOURCE": ""
+        "DB_AUTH_SOURCE": "admin"
       }),
       'env_production': Object.assign({}, ADMIN_DB, AWS_CONFIG, {
         "NODE_ENV": "production",
