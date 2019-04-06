@@ -10,7 +10,15 @@ function databaseFactory(user, pass, hosts, dbName, ssl, replicaSet, authSource)
   
   mongoose.set('debug', true);
 
-  const db = mongoose.createConnection("mongodb://" + user + ":" + pass + "@" + connectionString);
+  let fullConnectionString = ''
+  
+  if (user && pass){
+    fullConnectionString = "mongodb://" + user + ":" + pass + "@" + connectionString;
+  }else{
+    fullConnectionString = "mongodb://" + connectionString;
+  }
+
+  const db = mongoose.createConnection(fullConnectionString)
 
   db.on('connected', function() {
     console.log('Connected to ' + connectionString + "with user" + user +"/"+pass);
