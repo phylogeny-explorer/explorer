@@ -21,11 +21,12 @@ const AWS_CONFIG = Object.assign({}, AWS_PUBLIC, {
 });
 
 const MONGO_URL = process.env.MONGO_URL || "localhost"
+const DB_SSL = process.env.DB_SSL || true
 
 const DB = {
   "DB_HOSTS": MONGO_URL+":27017",
   "DB_REPLICA_SET": "",
-  "DB_SSL": true,
+  "DB_SSL": DB_SSL,
   "DB_AUTH_SOURCE": ""
 };
 

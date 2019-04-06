@@ -14,6 +14,7 @@ const ADMIN_DB_NAME = process.env.ADMIN_DB_NAME || ""
 const PUBLIC_DB_USER = process.env.PUBLIC_DB_USER || ""
 const PUBLIC_DB_PASS = process.env.PUBLIC_DB_PASS || ""
 const PUBLIC_DB_NAME = process.env.PUBLIC_DB_NAME || ""
+const DB_SSL = process.env.DB_SSL || true
 
 const AWS_PUBLIC = {
     "AWS_BUCKET" : AWS_BUCKET,
@@ -28,7 +29,7 @@ const AWS_CONFIG = Object.assign({}, AWS_PUBLIC, {
 const SHARED_DB = {
   "DB_HOSTS": DB_HOSTS,
   "DB_REPLICA_SET": DB_REPLICA_SET,
-  "DB_SSL": true,
+  "DB_SSL": DB_SSL,
   "DB_AUTH_SOURCE": "admin"
 };
 
@@ -62,7 +63,7 @@ module.exports = {
         "PUBLIC_DB_PASS": PUBLIC_DB_PASS,
         "PUBLIC_DB_NAME": "phylex-public",
         "DB_REPLICA_SET": DB_REPLICA_SET,
-        "DB_SSL": true,
+        "DB_SSL": DB_SSL,
         "DB_AUTH_SOURCE": "admin"
       }),
       'env_production': Object.assign({}, AWS_CONFIG, ADMIN_DB, PUBLIC_DB, {

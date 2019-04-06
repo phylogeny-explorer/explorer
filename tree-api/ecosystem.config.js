@@ -7,11 +7,12 @@ const DB_REPLICA_SET = process.env.DB_REPLICA_SET || ""
 const PUBLIC_DB_USER = process.env.PUBLIC_DB_USER || ""
 const PUBLIC_DB_PASS = process.env.PUBLIC_DB_PASS || ""
 const PUBLIC_DB_NAME = process.env.PUBLIC_DB_NAME || "phylex-public"
+const DB_SSL = process.env.DB_SSL || true
 
 const SHARED_DB = {
   "DB_HOSTS": DB_HOSTS,
   "DB_REPLICA_SET": DB_REPLICA_SET,
-  "DB_SSL": true,
+  "DB_SSL": DB_SSL,
   "DB_AUTH_SOURCE": "admin"
 };
 
@@ -35,7 +36,7 @@ module.exports = {
         "PUBLIC_DB_PASS": PUBLIC_DB_PASS,
         "PUBLIC_DB_NAME": PUBLIC_DB_NAME,
         "DB_REPLICA_SET": DB_REPLICA_SET,
-        "DB_SSL": true,
+        "DB_SSL": DB_SSL,
         "DB_AUTH_SOURCE": "admin",
       }),
       'env_production': Object.assign({}, PUBLIC_DB, {
