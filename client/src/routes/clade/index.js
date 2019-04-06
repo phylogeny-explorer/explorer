@@ -87,6 +87,9 @@ export default {
     {
       path: '/evolve/:parentId',
       action: async(context) => {
+        if (!Auth.isUserAuthenticated()) {
+          return '';
+        }
         const parent = await
           new Request(`/clades/${context.params.parentId}`,
             'GET', {}, Request.endPoints.public).fetch();
@@ -96,6 +99,9 @@ export default {
     {
       path: '/update/:cladeId',
       action: async(context) => {
+        if (!Auth.isUserAuthenticated()) {
+          return '';
+        }
         const clade = await
           new Request(`/clades/${context.params.cladeId}`,
             'GET', {}, Request.endPoints.public).fetch();
@@ -105,6 +111,9 @@ export default {
     {
       path: '/destroy/:cladeId',
       action: async(context) => {
+        if (!Auth.isUserAuthenticated()) {
+          return '';
+        }
         const clade = await
           new Request(`/clades/${context.params.cladeId}`,
             'GET', {}, Request.endPoints.public).fetch();
