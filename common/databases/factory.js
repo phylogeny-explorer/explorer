@@ -7,19 +7,32 @@ function databaseFactory(user, pass, hosts, dbName, ssl, replicaSet, authSource)
   if (authSource) query['authSource'] = authSource;
 
   let connectionString = hosts + '/' + dbName + '?' + querystring.stringify(query);
+  
+  mongoose.set('debug', true);
 
-  const db = mongoose.createConnection("mongodb://" + connectionString, user ? { user, pass } : null);
+  let fullConnectionString = ''
+  
+  if (user && pass){
+    fullConnectionString = "mongodb://" + user + ":" + pass + "@" + connectionString;
+  }else{
+    fullConnectionString = "mongodb://" + connectionString;
+  }
+
+  const db = mongoose.createConnection(fullConnectionString)
 
   db.on('connected', function() {
-    console.log('Connected to ' + connectionString);
+    console.log('Connected to ' + connectionString + "with user" + user +"/"+pass);
+    console.log(process.env);
   });
 
   db.on('error', function(err) {
-    console.log('Failed to connect to ' + connectionString + ' -- ' + err);
+    console.log('Failed to connect to ' + connectionString + ' -- ' + err+ "with user" + user +"/"+pass);
+    console.log(process.env);
   });
 
   db.on('disconnected', function () {
-    console.log('Disconnected from ' + connectionString);
+    console.log('Disconnected from ' + connectionString+ "with user" + user +"/"+pass);
+    console.log(process.env);
   });
 
   return db;

@@ -13,28 +13,17 @@ const DB_REPLICA_SET = process.env.DB_REPLICA_SET || ""
 const ADMIN_DB_USER = process.env.ADMIN_DB_USER || ""
 const ADMIN_DB_PASS = process.env.ADMIN_DB_PASS || ""
 const ADMIN_DB_NAME = process.env.ADMIN_DB_NAME || ""
+const DB_SSL = process.env.DB_SSL || true
 
-const AWS_PUBLIC = {};
-
-const AWS_CONFIG = Object.assign({}, AWS_PUBLIC, {
-    "AWS_BUCKET" : AWS_BUCKET,
-    "AWS_REGION" : AWS_REGION,
-    "AWS_IDENTITY_POOL_ID" : AWS_IDENTITY_POOL_ID,
-    "AWS_ACCESS_KEY_ID" : AWS_ACCESS_KEY_ID,
-    "AWS_SECRET_ACCESS_KEY" : AWS_SECRET_ACCESS_KEY
-});
-
-const SHARED_DB = {
-  "DB_HOSTS": DB_HOSTS,
-  "DB_REPLICA_SET": DB_REPLICA_SET,
-  "DB_SSL": true,
-  "DB_AUTH_SOURCE": "admin"
+const AWS_PUBLIC = {
+  "AWS_BUCKET" : AWS_BUCKET,
+  "AWS_REGION" : AWS_REGION,
 };
 
-const ADMIN_DB = Object.assign({}, SHARED_DB, {
-  "ADMIN_DB_USER": ADMIN_DB_USER,
-  "ADMIN_DB_PASS": ADMIN_DB_PASS,
-  "ADMIN_DB_NAME": ADMIN_DB_NAME,
+const AWS_CONFIG = Object.assign({}, AWS_PUBLIC, {
+  "AWS_IDENTITY_POOL_ID" : AWS_IDENTITY_POOL_ID,
+  "AWS_ACCESS_KEY_ID" : AWS_ACCESS_KEY_ID,
+  "AWS_SECRET_ACCESS_KEY" : AWS_SECRET_ACCESS_KEY
 });
 
 module.exports = {
@@ -46,15 +35,17 @@ module.exports = {
       "env": Object.assign({}, AWS_CONFIG, {
         "NODE_ENV": "development",
         "PORT": admin_api_port,
-        "DB_HOSTS": DB_HOSTS,
-        "ADMIN_DB_USER": "",
-        "ADMIN_DB_PASS": "",
         "ADMIN_DB_NAME": "phylex-admin",
-        "DB_REPLICA_SET": "",
-        "DB_SSL": false,
-        "DB_AUTH_SOURCE": ""
+        "PUBLIC_DB_NAME": "phylex-public"
       }),
-      'env_production': Object.assign({}, ADMIN_DB, AWS_CONFIG, {
+      'env_production': Object.assign({}, AWS_CONFIG, {
+        "DB_HOSTS": DB_HOSTS,
+        "ADMIN_DB_USER": ADMIN_DB_USER,
+        "ADMIN_DB_PASS": ADMIN_DB_PASS,
+        "ADMIN_DB_NAME": ADMIN_DB_NAME,
+        "DB_REPLICA_SET": DB_REPLICA_SET,
+        "DB_SSL": DB_SSL,
+        "DB_AUTH_SOURCE": "admin",
         "NODE_ENV": "production",
         "PORT": admin_api_port
       })

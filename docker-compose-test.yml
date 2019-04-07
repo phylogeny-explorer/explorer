@@ -1,0 +1,51 @@
+version: '3'
+services:
+  appclient:
+    image: phylogenyexplorer/client:0.0.2
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongoseed
+
+  appuser:
+    image: phylogenyexplorer/user-api:0.0.2
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongoseed
+
+  apptree:
+    image: phylogenyexplorer/tree-api:0.0.2
+    ports:
+      - "5500:5500"
+    depends_on:
+      - mongoseed
+
+  appdaemon:
+    image: phylogenyexplorer/daemon:0.0.2
+    depends_on:
+      - mongoseed
+
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+  mongoseed:
+    image: phylogenyexplorer/mongoseed
+    depends_on:
+      - mongo
+
+  nginx:
+    image: phylogenyexplorer/nginx-demo:0.0.3
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    depends_on:
+      - appclient
+      - appuser
+      - apptree
+    links:
+      - appclient

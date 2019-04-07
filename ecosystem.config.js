@@ -20,27 +20,6 @@ const AWS_CONFIG = Object.assign({}, AWS_PUBLIC, {
   "AWS_SECRET_ACCESS_KEY": AWS_SECRET_ACCESS_KEY
 });
 
-const MONGO_URL = process.env.MONGO_URL || "localhost"
-
-const DB = {
-  "DB_HOSTS": MONGO_URL+":27017",
-  "DB_REPLICA_SET": "",
-  "DB_SSL": false,
-  "DB_AUTH_SOURCE": ""
-};
-
-const TREE_DB = Object.assign({}, DB, {
-  "PUBLIC_DB_USER": "",
-  "PUBLIC_DB_PASS": "",
-  "PUBLIC_DB_NAME": "phylex-public",
-});
-
-const USER_DB = Object.assign({}, DB, {
-  "ADMIN_DB_USER": "",
-  "ADMIN_DB_PASS": "",
-  "ADMIN_DB_NAME": "phylex-admin",
-});
-
 module.exports = {
   apps: [
     {
@@ -61,7 +40,7 @@ module.exports = {
       "cwd": WORKSPACE + "tree-api",
       "watch": true,
       "log_date_format" : DATE_FORMAT,
-      "env": Object.assign({}, TREE_DB, {
+      "env": Object.assign({}, {
         "NODE_ENV": "development",
         "PORT": tree_api_port,
       })
@@ -74,7 +53,7 @@ module.exports = {
       "watch": true,
       "ignore_watch": ['build/temp'],
       "log_date_format" : DATE_FORMAT,
-      "env": Object.assign({}, AWS_CONFIG, USER_DB, {
+      "env": Object.assign({}, AWS_CONFIG, {
         "NODE_ENV": "development",
         "PORT": user_api_port,
       })
@@ -86,7 +65,7 @@ module.exports = {
       "cwd": WORKSPACE + "daemon",
       "watch": true,
       "log_date_format" : DATE_FORMAT,
-      "env": Object.assign({}, AWS_CONFIG, TREE_DB, USER_DB, {
+      "env": Object.assign({}, AWS_CONFIG, {
         "NODE_ENV": "development",
       })
     }
