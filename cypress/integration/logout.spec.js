@@ -5,6 +5,6 @@ describe('Returns to main page when', function() {
 
     cy.visit('http://localhost:3000/auth/logout');
     cy.location('pathname').should('eq', '/auth/logout');
-    cy.location('pathname', { timeout: 5000 }).should('eq', '/');
+    cy.location('pathname', { timeout: 5000 }).should('eq', '/clades');
   });
 });

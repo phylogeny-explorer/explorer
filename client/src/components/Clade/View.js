@@ -12,6 +12,7 @@ import s from './View.css';
 import history from '../../core/history';
 import S3 from 'common/aws/s3/Frontend';
 import { Citation as AttributionsCitation } from '../Citation';
+import Auth from '../../components/Auth';
 
 class CladeView extends React.Component {
 
@@ -45,10 +46,13 @@ class CladeView extends React.Component {
       <div className={s.root}>
         <div className={s.container}>
           <div className={s.content_container}>
-            <ButtonToolbar className={s.controls}>
-              <Button id="editButton" type="button" bsStyle="success" onClick={(e) => this.edit(e)}>Edit</Button>
-              <Button id="returnToTreeButton" type="button" bsStyle="info" onClick={(e) => this.goBack(e)}>Return To Tree</Button>
-            </ButtonToolbar>
+            { Auth.isUserAuthenticated() ? (
+              <ButtonToolbar className={s.controls}>
+                <Button id="editButton" type="button" bsStyle="success" onClick={(e) => this.edit(e)}>Edit</Button>
+                <Button id="returnToTreeButton" type="button" bsStyle="info" onClick={(e) => this.goBack(e)}>Return To Tree</Button>
+              </ButtonToolbar>) : (
+                <Button id="returnToTreeButton" type="button" bsStyle="info" onClick={(e) => this.goBack(e)}>Return To Tree</Button>
+              )}
 
             {this.props.clade.parent &&
               <p className={s.clade_parent}>
@@ -93,10 +97,13 @@ class CladeView extends React.Component {
             </div>
 
             <hr />
-            <ButtonToolbar className={s.controls}>
-              <Button id="editButton" type="button" bsStyle="success" onClick={(e) => this.edit(e)}>Edit</Button>
-              <Button id="returnToTreeButton" type="button" bsStyle="info" onClick={(e) => this.goBack(e)}>Return To Tree</Button>
-            </ButtonToolbar>
+              { Auth.isUserAuthenticated() ? (
+              <ButtonToolbar className={s.controls}>
+                <Button id="editButton" type="button" bsStyle="success" onClick={(e) => this.edit(e)}>Edit</Button>
+                <Button id="returnToTreeButton" type="button" bsStyle="info" onClick={(e) => this.goBack(e)}>Return To Tree</Button>
+              </ButtonToolbar>) : (
+                <Button id="returnToTreeButton" type="button" bsStyle="info" onClick={(e) => this.goBack(e)}>Return To Tree</Button>
+              )}
           </div>
         </div>
       </div>

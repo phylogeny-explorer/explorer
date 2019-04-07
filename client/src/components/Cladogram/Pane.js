@@ -6,6 +6,7 @@ import Link from '../Link';
 import history from '../../core/history';
 import { Citation as AttributionsCitation } from '../Citation';
 import s from './Cladogram.css';
+import Auth from '../../components/Auth';
 
 export default class Pane extends React.Component {
 
@@ -64,20 +65,27 @@ export default class Pane extends React.Component {
         }
         <div className={s.description}>{description || <i>No description available</i>}</div>
         <hr />
-        <ButtonToolbar>
-          <Button bsStyle="success" bsSize="xsmall" onClick={(e) => this.onView(e)}>
+          { Auth.isUserAuthenticated() ? (
+            <ButtonToolbar>
+            <Button bsStyle="success" bsSize="xsmall" onClick={(e) => this.onView(e)}>
             <Glyphicon glyph="search" /> View
-          </Button>
-          <Button bsStyle="info" bsSize="xsmall" onClick={(e) => this.onUpdate(e)}>
-            <Glyphicon glyph="pencil" /> Update
-          </Button>
-          <Button bsStyle="primary" bsSize="xsmall" onClick={(e) => this.onCreate(e)}>
-            <Glyphicon glyph="random" /> Evolve
-          </Button>
-          <Button bsStyle="danger" bsSize="xsmall" onClick={(e) => this.onDestroy(e)}>
-            <Glyphicon glyph="trash" /> Destroy
-          </Button>
-        </ButtonToolbar>
+            </Button>
+            <Button bsStyle="info" bsSize="xsmall" onClick={(e) => this.onUpdate(e)}>
+              <Glyphicon glyph="pencil" /> Update
+            </Button>
+            <Button bsStyle="primary" bsSize="xsmall" onClick={(e) => this.onCreate(e)}>
+              <Glyphicon glyph="random" /> Evolve
+            </Button>
+            <Button bsStyle="danger" bsSize="xsmall" onClick={(e) => this.onDestroy(e)}>
+              <Glyphicon glyph="trash" /> Destroy
+            </Button>
+            </ButtonToolbar>
+          ):(
+            <ButtonToolbar>
+              <Button bsStyle="success" bsSize="xsmall" onClick={(e) => this.onView(e)}>
+                <Glyphicon glyph="search" /> View
+              </Button>
+            </ButtonToolbar>)}
       </Popover>
     );
 
