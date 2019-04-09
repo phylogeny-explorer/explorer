@@ -67,6 +67,19 @@ class Header extends React.Component {
         </Navbar.Header>
 
         {
+          !this.state.isAuthenticated &&
+          <Nav pullRight>
+          <Navbar.Header>
+              <Navbar.Brand>
+              <Link className={s.brand} to="/home">
+                Log in/Sign up
+              </Link>
+              </Navbar.Brand>
+              </Navbar.Header>
+          </Nav>
+        }
+
+        {
           this.state.isAuthenticated &&
           <Nav pullRight bsStyle="pills" activeKey={2} onSelect={this.handleSelect}>
             <NavDropdown eventKey={9} title={this.state.username} id="User Menu">
