@@ -1,6 +1,7 @@
 {
   "name": "phylogeny-explorer",
   "version": "2.0.0",
+  "private": true,
   "description": "Phylogeny Explorer",
   "main": "webpack.config.js",
   "repository": {
@@ -18,6 +19,14 @@
     "start": "babel-node tools/run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "workspaces": [
+    "client",
+    "common",
+    "daemon",
+    "tools",
+    "tree-api",
+    "user-api"
+  ],
   "author": "Phylogeny Explorer Project",
   "license": "ISC",
   "dependencies": {
@@ -28,7 +37,8 @@
     "daemon": "file:daemon",
     "scheduler": "^0.13.2",
     "tree-api": "file:tree-api",
-    "user-api": "file:user-api"
+    "user-api": "file:user-api",
+    "yarn": "^1.15.2"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
