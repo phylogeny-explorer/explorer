@@ -9,16 +9,19 @@ class AttributionsCitation extends React.Component {
   constructor(props)
   {
     super(props);
-    this.props.attributions.forEach(attribution => (attribution.index = uuid()));
+    this.props.attributions.forEach(attribution => {if(typeof attribution !== 'string') attribution.index = uuid()});
   }
 
   getAttributionsByType(type)
   {
-    return this.props.attributions.filter(attribution => (attribution.type === type));
+    return this.props.attributions.filter(attribution => ((typeof attribution !== 'string') && (attribution.type === type)));
   }
 
   getCitationNameDate(attribution)
   {
+    if(typeof attribution === 'string') {
+        return "";
+    } 
     let citationParts = [];
     if (attribution.name) citationParts.push(attribution.name.trim());
     if (attribution.date) citationParts.push(attribution.date.trim());
@@ -27,6 +30,9 @@ class AttributionsCitation extends React.Component {
 
   getOriginalCitation(attribution)
   {
+    if(typeof attribution === 'string') {
+        return "";
+    } 
     let prefix = attribution.isImplied ? '[implied in ' : '';
     let suffix = attribution.isImplied ? ']' : '';
     let citation = this.getCitationNameDate(attribution);
@@ -35,12 +41,18 @@ class AttributionsCitation extends React.Component {
 
   getVideCitation(attribution)
   {
+    if(typeof attribution === 'string') {
+        return "";
+    } 
     let citation = this.getCitationNameDate(attribution);
     return <span key={attribution.index} className={s.citation_part}><i>vide</i> {citation}</span>;
   }
 
   getSensuCitation(attribution)
   {
+    if(typeof attribution === 'string') {
+        return "";
+    } 
     let citation = this.getCitationNameDate(attribution);
     let clade = attribution.sensuClade ? `"${attribution.sensuClade}"` : '';
     return <span key={attribution.index} className={s.citation_part}><i>{SensuLabel[attribution.sensuLabel]}</i> {citation} {clade}</span>
@@ -48,6 +60,9 @@ class AttributionsCitation extends React.Component {
 
   getNonCitation(attribution)
   {
+    if(typeof attribution === 'string') {
+        return "";
+    } 
     let citation = this.getCitationNameDate(attribution);
     let clade = attribution.sensuClade ? `"${attribution.sensuClade}"` : '';
     return <span key={attribution.index} className={s.citation_part}><i>non</i> {citation} {clade}</span>
@@ -55,12 +70,18 @@ class AttributionsCitation extends React.Component {
 
   getEmendedCitation(attribution)
   {
+    if(typeof attribution === 'string') {
+        return "";
+    } 
     let citation = this.getCitationNameDate(attribution);
     return <span key={attribution.index} className={s.citation_part}>emended {citation} "{attribution.emendedOldName}"</span>;
   }
 
   getAttributionComponent(attribution)
   {
+    if(typeof attribution === 'string') {
+        return "";
+    } 
     switch (attribution.type) {
       case AttributionType.Original:
         return this.getOriginalCitation(attribution);
@@ -81,6 +102,10 @@ class AttributionsCitation extends React.Component {
 
   render()
   {
+    if(typeof attribution === 'string') {
+        return "";
+    } 
+
     let original = this.getAttributionsByType(AttributionType.Original).pop();
     let vide = this.getAttributionsByType(AttributionType.Vide).pop();
 
