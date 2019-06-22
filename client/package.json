@@ -48,7 +48,7 @@
     "react-measure": "^1.3.1",
     "react-string-replace": "^0.4.1",
     "scheduler": "^0.13.2",
-    "sequelize": "3.24.1",
+    "sequelize": "5.8.11",
     "source-map-support": "0.4.2",
     "throttle-debounce": "^1.0.1",
     "universal-router": "1.2.2",
