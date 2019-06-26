@@ -12,7 +12,7 @@ function databaseFactory(user, pass, hosts, dbName, ssl, replicaSet, authSource)
 
   let fullConnectionString = ''
   
-  if (user && pass){
+  if (user != "" && pass != "" && ssl){
     fullConnectionString = "mongodb://" + user + ":" + pass + "@" + connectionString;
   }else{
     fullConnectionString = "mongodb://" + connectionString;
