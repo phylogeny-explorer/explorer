@@ -50,7 +50,6 @@ class Link extends Component { // eslint-disable-line react/prefer-stateless-fun
     const { to, ...props } = this.props; // eslint-disable-line no-use-before-define
     return <a href={history.createHref(to)} {...props} onClick={this.handleClick} />;
   }
-
 }
 
 export default Link;

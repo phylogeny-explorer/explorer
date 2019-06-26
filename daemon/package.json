@@ -4,6 +4,6 @@
   "private": true,
   "description": "Background processing daemon for the Phylogeny Explorer",
   "dependencies": {
-    "async": "^2.1.4"
+    "async": "2.1.4"
   }
 }

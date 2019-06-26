@@ -15,6 +15,7 @@ import history from '../../core/history';
 import Pane from './Pane';
 import Search from '../../components/Search';
 import Request from '../../core/Request';
+import ErrorBoundary from '../../utils/ErrorBoundary';
 
 const HEADER_HEIGHT = 62;
 
@@ -126,25 +127,27 @@ class Cladogram extends React.Component {
               inline
             />
           </FormGroup>
-          <OverlayTrigger placement="bottom" overlay={depthTooltip}>
-            <FormGroup controlId="depth" className={s.depth_form_group}>
-              <FormControl
-                componentClass="select"
-                value={this.state.depth}
-                onChange={(e) => this.onChangeDepth(e)}
-                required
-              >
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-              </FormControl>
-            </FormGroup>
-          </OverlayTrigger>
+          <ErrorBoundary>
+            <OverlayTrigger placement="bottom" overlay={depthTooltip}>
+              <FormGroup controlId="depth" className={s.depth_form_group}>
+                <FormControl
+                  componentClass="select"
+                  value={this.state.depth}
+                  onChange={(e) => this.onChangeDepth(e)}
+                  required
+                >
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                </FormControl>
+              </FormGroup>
+            </OverlayTrigger>
+          </ErrorBoundary>
         </Form>
         <Tree
           root={this.state.root}
@@ -155,13 +158,15 @@ class Cladogram extends React.Component {
           depth={this.state.actualDepth}
           matrix={this.state.matrix}
         />
-        <OverlayTrigger placement="left" overlay={resetViewTooltip}>
-          <Button
-            bsStyle="default"
-            className={s.reset_button}
-            onClick={e => this.resetView(e)}
-          ><span className="glyphicon glyphicon-screenshot" /></Button>
-        </OverlayTrigger>
+        <ErrorBoundary>
+          <OverlayTrigger placement="left" overlay={resetViewTooltip}>
+            <Button
+              bsStyle="default"
+              className={s.reset_button}
+              onClick={e => this.resetView(e)}
+            ><span className="glyphicon glyphicon-screenshot" /></Button>
+          </OverlayTrigger>
+        </ErrorBoundary>
       </div>
     );
   }

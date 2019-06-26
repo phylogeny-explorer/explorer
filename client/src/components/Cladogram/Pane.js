@@ -7,6 +7,7 @@ import history from '../../core/history';
 import { Citation as AttributionsCitation } from '../Citation';
 import s from './Cladogram.css';
 import Auth from '../../components/Auth';
+import ErrorBoundary from '../../utils/ErrorBoundary';
 
 export default class Pane extends React.Component {
 
@@ -51,7 +52,7 @@ export default class Pane extends React.Component {
     const title = (
       <span>
         {this.props.name || '[UNNAMED]'}
-        {this.props.otherNames && <small style={{display:'block', marginTop: '3px'}}>{this.props.otherNames}</small>}
+        {this.props.otherNames && <small style={{ display: 'block', marginTop: '3px' }}>{this.props.otherNames}</small>}
       </span>
     );
 
@@ -60,15 +61,15 @@ export default class Pane extends React.Component {
         {
           this.props.attributions && this.props.attributions.length > 0 &&
           <small className={s.attribution}>
-            <AttributionsCitation attributions={this.props.attributions}/>
+            <AttributionsCitation attributions={this.props.attributions} />
           </small>
         }
         <div className={s.description}>{description || <i>No description available</i>}</div>
         <hr />
-          { Auth.isUserAuthenticated() ? (
-            <ButtonToolbar>
+        {Auth.isUserAuthenticated() ? (
+          <ButtonToolbar>
             <Button bsStyle="success" bsSize="xsmall" onClick={(e) => this.onView(e)}>
-            <Glyphicon glyph="search" /> View
+              <Glyphicon glyph="search" /> View
             </Button>
             <Button bsStyle="info" bsSize="xsmall" onClick={(e) => this.onUpdate(e)}>
               <Glyphicon glyph="pencil" /> Update
@@ -79,8 +80,8 @@ export default class Pane extends React.Component {
             <Button bsStyle="danger" bsSize="xsmall" onClick={(e) => this.onDestroy(e)}>
               <Glyphicon glyph="trash" /> Destroy
             </Button>
-            </ButtonToolbar>
-          ):(
+          </ButtonToolbar>
+        ) : (
             <ButtonToolbar>
               <Button bsStyle="success" bsSize="xsmall" onClick={(e) => this.onView(e)}>
                 <Glyphicon glyph="search" /> View
@@ -91,14 +92,16 @@ export default class Pane extends React.Component {
 
     return (
       <foreignObject width="24px" height="22px" x={coords.x} y={coords.y}>
-        <OverlayTrigger trigger="click" rootClose placement="top" overlay={actualWindow}>
-          <Button type="button" bsSize="xsmall" className={s.trigger_button}>
-            <span
-              className="glyphicon glyphicon-option-horizontal"
-              style={{ position: 'static' }}
-            />
-          </Button>
-        </OverlayTrigger>
+        <ErrorBoundary>
+          <OverlayTrigger trigger="click" rootClose placement="top" overlay={actualWindow}>
+            <Button type="button" bsSize="xsmall" className={s.trigger_button}>
+              <span
+                className="glyphicon glyphicon-option-horizontal"
+                style={{ position: 'static' }}
+              />
+            </Button>
+          </OverlayTrigger>
+        </ErrorBoundary>
       </foreignObject>
     );
   }

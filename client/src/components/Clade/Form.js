@@ -26,6 +26,7 @@ import { AttributionBuilder } from '../AttributionBuilder';
 import S3 from 'common/aws/s3/Frontend';
 import Link from '../../components/Link';
 import { AttributionType, SensuLabel } from 'common/databases/public/constants';
+import ErrorBoundary from '../../utils/ErrorBoundary';
 
 class Form extends React.Component {
   static propTypes = {
@@ -40,7 +41,7 @@ class Form extends React.Component {
     if (context.setTitle) {
       context.setTitle(
         `${this.props.mode} Clade ${
-          this.props.clade ? this.props.clade.name || '[UNNAMED]' : ''
+        this.props.clade ? this.props.clade.name || '[UNNAMED]' : ''
         }`
       );
     }
@@ -534,20 +535,24 @@ class Form extends React.Component {
                 <Grid>
                   <Row className="show-grid">
                     <Col xs={12} md={3}>
-                      <Dropzone
-                        style={{
-                          display:
-                            this.props.mode === 'Destroy' ? 'none' : 'table'
-                        }}
-                        onDrop={e => this.onAddImages(e)}
-                        className={s.dropzone}
-                      >
-                        <div className={s.helpText}>
-                          Drop Images Here
-                          <br />
-                          <b>.png, .jpg, .tiff</b>
-                        </div>
-                      </Dropzone>
+                      <ErrorBoundary>
+                        <Dropzone
+                          style={{
+                            display:
+                              this.props.mode === 'Destroy' ? 'none' : 'table'
+                          }}
+                          onDrop={e => this.onAddImages(e)}
+                          className={s.dropzone}
+                        >
+                          {({ getRootProps, getInputProps }) => (
+                            <div {...getRootProps()} className={s.helpText}>
+                              <input {...getInputProps()} />
+                              Drop Images Here<br />
+                              <b>.png, .jpg, .tiff</b>
+                            </div>
+                          )}
+                        </Dropzone>
+                      </ErrorBoundary>
                     </Col>
                     <Col xs={12} md={8}>
                       <Row>
