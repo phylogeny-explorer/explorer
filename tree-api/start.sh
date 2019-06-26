@@ -1,2 +1,2 @@
-npx pm2 start ecosystem.config.js
-npx pm2 logs
+yarn pm2 start ecosystem.config.js
+yarn pm2 logs

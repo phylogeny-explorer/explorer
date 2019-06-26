@@ -1,5 +1,6 @@
 {
   "name": "tree-api",
+  "version": "1.0.0",
   "private": true,
   "description": "An API to build a JSON representation of a slice of the phylogenetic tree.",
   "dependencies": {

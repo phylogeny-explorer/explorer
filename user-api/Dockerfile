@@ -1,10 +1,9 @@
 FROM node
 
 WORKDIR /usr/src/app
+ADD package.json .
+RUN npm -G install yarn && yarn install
 COPY . .
-EXPOSE 5000
-RUN npm install -g npx@9.2.0
-RUN npm install -g pm2
-RUN npm install
 RUN mkdir -p ~/.pm2/node_modules/
+EXPOSE 5000
 ENTRYPOINT ./start.sh

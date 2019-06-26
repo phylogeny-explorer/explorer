@@ -1,5 +1,6 @@
 {
   "name": "user-api",
+  "version": "1.0.0",
   "private": true,
   "description": "The user API for the Phylogeny Explorer. Used to manage user functions.",
   "dependencies": {
