@@ -1,0 +1,134 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - tree-api > express > send > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > compression > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > body-parser > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > morgan > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > morgan > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > body-parser > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > send > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > finalhandler > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > finalhandler > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > send > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > finalhandler > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > body-parser > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > serve-static > send > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > serve-static > send > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > serve-static > send > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > debug:
+        patched: '2019-07-01T20:37:08.543Z'
+  'npm:hoek:20180212':
+    - client > jsonwebtoken > joi > hoek:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > jsonwebtoken > joi > topo > hoek:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > jsonwebtoken > joi > topo > hoek:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > jsonwebtoken > joi > hoek:
+        patched: '2019-07-01T20:37:08.543Z'
+  'npm:mime:20170907':
+    - client > express > send > mime:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > mime:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > send > mime:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > serve-static > send > mime:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > serve-static > send > mime:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > serve-static > send > mime:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > send > mime:
+        patched: '2019-07-01T20:37:08.543Z'
+  'npm:ms:20170412':
+    - user-api > jsonwebtoken > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > jsonwebtoken > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > send > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > send > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > body-parser > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express-jwt > jsonwebtoken > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > send > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > body-parser > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > compression > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > morgan > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > morgan > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > body-parser > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > send > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > send > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > finalhandler > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > finalhandler > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > send > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > finalhandler > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > serve-static > send > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > serve-static > send > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > serve-static > send > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - tree-api > express > serve-static > send > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > serve-static > send > debug > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+    - client > express > serve-static > send > ms:
+        patched: '2019-07-01T20:37:08.543Z'
+  'npm:negotiator:20160616':
+    - tree-api > express > accepts > negotiator:
+        patched: '2019-07-01T20:37:08.543Z'
+    - user-api > express > accepts > negotiator:
+        patched: '2019-07-01T20:37:08.543Z'
