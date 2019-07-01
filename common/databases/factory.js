@@ -7,31 +7,31 @@ function databaseFactory(user, pass, hosts, dbName, ssl, replicaSet, authSource)
   if (authSource) query['authSource'] = authSource;
 
   let connectionString = hosts + '/' + dbName + '?' + querystring.stringify(query);
-  
+
   mongoose.set('debug', true);
 
   let fullConnectionString = ''
-  
-  if (user != "" && pass != "" && ssl){
+
+  if (user && user != "" && pass && pass != "" && ssl) {
     fullConnectionString = "mongodb://" + user + ":" + pass + "@" + connectionString;
-  }else{
+  } else {
     fullConnectionString = "mongodb://" + connectionString;
   }
 
   const db = mongoose.createConnection(fullConnectionString)
 
-  db.on('connected', function() {
-    console.log('Connected to ' + connectionString + "with user" + user +"/"+pass);
+  db.on('connected', function () {
+    console.log('Connected to ' + connectionString + "with user" + user + "/" + pass);
     console.log(process.env);
   });
 
-  db.on('error', function(err) {
-    console.log('Failed to connect to ' + connectionString + ' -- ' + err+ "with user" + user +"/"+pass);
+  db.on('error', function (err) {
+    console.log('Failed to connect to ' + connectionString + ' -- ' + err + "with user" + user + "/" + pass);
     console.log(process.env);
   });
 
   db.on('disconnected', function () {
-    console.log('Disconnected from ' + connectionString+ "with user" + user +"/"+pass);
+    console.log('Disconnected from ' + connectionString + "with user" + user + "/" + pass);
     console.log(process.env);
   });
 

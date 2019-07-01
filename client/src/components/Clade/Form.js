@@ -40,7 +40,7 @@ class Form extends React.Component {
     if (context.setTitle) {
       context.setTitle(
         `${this.props.mode} Clade ${
-          this.props.clade ? this.props.clade.name || '[UNNAMED]' : ''
+        this.props.clade ? this.props.clade.name || '[UNNAMED]' : ''
         }`
       );
     }
@@ -542,11 +542,13 @@ class Form extends React.Component {
                         onDrop={e => this.onAddImages(e)}
                         className={s.dropzone}
                       >
-                        <div className={s.helpText}>
-                          Drop Images Here
-                          <br />
-                          <b>.png, .jpg, .tiff</b>
-                        </div>
+                        {({ getRootProps, getInputProps }) => (
+                          <div {...getRootProps()} className={s.helpText}>
+                            <input {...getInputProps()} />
+                            Drop Images Here<br />
+                            <b>.png, .jpg, .tiff</b>
+                          </div>
+                        )}
                       </Dropzone>
                     </Col>
                     <Col xs={12} md={8}>
