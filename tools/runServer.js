@@ -11,7 +11,7 @@ function runServer(cb)
 
     pm2.start(ecosystem, function(err, proc) {
       cb(err, 'localhost:3000');
-      cosnole.log(proc);
+      console.log(proc);
       pm2.disconnect();   // Disconnects from PM2
       if (err) console.log(err);
     });
