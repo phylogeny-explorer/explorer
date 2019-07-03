@@ -17,7 +17,9 @@
     "deploy": "babel-node tools/run deploy",
     "render": "babel-node tools/run render",
     "start": "babel-node tools/run start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "workspaces": [
     "client",
@@ -40,7 +42,8 @@
     "scheduler": "0.13.2",
     "tree-api": "file:tree-api",
     "user-api": "file:user-api",
-    "yarn": "1.15.2"
+    "yarn": "1.15.2",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
@@ -95,5 +98,6 @@
     "webpack-dev-middleware": "3.4.0",
     "webpack-hot-middleware": "2.24.3",
     "webpack-middleware": "1.5.1"
-  }
+  },
+  "snyk": true
 }

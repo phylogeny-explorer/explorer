@@ -1,0 +1,18 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - client > react-string-replace > lodash:
+        patched: '2019-07-03T22:49:50.256Z'
+    - daemon > async > lodash:
+        patched: '2019-07-03T22:49:50.256Z'
+    - tree-api > async > lodash:
+        patched: '2019-07-03T22:49:50.256Z'
+    - common > aws-sdk > xmlbuilder > lodash:
+        patched: '2019-07-03T22:49:50.256Z'
+    - common > mongoose > async > lodash:
+        patched: '2019-07-03T22:49:50.256Z'
+    - common > aws-sdk > xml2js > xmlbuilder > lodash:
+        patched: '2019-07-03T22:49:50.256Z'
