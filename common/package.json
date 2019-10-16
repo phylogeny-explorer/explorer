@@ -8,6 +8,6 @@
     "bcrypt": "3.0.6",
     "bluebird": "3.5.1",
     "fast-levenshtein": "2.0.6",
-    "mongoose": "5.0.14"
+    "mongoose": "5.7.5"
   }
 }
