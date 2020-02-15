@@ -40,7 +40,7 @@
     "scheduler": "0.13.2",
     "tree-api": "file:tree-api",
     "user-api": "file:user-api",
-    "yarn": "1.15.2"
+    "yarn": "1.22.0"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
