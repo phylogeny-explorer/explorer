@@ -10,7 +10,7 @@
     "express": "~4.13.4",
     "generate-password": "~1.4.0",
     "jsonwebtoken": "7.2.1",
-    "mime": "1.3.4",
+    "mime": "2.4.4",
     "morgan": "~1.7.0",
     "multer": "1.2.0",
     "passport": "0.3.2",
