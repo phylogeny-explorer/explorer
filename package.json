@@ -41,10 +41,11 @@
     "daemon": "file:daemon",
     "draft-js": "0.10.5",
     "scheduler": "0.13.2",
+    "snyk": "^1.295.0",
     "tree-api": "file:tree-api",
     "user-api": "file:user-api",
-    "yarn": "1.22.0",
-    "snyk": "^1.295.0"
+    "wait-on": "^4.0.0",
+    "yarn": "1.22.0"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
@@ -62,7 +63,7 @@
     "babel-plugin-react-transform": "3.0.0",
     "browser-sync": "2.26.3",
     "css-loader": "1.0.1",
-    "cypress": "3.1.5",
+    "cypress": "4.0.2",
     "del": "3.0.0",
     "file-loader": "2.0.0",
     "generate-package-json-webpack-plugin": "1.0.0",

@@ -5,6 +5,7 @@ addons:
   apt:
     packages:
       - mongodb-org-tools
+  artifacts
 services:
   - docker
 before_install:
@@ -17,7 +18,7 @@ script:
   - mongoimport -d phylex-admin ./dump/roles.json
   - mongoimport -d phylex-public -c clades ./dump/clades.json
   - npm run build
-  - npx pm2 start ecosystem.config.js
+  - npx pm2 start ecosystem.config.js & wait-on http://localhost:3000
   - ./node_modules/cypress/bin/cypress run
   - npm run build:release
   - ./dockerSub.sh client 0.0.1
