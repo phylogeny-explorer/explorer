@@ -41,10 +41,11 @@
     "daemon": "file:daemon",
     "draft-js": "0.10.5",
     "scheduler": "0.13.2",
+    "snyk": "^1.295.0",
     "tree-api": "file:tree-api",
     "user-api": "file:user-api",
-    "yarn": "1.22.0",
-    "snyk": "^1.295.0"
+    "wait-on": "^4.0.0",
+    "yarn": "1.22.0"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
