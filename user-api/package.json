@@ -6,7 +6,7 @@
   "dependencies": {
     "body-parser": "1.15.2",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
+    "debug": "~4.1.1",
     "express": "~4.13.4",
     "generate-password": "~1.4.0",
     "jsonwebtoken": "7.2.1",
