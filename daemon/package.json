@@ -4,6 +4,12 @@
   "private": true,
   "description": "Background processing daemon for the Phylogeny Explorer",
   "dependencies": {
-    "async": "2.1.4"
-  }
+    "async": "2.1.4",
+    "snyk": "^1.316.1"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
