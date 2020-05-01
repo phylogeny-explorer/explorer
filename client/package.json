@@ -54,6 +54,12 @@
     "throttle-debounce": "1.0.1",
     "universal-router": "1.2.2",
     "uuid": "3.3.2",
-    "whatwg-fetch": "1.0.0"
-  }
+    "whatwg-fetch": "1.0.0",
+    "snyk": "^1.316.1"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
