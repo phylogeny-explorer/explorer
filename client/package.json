@@ -22,7 +22,7 @@
     "eventemitter3": "1.2.0",
     "express": "4.14.0",
     "express-graphql": "0.5.4",
-    "express-jwt": "3.4.0",
+    "express-jwt": "6.0.0",
     "fast-levenshtein": "2.0.6",
     "fastclick": "1.0.6",
     "fbjs": "0.8.16",
