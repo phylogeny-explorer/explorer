@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "aws-sdk": "2.238.1",
-    "bcrypt": "3.0.6",
+    "bcrypt": "5.0.0",
     "bluebird": "3.5.1",
     "fast-levenshtein": "2.0.6",
     "mongoose": "5.9.1"
