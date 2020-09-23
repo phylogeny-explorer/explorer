@@ -39,7 +39,7 @@
     "client": "file:client",
     "common": "file:common",
     "daemon": "file:daemon",
-    "draft-js": "0.10.5",
+    "draft-js": "0.11.7",
     "scheduler": "0.13.2",
     "tree-api": "file:tree-api",
     "user-api": "file:user-api",
