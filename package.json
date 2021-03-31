@@ -44,7 +44,7 @@
     "tree-api": "file:tree-api",
     "user-api": "file:user-api",
     "yarn": "1.22.0",
-    "snyk": "^1.295.0"
+    "snyk": "^1.518.0"
   },
   "devDependencies": {
     "@babel/core": "7.1.2",
