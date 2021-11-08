@@ -28,7 +28,7 @@
     "fbjs": "0.8.16",
     "fixed-data-table": "0.6.5",
     "front-matter": "2.1.0",
-    "graphiql": "0.7.8",
+    "graphiql": "1.4.7",
     "graphql": "0.7.0",
     "history": "3.0.0",
     "immutable": "3.8.1",
