@@ -4,7 +4,7 @@
   "description": "Common code for the Phylogeny Explorer",
   "main": "index.js",
   "dependencies": {
-    "aws-sdk": "2.238.1",
+    "aws-sdk": "2.814.0",
     "bcrypt": "3.0.6",
     "bluebird": "3.5.1",
     "fast-levenshtein": "2.0.6",
